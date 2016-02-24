@@ -9,30 +9,36 @@
 		<script src="../js/jquery.validate.min.js"></script>
 		
 		<script>
-		function setclasses (tagselected) {
-			var listValue = tagselected.options[tagselected.selectedIndex].value;
-			// alert(listValue)
-			var classes = "";
-			if(listValue == "it")
-				classes = "<option value=\"\">Select Class</option><option value=\"d10\">D10</option><option value=\"d15\">D15</option>";
-			
-			else if(listValue == "comps")
-				classes = "<option value=\"\">Select Class</option><option value=\"d7a\">D7A</option><option value=\"d7b\">D7B</option>";
-			
-			document.getElementById("classes").innerHTML = classes;
-		}
-		
-		function setsubjects (tagselected) {
-			var listValue = tagselected.options[tagselected.selectedIndex].value;
-			var subjects = "";
-			
-			if(listValue == "d10")
-				subjects = "<option value=\"\">Select Subject</option><option value=\"at\">AT</option><option value=\"wp\">WP</option><option value=\"cn\">CN</option>";
-			else
-				subjects = "<option value=\"\">Select Subject</option><option value=\"\">"+ listValue +" subjects</option>";
-			
-			document.getElementById("subject").innerHTML = subjects;
-		}
+
+		$(document).ready(function () {
+			$("[name=dept]").change(function () {
+				
+				var listValue = this.value;
+				var classes = "";
+
+				if(listValue == "it")
+					classes = "<option value=\"\">Select Class</option><option value=\"d10\">D10</option><option value=\"d15\">D15</option>";
+
+				else if(listValue == "comps")
+					classes = "<option value=\"\">Select Class</option><option value=\"d7a\">D7A</option><option value=\"d7b\">D7B</option>";
+
+				$(this).next("[name=classes]").html(classes);
+			});
+
+			$("[name=classes]").change(function () {
+				
+				var listValue = this.value;
+				var subjects = "";
+
+				if(listValue == "d10")
+					subjects = "<option value=\"\">Select Subject</option><option value=\"at\">AT</option><option value=\"wp\">WP</option><option value=\"cn\">CN</option>";
+				else
+					subjects = "<option value=\"\">Select Subject</option><option value=\"\">"+ listValue +" subjects</option>";
+
+				$(this).next("[name=subject]").html(subjects);
+			});
+		});
+
 		</script>
 		
 		<style>
@@ -42,7 +48,6 @@
 			clear:both;
 			text-align:center;
 			padding:5px;
-			position:absolute;
 			bottom:0;
 			width:100%;
 		}
@@ -61,19 +66,48 @@
 		<center>
 		<label for="gen_report">For Generating Attendance Status for a particular subject</label>
 		<form class="form-inline" id="gen_report" name="gen_report" action="nextpage.htm">
-			<select class="form-control" id="dept" name="dept" onchange="setclasses(this);">
+			<select class="form-control" name="dept">
 				<option value="">Select Dept</option>
 				<option value="it">IT</option>
 				<option value="comps">COMPS</option>
 			</select>
-			<select class="form-control" id="classes" name="class" onchange="setsubjects(this);">
+			<select class="form-control" name="classes">
 				<option value="">Select Class</option>
 			</select>
-			<select class="form-control" id="subject" name="subject">
+			<select class="form-control" name="subject">
 				<option value="">Select Subject</option>
 			</select>
 			<button class="btn btn-primary">Generate Report</button>
 		</form>
+
+		<br/><br/><br/>
+
+
+		<label for="add_attendance">Add attendance</label>
+		<form class="form-inline" id="add_attendance" name="add_attendance" action="nextpage.htm">
+			<select class="form-control" name="dept">
+				<option value="">Select Dept</option>
+				<option value="it">IT</option>
+				<option value="comps">COMPS</option>
+			</select>
+			<select class="form-control" name="classes">
+				<option value="">Select Class</option>
+			</select>
+			<select class="form-control" name="subject">
+				<option value="">Select Subject</option>
+			</select>
+			<select class="form-control" id="status" name="status">
+				<option value="presentees">Presentees</option>
+				<option value="absentees">Absentees</option>
+			</select><br/><br/>
+			<input type="text" class="form-control" id="roll_nos" placeholder="Enter Roll Numbers"/>
+			<button class="btn btn-primary">Add Attendance</button>
+		</form>
 		</center>
+		<br/>
+		<div id="footer">
+			Copyright &copy; vesit.edu
+		</div>
 	</body>
+
 </html>
