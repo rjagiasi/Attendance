@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<title>VESIT : Staff</title>
+		<link rel="stylesheet" href="../css/bootstrap.min.css"/>
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/jquery.validate.min.js"></script>
+		
+		<script>
+		function setclasses (tagselected) {
+			var listValue = tagselected.options[tagselected.selectedIndex].value;
+			// alert(listValue)
+			var classes = "";
+			if(listValue == "it")
+				classes = "<option value=\"\">Select Class</option><option value=\"d10\">D10</option><option value=\"d15\">D15</option>";
+			
+			else if(listValue == "comps")
+				classes = "<option value=\"\">Select Class</option><option value=\"d7a\">D7A</option><option value=\"d7b\">D7B</option>";
+			
+			document.getElementById("classes").innerHTML = classes;
+		}
+		
+		function setsubjects (tagselected) {
+			var listValue = tagselected.options[tagselected.selectedIndex].value;
+			var subjects = "";
+			
+			if(listValue == "d10")
+				subjects = "<option value=\"\">Select Subject</option><option value=\"at\">AT</option><option value=\"wp\">WP</option><option value=\"cn\">CN</option>";
+			else
+				subjects = "<option value=\"\">Select Subject</option><option value=\"\">"+ listValue +" subjects</option>";
+			
+			document.getElementById("subject").innerHTML = subjects;
+		}
+		</script>
+		
+		<style>
+		#footer {
+			background-color:black;
+			color:white;
+			clear:both;
+			text-align:center;
+			padding:5px;
+			position:absolute;
+			bottom:0;
+			width:100%;
+		}
+		input.error{border:1px solid red;margin:2px;}
+		label.error{float:right;color:red;}
+		
+		</style>
+		
+		<div>
+			<img style="float:left" src="../imgs/logo.png" alt = "Ves Logo" >
+			<center><h3>VESIT Attendance Portal</h3></center>
+			<hr/>
+		</div>
+	</head>
+	<body>
+		<center>
+		<label for="gen_report">For Generating Attendance Status for a particular subject</label>
+		<form class="form-inline" id="gen_report" name="gen_report" action="nextpage.htm">
+			<select class="form-control" id="dept" name="dept" onchange="setclasses(this);">
+				<option value="">Select Dept</option>
+				<option value="it">IT</option>
+				<option value="comps">COMPS</option>
+			</select>
+			<select class="form-control" id="classes" name="class" onchange="setsubjects(this);">
+				<option value="">Select Class</option>
+			</select>
+			<select class="form-control" id="subject" name="subject">
+				<option value="">Select Subject</option>
+			</select>
+			<button class="btn btn-primary">Generate Report</button>
+		</form>
+
+		<label for="add_attendance">For Adding Attendance of a day</label>
+		<form class="form-inline" id="add_attendance" name="add_attendance" action="nextpage.htm">
+			<select class="form-control" id="dept" name="dept" onchange="setclasses(this);">
+				<option value="">Select Dept</option>
+				<option value="it">IT</option>
+				<option value="comps">COMPS</option>
+			</select>
+			<select class="form-control" id="classes" name="class" onchange="setsubjects(this);">
+				<option value="">Select Class</option>
+			</select>
+			<select class="form-control" id="subject" name="subject">
+				<option value="">Select Subject</option>
+			</select>
+			<button class="btn btn-primary">Add A</button>
+		</form>
+		</center>
+	</body>
+</html>

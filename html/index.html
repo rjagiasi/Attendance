@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		
+		<!-- jQuery library -->
+		<script src="../js/jquery.min.js"></script>
+		
+		<!-- Latest compiled JavaScript -->
+		<script src="../js/bootstrap.min.js"></script>
+		<style>
+		#footer {
+		background-color:black;
+		color:white;
+		clear:both;
+		text-align:center;
+		padding:5px;
+		bottom:0;
+		width:100%;
+		}
+		</style>
+		
+		<div>
+			<img style="float:left" src="../imgs/logo.png" alt = "Ves Logo" >
+			<center><h3>VESIT Attendance Portal</h3></center>
+			<hr>
+			<center>
+			<p>For authorized Users only</p>
+			<form class = "form-inline" action = "staff.html">
+				<input name="usrname" class="form-control" placeholder="Username" type = "text"/>
+				<input name="password" class="form-control" placeholder="Password" type = "password"/>
+				<button class = "btn btn-default">Submit</button>
+			</form>
+			</center>
+		</div>
+		
+	</head>
+	<body>
+		
+		<br/>
+		
+		<center>
+		<div class="btn-group">
+			<button class="btn btn-primary disabled">MCA</button>
+			<button class="btn btn-primary disabled">Diploma</button>
+			<div class="btn-group">
+				<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				Engineering <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="student.php?branch=it">IT</a></li>
+					<li><a href="student.php?branch=comps">Comps</a></li>
+				</ul>
+			</div>
+		</div>
+		</center><BR><BR>
+		
+		<div style = "float:left;width:30%" >
+			<h4> Minimum Attendance Criteria</h4>
+			<table align="center" class="table table-striped">
+				<tr>
+					<th>Subjects</th>
+					<th>Lab %</th>
+					<th>Lectures %</th>
+				</tr>
+				<tr>
+					<td>SPA</td>
+					<td>100</td>
+					<td>75</td>
+				</tr>
+				<tr>
+					<td>DSAA</td>
+					<td>100</td>
+					<td>75</td>
+				</tr>
+				<tr>
+					<td>WP</td>
+					<td>100</td>
+					<td>75</td>
+				</tr>
+			</table></div>
+			
+			<div style = "float:left;width:40%">
+				<p align="left">Vivekanand Education Society was established in 1959 under the able leadership of <i>Shri. Hashu Advani.</i> It is a matter of considerable pride and gratification that VES, with its excellent track record, has grown from strength to strength and has opened several educational institutions. Today, VES has 3, 75, 000 sq. ft. land housing 12 buildings and 28 Institutions, ranging from a crèche to Ph.D. Centers. It has a teaching and non-teaching staff of over 2000 that takes care of more than 18,000 students passing through the hallowed portals of education, each year.
+				</p>
+				<p align="left">
+					<b>V.E.S. Institute of Technology was established in 1984</b>, with the aim of providing professional education in the field of <u>Engineering</u>. V.E.S. Institute of Technology has been imparting quality education in the field of technology for the last 28 years which has been getting top preference by students in admission. The Institute is recognized by AICTE (All India Council of Technical Education) and affiliated to the Mumbai University.
+				</p>
+			</div>
+			
+			<div style = "float:right;width:30%">
+				<h3>According to MU</h3>
+				<ul style="list-style-type:disc">
+					<li><b>75%</b> attendance is mandatory</li>
+					<li>Students are required to maintain adequate attendance</li>
+					<li>Otherwise, students would be <b><i><u>expelled</b></i></u> from the college</li>
+				</ul>
+			</div>
+			
+			<div id="footer">
+				Copyright &copy; vesit.edu
+			</div>
+		</body>
+	</html>
