@@ -9,10 +9,13 @@
 		<script src="../js/jquery.validate.min.js"></script>
 		
 		<script>
-
+		
 		$(document).ready(function () {
+
+			//set classes dropdown
+
 			$("[name=dept]").change(function () {
-				
+
 				var listValue = this.value;
 				var classes = "";
 
@@ -22,11 +25,14 @@
 				else if(listValue == "comps")
 					classes = "<option value=\"\">Select Class</option><option value=\"d7a\">D7A</option><option value=\"d7b\">D7B</option>";
 
+				else
+					return;
+
 				$(this).next("[name=classes]").html(classes);
 			});
 
 			$("[name=classes]").change(function () {
-				
+
 				var listValue = this.value;
 				var subjects = "";
 
@@ -37,6 +43,50 @@
 
 				$(this).next("[name=subject]").html(subjects);
 			});
+
+			$("[name=dept]").trigger("change");
+			// $("[name=classes]").trigger("change");
+
+			$("#attendance_button").click(function() {
+
+
+				$("#add_attendance").validate({
+					rules:
+					{
+						date:
+						{Validatedate : true},
+
+						roll_nos:
+						{Confirm_roll : true},
+					},
+					submitHandler: function() {
+						alert("Hello");
+					},
+					// onfocusout: false,
+					onkeyup: false,
+					onclick: false,
+					
+				});
+			});
+
+
+			$.validator.addMethod("Validatedate", function(value, element) {
+				return /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/.test(value);
+			}, "Format of date dd/mm/yyyy");
+
+			$.validator.addMethod("Confirm_roll", function(value, element){
+				var bool;
+
+				if($("#status").val() == "p" && value == "")
+					bool = confirm("All Absent?");
+				else if($("#status").val() == "a" && value == "")
+					bool = confirm("All Present?");
+				else 
+					bool = true;
+
+				return bool;
+
+			}, "Add Some Roll Nos");
 		});
 
 		</script>
@@ -51,63 +101,70 @@
 			bottom:0;
 			width:100%;
 		}
-		input.error{border:1px solid red;margin:2px;}
-		label.error{float:right;color:red;}
-		
+		#form1, #form2, #heading{
+			float: center;
+			text-align: center;
+					/*margin-right: 22%;
+					margin-left: 22%;*/
+		}
+		/*input.error{border:1px solid red;margin:2px;}*/
+		label.error{color:red;}
 		</style>
 		
-		<div>
+		
 			<img style="float:left" src="../imgs/logo.png" alt = "Ves Logo" >
-			<center><h3>VESIT Attendance Portal</h3></center>
+			<h3 id="heading">VESIT Attendance Portal</h3>
 			<hr/>
-		</div>
+		
 	</head>
 	<body>
-		<center>
-		<label for="gen_report">For Generating Attendance Status for a particular subject</label>
-		<form class="form-inline" id="gen_report" name="gen_report" action="nextpage.htm">
-			<select class="form-control" name="dept">
-				<option value="">Select Dept</option>
-				<option value="it">IT</option>
-				<option value="comps">COMPS</option>
-			</select>
-			<select class="form-control" name="classes">
-				<option value="">Select Class</option>
-			</select>
-			<select class="form-control" name="subject">
-				<option value="">Select Subject</option>
-			</select>
-			<button class="btn btn-primary">Generate Report</button>
-		</form>
-
+		<div id = "form1">
+			<label for="gen_report">For Generating Attendance Status for a particular subject</label>
+			<form class="form-inline" id="gen_report" name="gen_report" action="nextpage.htm">
+				<select class="form-control" name="dept" required>
+					<option value="">Select Dept</option>
+					<option value="it">IT</option>
+					<option value="comps">COMPS</option>
+				</select>
+				<select class="form-control" name="classes" required>
+					<option value="">Select Class</option>
+				</select>
+				<select class="form-control" name="subject" required>
+					<option value="">Select Subject</option>
+				</select>
+				<button class="btn btn-primary">Generate Report</button>
+			</form>
+		</div>
 		<br/><br/><br/>
-
-
-		<label for="add_attendance">Add attendance</label>
-		<form class="form-inline" id="add_attendance" name="add_attendance" action="nextpage.htm">
-			<select class="form-control" name="dept">
-				<option value="">Select Dept</option>
-				<option value="it">IT</option>
-				<option value="comps">COMPS</option>
-			</select>
-			<select class="form-control" name="classes">
-				<option value="">Select Class</option>
-			</select>
-			<select class="form-control" name="subject">
-				<option value="">Select Subject</option>
-			</select>
-			<select class="form-control" id="status" name="status">
-				<option value="presentees">Presentees</option>
-				<option value="absentees">Absentees</option>
-			</select><br/><br/>
-			<input type="text" class="form-control" id="roll_nos" placeholder="Enter Roll Numbers"/>
-			<button class="btn btn-primary">Add Attendance</button>
-		</form>
-		</center>
+		
+		<div id="form2">
+			<label for="add_attendance">Add attendance</label>
+			<form class="form-inline" id="add_attendance" name="add_attendance" action="nextpage.htm">
+				<select class="form-control" name="dept" required>
+					<option value="">Select Dept</option>
+					<option value="it">IT</option>
+					<option value="comps">COMPS</option>
+				</select>
+				<select class="form-control" name="classes" required>
+					<option value="">Select Class</option>
+				</select>
+				<select class="form-control" name="subject" required>
+					<option value="">Select Subject</option>
+				</select>
+				<select class="form-control" id="status" name="status" required>
+					<option value="p">Enter Presentees</option>
+					<option value="a">Enter Absentees</option>
+				</select><br/><br/>
+				<input type="text" class="form-control" id="roll_nos" name="roll_nos" placeholder="Enter Roll Numbers"/>
+				<input type="text" class="form-control" id="date" name="date" placeholder="dd/mm/yyyy" required/>
+				<button class="btn btn-primary" id="attendance_button" type="submit">Add Attendance</button>
+				
+			</form>
+		</div>
 		<br/>
 		<div id="footer">
 			Copyright &copy; vesit.edu
 		</div>
 	</body>
-
+	
 </html>
