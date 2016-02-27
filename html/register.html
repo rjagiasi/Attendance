@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+	<head>
+		<title>VESIT : Register</title>
+		
+		<link rel="stylesheet" href="../css/bootstrap.min.css"/>
+		
+		<style type="text/css">
+		#footer {
+			background-color:black;
+			color:white;
+			clear:both;
+			text-align:center;
+			padding:5px;
+			bottom:0;
+			width:100%;
+		}
+		#register_form{
+			float: center;
+			margin-left: 22%;
+			margin-right: 22%
+
+		}
+		#heading{
+			text-align: center;
+		}
+		label.error{
+			color:red;
+			float: right;
+		}
+		</style>
+		
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/jquery.validate.min.js"></script>
+		
+		<script>
+		
+		$(document).ready(function () {
+			
+			$("#register").validate({
+				// Specify the validation rules
+				rules: {
+					name: {
+						checkName: true
+					},
+					gender: "required",
+					username: {
+						required: true,
+						minlength: 5,
+					},
+					pass: {
+						required: true,
+						minlength: 5,
+					},
+					phno: {
+						required:true,
+						minlength: 10,
+					},
+					cnfpass: {
+						equalTo: "#pass",
+					},
+					
+				},
+				
+				// Specify the validation error messages
+				messages: {
+					gender: "Please select gender",
+					pass: {
+						required: "Please provide a password",
+						minlength: "Your password must be at least 5 characters long"
+					},
+					username: {
+						required: "Please enter a username",
+						minlength: "Username should atleast be 5 characters long"
+					},
+					phno: {
+						required: "Please enter your phone number",
+						minlength: "Enter a 10 digit mobile number"
+					},
+					cnfpass: {
+						equalTo: "Password and Confirmation doesn't match"
+					}
+					
+				},
+			});
+		
+			$.validator.addMethod("checkName",
+				function(value, element) {
+					if(value == "")
+						return false;
+					else
+						return !/[\d]/.test(value);
+				}
+				, "Invalid Name");
+		});
+		
+		
+		
+		</script>
+		
+		<img style="float:left" src="../imgs/logo.png" alt = "Ves Logo" />
+		<h3 id="heading">VESIT Attendance Portal</h3>
+		<hr/>
+		
+	</head>
+	<body>
+		<div id="register_form">
+			<label>Register a New Staff Member</label>
+			<form id="register" class="form-horizontal" action="" method="POST">
+				
+				<input name="name" type="text" class="form-control" placeholder="Enter name" autofocus/><br/>
+				<label>Select Gender</label></br>
+				<input type="radio" name="gender" value="male"> Male </input><br/>
+				<input type="radio" name="gender" value="female"> Female </input><br/><br/>
+				<input name="phno" type="tel" class="form-control" placeholder="Enter Phone no."/><br/>
+				<input name="username" type="text" class="form-control" placeholder="Enter Username"/><br/>
+				<input name="pass" id="pass" type="password" class="form-control" placeholder="Enter Password"/><br/>
+				<input name="cnfpass" type="password" class="form-control" placeholder="Confirm Password"/><br/>
+				<button type="submit" class="btn btn-default">Submit</button>
+				
+			</form>
+		</div>
+	</body>
+</html>

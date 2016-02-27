@@ -48,8 +48,6 @@
 			// $("[name=classes]").trigger("change");
 
 			$("#attendance_button").click(function() {
-
-
 				$("#add_attendance").validate({
 					rules:
 					{
@@ -60,9 +58,9 @@
 						{Confirm_roll : true},
 					},
 					submitHandler: function() {
-						alert("Hello");
+						alert("Success!");
 					},
-					// onfocusout: false,
+					onfocusout: false,
 					onkeyup: false,
 					onclick: false,
 					
@@ -101,7 +99,7 @@
 			bottom:0;
 			width:100%;
 		}
-		#form1, #form2, #heading{
+		#form1, #form2, #heading, #register{
 			float: center;
 			text-align: center;
 					/*margin-right: 22%;
@@ -118,6 +116,11 @@
 		
 	</head>
 	<body>
+		<br/>
+		<div id="register">
+			<b><p>For Registering a new Staff Member <a href="register.html">Click here</a></p></b>
+		</div>
+		<br/>
 		<div id = "form1">
 			<label for="gen_report">For Generating Attendance Status for a particular subject</label>
 			<form class="form-inline" id="gen_report" name="gen_report" action="nextpage.htm">
