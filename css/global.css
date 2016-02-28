@@ -1,0 +1,46 @@
+#footer 
+{
+	background-color:black;
+	color:white;
+	clear:both;
+	text-align:center;
+	padding:5px;
+	bottom:0;
+	width:100%;
+}
+#menu {
+	width:18%;
+	float: left;
+	margin: 1%;
+}
+#menu .menuheads{
+	text-align: center;
+}
+#menu .menuheads:hover{
+	background-color: #555;
+	color: white;
+}
+.sectionbranches{
+	background-color: #f2f2f2;
+}
+#content{
+	width:76%;
+	float: right;
+	margin: 2%;
+	overflow: auto;
+}
+#form1, #form2, #heading, #register_staff, #login{
+	float: center;
+	text-align: center;
+}
+#logo{
+	float:left;
+}
+label.error{
+	color:red;
+}
+#register_form{
+	float: center;
+	margin-left: 22%;
+	margin-right: 22%
+}

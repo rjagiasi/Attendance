@@ -2,43 +2,10 @@
 <html>
 	<head>
 		<title>VESIT : Student</title>
-		<link rel="stylesheet" href="../css/bootstrap.min.css">		
+		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/global.css">
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
-
-		<style>
-		#footer {
-			background-color:black;
-			color:white;
-			clear:both;
-			text-align:center;
-			padding:5px;
-			bottom:0;
-			width:100%;
-		}
-		
-		#menu {
-			width:18%;
-			float: left;
-			margin: 1%;
-		}
-		#menu .menuheads{
-			text-align: center;
-		}
-		#menu .menuheads:hover{
-			background-color: #555;
-			color: white;
-		}
-		.sectionbranches{
-			background-color: #f2f2f2;
-		}
-		#content{
-			width:76%;
-			float: right;
-			margin: 2%;
-			overflow: auto;
-		}
-		</style>
 		
 		<script type="text/javascript">
 		$(document).ready(function() {
@@ -52,30 +19,30 @@
 				var branchid = $(event.target).parent().parent().attr("id");
 				setactiveclass(classid, branchid);
 			});
+
+			function setactiveclass(classid, branchid) {
+				$(".active").toggleClass("active", false);
+				$("#enggbranches ul").not("#" + branchid).collapse("hide");
+				$("#enggbranches").collapse("show");
+				$("#" + classid).addClass("active");
+				$("#content").html("<p>Class Selected : "+ classid.toUpperCase() +"</p>");
+			}
 		});
-		
-		function setactiveclass(classid, branchid) {
-			$(".active").toggleClass("active", false);
-			$("#enggbranches ul").not("#" + branchid).collapse("hide");
-			$("#enggbranches").collapse("show");
-			$("#" + classid).addClass("active");
-			$("#content").html("<p>Class Selected : "+ classid.toUpperCase() +"</p>");
-		}
-
-
 		</script>
 		
-		<img style="float:left" src="../imgs/logo.png" alt = "Ves Logo" >
-		<center><h3>VESIT Attendance Portal</h3></center>
-		<hr/>
-		<center>
-		<p>For authorized Users only</p>
-		<form class = "form-inline" action = "staff.html" id="login-form">
-			<input name="usrname" class="form-control" placeholder="Username" type = "text"/>
-			<input name="password" class="form-control" placeholder="Password" type = "password"/>
-			<button class = "btn btn-default">Submit</button>
-		</form>
-		</center>
+		<div>
+			<img id="logo" src="../imgs/logo.png" alt = "Ves Logo" >
+			<h3 id="heading">VESIT Attendance Portal</h3>
+			<hr>
+			<div id = "login">
+				<p>For authorized Users only</p>
+				<form class = "form-inline" action = "staff.html">
+					<input name="usrname" class="form-control" placeholder="Username" type = "text"/>
+					<input name="password" class="form-control" placeholder="Password" type = "password"/>
+					<button class = "btn btn-default">Submit</button>
+				</form>
+			</div>
+		</div>
 		
 		
 	</head>

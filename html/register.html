@@ -4,28 +4,9 @@
 		<title>VESIT : Register</title>
 		
 		<link rel="stylesheet" href="../css/bootstrap.min.css"/>
-		
+		<link rel="stylesheet" type="text/css" href="../css/global.css">
 		<style type="text/css">
-		#footer {
-			background-color:black;
-			color:white;
-			clear:both;
-			text-align:center;
-			padding:5px;
-			bottom:0;
-			width:100%;
-		}
-		#register_form{
-			float: center;
-			margin-left: 22%;
-			margin-right: 22%
-
-		}
-		#heading{
-			text-align: center;
-		}
 		label.error{
-			color:red;
 			float: right;
 		}
 		</style>
@@ -56,6 +37,7 @@
 					phno: {
 						required:true,
 						minlength: 10,
+						maxlength: 10
 					},
 					cnfpass: {
 						equalTo: "#pass",
@@ -76,7 +58,8 @@
 					},
 					phno: {
 						required: "Please enter your phone number",
-						minlength: "Enter a 10 digit mobile number"
+						minlength: "Enter a 10 digit mobile number",
+						maxlength: "Enter a 10 digit mobile number"
 					},
 					cnfpass: {
 						equalTo: "Password and Confirmation doesn't match"
@@ -99,7 +82,7 @@
 		
 		</script>
 		
-		<img style="float:left" src="../imgs/logo.png" alt = "Ves Logo" />
+		<img id="logo" src="../imgs/logo.png" alt = "Ves Logo" />
 		<h3 id="heading">VESIT Attendance Portal</h3>
 		<hr/>
 		
@@ -121,5 +104,10 @@
 				
 			</form>
 		</div>
+		<br/>
+		<div id="footer">
+			Copyright &copy; vesit.edu
+		</div>
 	</body>
+
 </html>
