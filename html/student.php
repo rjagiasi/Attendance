@@ -6,10 +6,10 @@
 		<link rel="stylesheet" type="text/css" href="../css/global.css">
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
-		
+
 		<script type="text/javascript">
 		$(document).ready(function() {
-
+			
 			$("#content").html("<p>Select a class</p>");
 			$("#enggbranches").collapse("show");
 			$("#enggbranches ul").not("#" + "<?=$_GET["branch"]?>").collapse("hide");
