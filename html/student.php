@@ -12,9 +12,9 @@
 			
 			$("#content").html("<p>Select a class</p>");
 			$("#enggbranches").collapse("show");
-			$("#enggbranches ul").not("#" + "<?=$_GET["branch"]?>").collapse("hide");
+			setactiveclass("<?=$_GET["class"]?>","<?=$_GET["branch"]?>")
 
-			$("#menu").find("a").click(function(event) {
+			$("#enggbranches").find("a").click(function(event) {
 				var classid = $(event.target).parent().attr("id");
 				var branchid = $(event.target).parent().parent().attr("id");
 				setactiveclass(classid, branchid);
@@ -32,7 +32,7 @@
 		
 		<div>
 			<img id="logo" src="../imgs/logo.png" alt = "Ves Logo" >
-			<h3 id="heading">VESIT Attendance Portal</h3>
+			<h2 id="heading">VESIT Attendance Portal</h2>
 			<hr>
 			<div id = "login">
 				<p>For authorized Users only</p>
@@ -52,9 +52,10 @@
 		
 		<div id="menu">
 			<ul class="nav nav-pills nav-stacked">
-				<li class="menuheads">MCA</li>
-				<li class="menuheads">Diploma</li>
-				<li data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed" aria-expanded="false">Engineering</li>
+				<li><a class="menuheads" href="index.html">Home</a></li>
+				<li><a class="menuheads">MCA</a></li>
+				<li><a class="menuheads">Diploma</a></li>
+				<li><a data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed" aria-expanded="false">Engineering</a></li>
 				<div class="sectionbranches collapse" id="enggbranches" aria-expanded="false" style="height:0px;">
 					<li data-toggle="collapse" data-target="#it" class="menuheads" id="itheader" aria-expanded="true">IT</li>
 					<ul id="it" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">

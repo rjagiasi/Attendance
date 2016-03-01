@@ -9,12 +9,13 @@
 	width:100%;
 }
 #menu {
-	width:18%;
+	width:15%;
 	float: left;
 	margin: 1%;
 }
 #menu .menuheads{
 	text-align: center;
+	color: black;
 }
 #menu .menuheads:hover{
 	background-color: #555;
@@ -24,9 +25,9 @@
 	background-color: #f2f2f2;
 }
 #content{
-	width:76%;
+	width: 81%;
 	float: right;
-	margin: 2%;
+	margin: 1%;
 	overflow: auto;
 }
 #form1, #form2, #heading, #register_staff, #login{
@@ -43,4 +44,8 @@ label.error{
 	float: center;
 	margin-left: 22%;
 	margin-right: 22%
+}
+#greet{
+	font-size: 20px;
+	text-align: center;
 }
