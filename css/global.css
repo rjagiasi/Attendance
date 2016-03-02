@@ -30,7 +30,7 @@
 	margin: 1%;
 	overflow: auto;
 }
-#form1, #form2, #heading, #register_staff, #login{
+#report_form_div, #attendance_form_div, #heading, #login{
 	float: center;
 	text-align: center;
 }
@@ -39,11 +39,7 @@
 }
 label.error{
 	color:red;
-}
-#register_form{
-	float: center;
-	margin-left: 22%;
-	margin-right: 22%
+	float:right;
 }
 #greet{
 	font-size: 20px;
