@@ -4,11 +4,12 @@
 		
 		<title>VESIT : Staff</title>
 		<link rel="stylesheet" href="../css/bootstrap.min.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/global.css">
+		<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.validate.min.js"></script>
-		
+		<script src="../js/jquery-ui.min.js"></script>
 		<script>
 		
 		$(document).ready(function () {
@@ -52,9 +53,6 @@
 				$("#add_attendance").validate({
 					rules:
 					{
-						date:
-						{Validatedate : true},
-						
 						roll_nos:
 						{Confirm_roll : true},
 					},
@@ -67,11 +65,6 @@
 					
 				});
 			});
-			
-			
-			$.validator.addMethod("Validatedate", function(value, element) {
-				return /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/.test(value);
-			}, "Format of date dd/mm/yyyy");
 			
 			$.validator.addMethod("Confirm_roll", function(value, element){
 				var bool;
@@ -149,7 +142,9 @@
 			$("#greet").html("Welcome username");
 			$("#staff").collapse("show");
 			$("#content > div").hide();
-			
+			if ( $('[type="date"]').prop('type') != 'date' ) {
+				$('[type="date"]').datepicker();
+			}
 
 			$("#staff").find("a").click(function(event) {
 				$(".active").toggleClass("active", false);
@@ -257,7 +252,7 @@
 							<option value="a">Enter Absentees</option>
 						</select><br/><br/>
 						<input type="text" class="form-control" id="roll_nos" name="roll_nos" placeholder="Enter Roll Numbers"/>
-						<input type="text" class="form-control" id="date" name="date" placeholder="dd/mm/yyyy" required/>
+						<input type="date" class="form-control" id="date" name="date" placeholder="mm/dd/yyyy" required/>
 						<button class="btn btn-primary" id="attendance_button" type="submit">Add Attendance</button>
 						
 					</form>
