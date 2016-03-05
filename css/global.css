@@ -1,4 +1,11 @@
-#footer 
+html, body{
+	height: 100%;
+}
+.wrapper{
+	min-height: 100%;
+	margin: 0 auto -50px;
+}
+footer 
 {
 	background-color:black;
 	color:white;

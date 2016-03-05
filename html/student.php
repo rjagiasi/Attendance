@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>VESIT : Student</title>
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../css/global.css">
-		<script src="../js/jquery.min.js"></script>
-		<script src="../js/bootstrap.min.js"></script>
+<head>
+	<title>VESIT : Student</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/global.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 
-		<script type="text/javascript">
-		$(document).ready(function() {
-			
-			$("#content").html("<p>Select a class</p>");
-			$("#enggbranches").collapse("show");
-			setactiveclass("<?=$_GET["class"]?>","<?=$_GET["branch"]?>")
+	<script type="text/javascript">
+	$(document).ready(function() {
 
-			$("#enggbranches").find("a").click(function(event) {
-				var classid = $(event.target).parent().attr("id");
-				var branchid = $(event.target).parent().parent().attr("id");
-				setactiveclass(classid, branchid);
-			});
+		$.urlParam = function(name){
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			return results[1] || 0;
+		}
 
-			function setactiveclass(classid, branchid) {
-				$(".active").toggleClass("active", false);
-				$("#enggbranches ul").not("#" + branchid).collapse("hide");
-				$("#enggbranches").collapse("show");
-				$("#" + classid).addClass("active");
-				$("#content").html("<p>Class Selected : "+ classid.toUpperCase() +"</p>");
-			}
+		$("#content").html("<p>Select a class</p>");
+		$("#enggbranches").collapse("show");
+		setactiveclass($.urlParam("class"),$.urlParam("branch"));
+
+		$("#enggbranches").find("a").click(function(event) {
+			var classid = $(event.target).parent().attr("id");
+			var branchid = $(event.target).parent().parent().attr("id");
+			setactiveclass(classid, branchid);
 		});
-		</script>
-		
+
+		function setactiveclass(classid, branchid) {
+			$(".active").toggleClass("active", false);
+			$("#enggbranches ul").not("#" + branchid).collapse("hide");
+			$("#enggbranches").collapse("show");
+			$("#" + classid).addClass("active");
+			$("#content").html("<p>Class Selected : "+ classid.toUpperCase() +"</p>");
+		}
+	});
+	</script>
+
+</head>
+<body>
+	<div class="wrapper">
+
 		<div>
 			<img id="logo" src="../imgs/logo.png" alt = "Ves Logo" >
 			<h2 id="heading">VESIT Attendance Portal</h2>
@@ -44,9 +53,6 @@
 			</div>
 		</div>
 		
-		
-	</head>
-	<body>
 		
 		<br/><br/><br/>
 		
@@ -74,9 +80,9 @@
 		<div id="content">
 
 		</div>
-		
-		<div id="footer">
-			Copyright &copy; vesit.edu
-		</div>
-	</body>
+	</div>
+	<footer>
+		Copyright &copy; vesit.edu
+	</footer>
+</body>
 </html>
