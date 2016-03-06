@@ -80,6 +80,14 @@
 			
 		}, "Add Some Roll Nos");
 
+		$.validator.addMethod("Confirm_username", function (value, element) {
+			return /^[a-zA-Z0-9][a-zA-Z0-9_]{5,19}$/.test(value);
+		},"Needs an underscore and length between 6 & 20");
+
+		$.validator.addMethod("confirm_password", function (value, element) {
+			return /(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*/.test(value);
+		}, "At least 1 upper case, lower case or special character, numerical character. Minlength 6");
+
 		$("#register_form").validate({
 			// Specify the validation rules
 			rules: {
@@ -88,17 +96,14 @@
 				},
 				gender: "required",
 				username: {
-					required: true,
-					minlength: 5,
+					Confirm_username: true
 				},
 				pass: {
-					required: true,
-					minlength: 5,
+					confirm_password: true,
 				},
-				phno: {
+				email: {
 					required:true,
-					minlength: 10,
-					maxlength: 10
+					email: true
 				},
 				cnfpass: {
 					equalTo: "#pass",
@@ -109,18 +114,9 @@
 			// Specify the validation error messages
 			messages: {
 				gender: "Please select gender",
-				pass: {
-					required: "Please provide a password",
-					minlength: "Your password must be at least 5 characters long"
-				},
-				username: {
-					required: "Please enter a username",
-					minlength: "Username should atleast be 5 characters long"
-				},
-				phno: {
-					required: "Please enter your phone number",
-					minlength: "Enter a 10 digit mobile number",
-					maxlength: "Enter a 10 digit mobile number"
+				email: {
+					required: "Please enter your email address",
+					email: "Enter a volid Email!"
 				},
 				cnfpass: {
 					equalTo: "Password and Confirmation doesn't match"
@@ -173,16 +169,19 @@
 
 
 	<div class="wrapper">
-		<div>
-			<img id="logo" src="../imgs/logo.png" alt = "Ves Logo" >
-			<h2 id="heading">VESIT Attendance Portal</h2>
-			<br/><hr/>
-			<button class="btn btn-primary" style="float:right;">Logout</button>
-			<p id="greet"/>
-
+		
+		<div id="heading">
+			<div id="logo" >
+				<img src="../imgs/logo.png" alt = "Ves Logo" >
+			</div>
+			<div>
+				<h2>VESIT Attendance Portal</h2>
+				<p id="greet"></p>
+				<button class="btn btn-primary" style="float:right">Logout</button>
+			</div>
 		</div>
-
 		<hr/>
+
 		<div id="menu">
 			<ul class="nav nav-pills nav-stacked">
 				<li><a class="menuheads" href="index.html">Home</a></li>
@@ -257,19 +256,17 @@
 					<input type="text" class="form-control" id="roll_nos" name="roll_nos" placeholder="Enter Roll Numbers"/>
 					<input type="date" class="form-control" id="date" name="date" placeholder="mm/dd/yyyy" required/>
 					<button class="btn btn-primary" id="attendance_button" type="submit">Add Attendance</button>
-
 				</form>
 			</div>
 
 			<div id="register_form_div">
 				<label>Register a New Staff Member</label>
 				<form id="register_form" class="form-horizontal" action="" method="POST">
-
 					<input name="name" type="text" class="form-control" placeholder="Enter name" autofocus/><br/>
 					<label>Select Gender</label></br>
 					<input type="radio" name="gender" value="male"> Male </input><br/>
 					<input type="radio" name="gender" value="female"> Female </input><br/><br/>
-					<input name="phno" type="tel" class="form-control" placeholder="Enter Phone no."/><br/>
+					<input name="email" type="email" class="form-control" placeholder="Enter Email"/><br/>
 					<input name="username" type="text" class="form-control" placeholder="Enter Username"/><br/>
 					<input name="pass" id="pass" type="password" class="form-control" placeholder="Enter Password"/><br/>
 					<input name="cnfpass" type="password" class="form-control" placeholder="Confirm Password"/><br/>

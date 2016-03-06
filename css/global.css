@@ -3,7 +3,7 @@ html, body{
 }
 .wrapper{
 	min-height: 100%;
-	margin: 0 auto -50px;
+	margin: 0 auto -30px;
 }
 footer 
 {
@@ -37,12 +37,19 @@ footer
 	margin: 1%;
 	overflow: auto;
 }
-#report_form_div, #attendance_form_div, #heading, #login{
+#report_form_div, #attendance_form_div{
 	float: center;
 	text-align: center;
 }
+#heading{
+	text-align: center;
+	display: initial;
+	margin: 0 22%;
+	min-height: 170px;
+}
 #logo{
 	float:left;
+	display: inline-block;
 }
 label.error{
 	color:red;
