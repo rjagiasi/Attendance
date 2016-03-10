@@ -35,15 +35,15 @@
 
 	function render($template, $values = [])
 	{
-        if (file_exists("../templates/$template"))
+        if (file_exists("../html/$template"))
         {
             extract($values);
 
-            require("../templates/header.php");
+            require("../html/header.php");
 
-            require("../templates/$template");
+            require("../html/$template");
 
-            require("../templates/footer.php");
+            require("../html/footer.php");
         }
         else
         {

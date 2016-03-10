@@ -1,14 +1,14 @@
 <?php
 	
 	require_once("functions.php");
-	// $password = '123';
-	// $user = 'root';
-	// $salt = crypt($password);
-	// printf("\n%s\n%s\n", $salt, crypt($password, $salt));
-	// query("INSERT INTO Users (name, pswd, salt) VALUES('root', '$pass', '$salt')");
-	$result = query("Select * from Class");
-	// $salt = $result[0]['salt'];
-	// $pass = crypt($password, $salt);
+	$password = "admin";
+	$username = "admin";
+	// $salt = "123";
+	$salt = crypt($password);
+	// $password = crypt($password, $salt);
+	printf("\n%s\n%s\n", $salt, $password);
+	query("INSERT INTO Staff (Name, Gender, Email, Username, Salt) VALUES('Rohan', '1', 'rjagiasi@gmail.com', '$username', '$salt')");
 
-	print_r($result);
+	// $result = query("SELECT * FROM Staff WHERE username = \"$username\"");
+	// print_r($result);
 ?>

@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
 
-	<title>VESIT : Staff</title>
-	<link rel="stylesheet" href="../css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/global.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/jquery.validate.min.js"></script>
-	<script src="../js/jquery-ui.min.js"></script>
 	<script>
 
 	$(document).ready(function () {
@@ -135,7 +124,7 @@
 			, "Invalid Name");
 		
 		$("[name=dept]").trigger("change");
-		$("#greet").html("Welcome username");
+		
 		$("#staff").collapse("show");
 		$("#content > div").hide();
 		if ( $('[type="date"]').prop('type') != 'date' ) {
@@ -155,65 +144,13 @@
 			var classid = $(event.target).parent().attr("id");
 			var branchid = $(event.target).parent().parent().attr("id");
 
-			var url="student.html?branch="+branchid+"&class="+classid;
+			var url="student.php?branch="+branchid+"&class="+classid;
 			$(location).attr("href", url);
 		});
 		
 	});
 
 </script>
-
-
-</head>
-<body>
-
-
-	<div class="wrapper">
-		
-		<div id="heading">
-			<div id="logo" >
-				<img src="../imgs/logo.png" alt = "Ves Logo" >
-			</div>
-			<div>
-				<h2>VESIT Attendance Portal</h2>
-				<p id="greet"></p>
-				<button class="btn btn-primary" style="float:right">Logout</button>
-			</div>
-		</div>
-		<hr/>
-
-		<div id="menu">
-			<ul class="nav nav-pills nav-stacked">
-				<li><a class="menuheads" href="index.html">Home</a></li>
-				<li><a class="menuheads">MCA</a></li>
-				<li><a class="menuheads">Diploma</a></li>
-				<li><a data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed" aria-expanded="false">Engineering</a></li>
-				<div class="sectionbranches collapse" id="enggbranches" aria-expanded="false" style="height:0px;">
-					<li data-toggle="collapse" data-target="#it" class="menuheads" id="itheader" aria-expanded="true">IT</li>
-					<ul id="it" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-						<li id="d10"><a>D10</a></li>
-						<li id="d15"><a>D15</a></li>
-					</ul>
-					<li data-toggle="collapse" data-target="#comps" class="menuheads" id="compsheader" aria-expanded="true">Comps</li>
-					<ul id="comps" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-						<li id="d7a"><a>D7A</a></li>
-						<li id="d7b"><a>D7B</a></li>
-					</ul>
-				</div>
-
-				<li><a data-toggle="collapse" data-target="#staff" class="menuheads collapsed" aria-expanded="false">Staff</a></li>
-				<div class="sectionbranches collapse" id="staff" aria-expanded="false" style="height:0px;">
-					<ul id="staff" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-						<li id="register"><a>Register</a></li>
-						<li id="report"><a>Report</a></li>
-						<li id="attendance"><a>Add Attendance</a></li>
-					</ul>
-				</div>
-
-			</ul>
-
-		</div>
-
 
 		<div id="content">
 			<br/>
@@ -277,9 +214,3 @@
 		</div>
 		<br/>
 	</div>
-	<footer>
-		Copyright &copy; vesit.edu
-	</footer>
-</body>
-
-</html>
