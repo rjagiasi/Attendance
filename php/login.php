@@ -16,14 +16,15 @@
 
 		if(hash_equals($result[0]["Salt"], $password))
 		{
-			print_r($_SERVER);
+			// print_r($_SERVER);
 			$host  = $_SERVER["HTTP_HOST"];
 			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			$extra = "staff.php";
 			$_SESSION["uid"] = $result[0]["StaffId"];
 			$_SESSION["name"] = $result[0]["Name"];
 			$_SESSION["username"] = $result[0]["Username"];
-			header("Location: http://$host$uri/$extra");
+			// header("Location: http://$host$uri/$extra");
+			header("Refresh:0");
 		}
 		else
 		{

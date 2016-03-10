@@ -11,6 +11,16 @@
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.validate.min.js"></script>
 		<script src="../js/jquery-ui.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#logout").click(function (event) {
+					// <?php
+					//	session_destroy();
+					//	header("Refresh:0");
+					// ?>
+				});
+			});
+		</script>
 	</head>
 	<body>
 		
@@ -20,7 +30,7 @@
 					<a href="index.php"><img src="../imgs/logo.png" alt = "Ves Logo"/></a>
 				</div>
 				
-				<?php if(!isset($_SESSION)): ?>
+				<?php if(!isset($_SESSION["uid"])): ?>
 				<div id="login_form">
 					<h2>VESIT Attendance Portal</h2>
 					<p>For authorized Users only</p>
@@ -35,7 +45,7 @@
 				<div>
 					<h2>VESIT Attendance Portal</h2>
 					<p id="greet">Welcome <?= $_SESSION["name"] ?></p>
-					<button class="btn btn-primary" style="float:right">Logout</button>
+					<button id="logout"class="btn btn-primary" style="float:right">Logout</button>
 				</div>
 				<?php endif ?>
 				
@@ -65,7 +75,7 @@
 						</ul>
 					</div>
 					
-					<?php if(isset($_SESSION)): ?>
+					<?php if(isset($_SESSION["uid"])): ?>
 					<li><a data-toggle="collapse" data-target="#staff" class="menuheads collapsed" aria-expanded="false">Staff</a></li>
 					<div class="sectionbranches collapse" id="staff" aria-expanded="false" style="height:0px;">
 						<ul id="staff" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">

@@ -11,7 +11,13 @@
 				$(location).attr("href", url);
 			});
 
-			
+
+			$("#staff").find("a").click(function(event) {
+				// $(".active").toggleClass("active", false);
+				var id = $(event.target).parent().attr("id");
+				var url = "staff.php?formid="+id;
+				$(location).attr("href", url);
+			});
 		});
 		</script>
 

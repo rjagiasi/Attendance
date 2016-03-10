@@ -131,14 +131,20 @@
 			$('[type="date"]').datepicker();
 		}
 		
+		setactiveform("<?=$_GET["formid"]?>");
+
 		$("#staff").find("a").click(function(event) {
-			$(".active").toggleClass("active", false);
 			var id = $(event.target).parent().attr("id");
+			setactiveform(id);
+		});
+
+		function setactiveform(id){
+			$(".active").toggleClass("active", false);
 			$("#"+id).addClass("active");
 
 			$("#content > div").hide();
 			$("#"+id+"_form_div").show();
-		});
+		}
 		
 		$("#enggbranches").find("a").click(function(event) {
 			var classid = $(event.target).parent().attr("id");
