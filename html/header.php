@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start();?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,16 +12,7 @@
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.validate.min.js"></script>
 		<script src="../js/jquery-ui.min.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function () {
-				$("#logout").click(function (event) {
-					// <?php
-					//	session_destroy();
-					//	header("Refresh:0");
-					// ?>
-				});
-			});
-		</script>
+
 	</head>
 	<body>
 		
@@ -45,7 +37,7 @@
 				<div>
 					<h2>VESIT Attendance Portal</h2>
 					<p id="greet">Welcome <?= $_SESSION["name"] ?></p>
-					<button id="logout"class="btn btn-primary" style="float:right">Logout</button>
+					<button id="logout"class="btn btn-default" style="float:right"><a href="logout.php">Logout</a></button>
 				</div>
 				<?php endif ?>
 				

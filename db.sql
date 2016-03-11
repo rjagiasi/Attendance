@@ -107,13 +107,12 @@ CREATE TABLE `Staff` (
   `Gender` bit(1) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Username` varchar(20) NOT NULL,
-  `Password` varchar(255) NOT NULL,
   `Salt` varchar(255) NOT NULL,
   `RegisterTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`StaffId`),
   UNIQUE KEY `Email` (`Email`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +121,7 @@ CREATE TABLE `Staff` (
 
 LOCK TABLES `Staff` WRITE;
 /*!40000 ALTER TABLE `Staff` DISABLE KEYS */;
+INSERT INTO `Staff` VALUES (2,'Rohan','','rjagiasi@gmail.com','admin','$1$9hWOk6kq$2GJTfzS214qNqXvy8Scsb1','2016-03-10 08:56:34');
 /*!40000 ALTER TABLE `Staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-09 20:42:41
+-- Dump completed on 2016-03-11 13:30:19
