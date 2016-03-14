@@ -112,6 +112,31 @@
 				}
 				
 			},
+
+			submitHandler: function(form) {
+
+				$.ajax({
+					url : "register.php",
+					type : "POST",
+					data : $("#register_form").serialize(),
+					dataType: "json",
+				})
+				.done(function (data) {
+					if(data == false){
+						$(".alert").show();
+						$(".alert").removeClass("alert-success");
+						$(".alert").addClass("alert-danger");
+						$(".alert").html("<strong>Username Taken</strong>");
+					}
+					else if(data == true)
+					{
+						$(".alert").show();
+						$(".alert").removeClass("alert-danger");
+						$(".alert").addClass("alert-success");
+						$(".alert").html("<strong>Registration Successful</strong>");
+					}
+				});
+			}
 		});
 		
 		$.validator.addMethod("checkName",
@@ -153,11 +178,21 @@
 			var url="student.php?branch="+branchid+"&class="+classid;
 			$(location).attr("href", url);
 		});
+
+		// $("#register_form").submit(function(event){
+		// 	event.preventDefault();
+		// 	$reply = $.post("register.php", $("#register_form").serialize());
+		// 	if($reply)
+		// 		alert("Success");
+		// });
+		$("#clear").click(function(event) {
+			$("#register_form").find("input").val("");
+		});
 		
 	});
 
 </script>
-
+		
 		<div id="content">
 			<br/>
 			<div id = "report_form_div">
@@ -174,7 +209,7 @@
 					<select class="form-control" name="subject" required>
 						<option value="">Select Subject</option>
 					</select>
-					<button class="btn btn-primary">Generate Report</button>
+					<button class="btn btn-primary" type="submit">Generate Report</button>
 				</form>
 			</div>
 
@@ -204,18 +239,18 @@
 
 			<div id="register_form_div">
 				<label>Register a New Staff Member</label>
-				<form id="register_form" class="form-horizontal" action="" method="POST">
+				<form id="register_form" class="form-horizontal" action="register.php" method="POST">
 					<input name="name" type="text" class="form-control" placeholder="Enter name" autofocus/><br/>
 					<label>Select Gender</label></br>
-					<input type="radio" name="gender" value="male"> Male </input><br/>
-					<input type="radio" name="gender" value="female"> Female </input><br/><br/>
+					<input type="radio" name="gender" value="1"> Male </input><br/>
+					<input type="radio" name="gender" value="0"> Female </input><br/><br/>
 					<input name="email" type="email" class="form-control" placeholder="Enter Email"/><br/>
 					<input name="username" type="text" class="form-control" placeholder="Enter Username"/><br/>
 					<input name="pass" id="pass" type="password" class="form-control" placeholder="Enter Password"/><br/>
 					<input name="cnfpass" type="password" class="form-control" placeholder="Confirm Password"/><br/>
 					<button type="submit" class="btn btn-default">Submit</button>
-
-				</form>
+					<button class="btn btn-default inline" id="clear">Clear</button>
+				</form>				
 			</div>
 		</div>
 		<br/>

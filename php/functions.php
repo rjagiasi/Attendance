@@ -16,7 +16,7 @@
 		{
 			mysqli_select_db($conn, DATABASE);
 			$result = mysqli_query($conn, $sql);
-			if($result)
+			if($result == TRUE)
 			{
 				$array_2d = [];
 				while($array = mysqli_fetch_array($result, MYSQL_ASSOC))
@@ -27,8 +27,8 @@
 			}
 			else
 			{			
-				print("Query Failed\n");
-				return FALSE;
+				// print("Query Failed\n");
+				return false;
 			}
 		}
 	}

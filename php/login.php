@@ -17,24 +17,25 @@
 		if(hash_equals($result[0]["Salt"], $password))
 		{
 			// print_r($_SERVER);
-			$host  = $_SERVER["HTTP_HOST"];
-			$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-			$extra = "staff.php";
+			// $host  = $_SERVER["HTTP_HOST"];
+			// $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			// $url = 
+			// $extra = "staff.php";
 			$_SESSION["uid"] = $result[0]["StaffId"];
 			$_SESSION["name"] = $result[0]["Name"];
 			$_SESSION["username"] = $result[0]["Username"];
-			// header("Location: http://$host$uri/$extra");
-			header("Refresh:0");
+			header("Location: ".$_SERVER["HTTP_REFERER"]);
+			// header("Refresh:0");
 		}
 		else
 		{
-			$error = "Invalid_Username_Or_Password";
-			$url = $_SERVER["HTTP_REFERER"];
-			if(strpos($url,'?') !== false) {
-				$url .= '&error='.$error;
-			} else {
-				$url .= '?error='.$error;
-			}
+			// $error = "Invalid Username Or Password";
+			$url = parse_url($_SERVER["HTTP_REFERER"]);
+			parse_str($url["query"], $params);
+			$params["error"] = urlencode("Invalid Username Or Password");
+			$url["query"] = http_build_query($params);
+			$url = $url["scheme"]."://".$url["host"].$url["path"]."?".$url["query"];
+			print_r($url);
 			header("Location: $url");
 		}
 	}

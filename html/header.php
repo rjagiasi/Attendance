@@ -27,9 +27,9 @@
 					<h2>VESIT Attendance Portal</h2>
 					<p>For authorized Users only</p>
 					<form class = "form-inline" action = "../php/login.php" method = "POST">
-						<input name="username" class="form-control" placeholder="Username" type = "text"/>
-						<input name="password" class="form-control" placeholder="Password" type = "password"/>
-						<button class = "btn btn-default">Submit</button>
+						<input name="username" class="form-control" placeholder="Username" type = "text" required/>
+						<input name="password" class="form-control" placeholder="Password" type = "password" required/>
+						<button class = "btn btn-primary">Submit</button>
 					</form>
 				</div>
 				
@@ -37,17 +37,24 @@
 				<div>
 					<h2>VESIT Attendance Portal</h2>
 					<p id="greet">Welcome <?= $_SESSION["name"] ?></p>
-					<button id="logout"class="btn btn-default" style="float:right"><a href="logout.php">Logout</a></button>
+					<a href="logout.php"><button id="logout"class="btn btn-primary" style="float:right">Logout</button></a>
 				</div>
 				<?php endif ?>
-				
-				<?php if(isset($_GET["error"])): ?>
-				print("<p class=\"alert alert-danger\">".$_GET["error"]."</p>");
-				<?php endif ?>
-				
+
+
 			</div>
 			<hr/>
-			
+			<p class="alert" style="text-align:center"/>
+				<script type="text/javascript">
+					$(".alert").hide();
+
+					<?php if(isset($_GET["error"])): ?>
+						$(".alert").show();
+						$(".alert").addClass("alert-danger");
+						$(".alert").html(<?php urldecode($_GET["error"])?>);
+					<?php endif ?>
+				</script>
+
 			<div id="menu">
 				<ul class="nav nav-pills nav-stacked">
 					<li><a class="menuheads" href="index.php">Home</a></li>

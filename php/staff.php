@@ -1,5 +1,12 @@
 <?php
-	require("functions.php");
+	session_start();
 
-	render("staff.php", ["title" => "Staff"] );
+	if(isset($_SESSION["uid"]))
+	{
+		require("functions.php");
+
+		render("staff.php", ["title" => "Staff"] );
+	}
+	else
+		header("Location: index.php");
 ?>
