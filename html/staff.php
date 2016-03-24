@@ -4,7 +4,6 @@
 	$(document).ready(function () {
 
 		//set classes dropdown
-		
 		$("[name=dept]").change(function () {
 			
 			var listValue = this.value;
@@ -27,6 +26,7 @@
 			$(dropdownobj).parent().siblings(".pagination").hide();
 		});
 		
+		// set subjects dropdown
 		$("[name=classes]").change(function () {
 			
 			var listValue = this.value;
@@ -50,33 +50,19 @@
 			$(dropdownobj).parent().siblings(".pagination").hide();
 		});
 		
+		// hide content on subject change
 		$("[name=subject]").change(function () {
 			var dropdownobj = this;
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
 		});
-		// $("[name=classes]").trigger("change");
 		
-		// $("#attendance_button").click(function() {
-		// 	$("#add_attendance").validate({
-		// 		rules:
-		// 		{
-		// 			roll_nos:
-		// 			{Confirm_roll : true},
-		// 		},
-		// 		submitHandler: function() {
-		// 			alert("Success!");
-		// 		},
-		// 		onfocusout: false,
-		// 		onkeyup: false,
-		// 		onclick: false,
-				
-		// 	});
-		// });
+
 		var table = "";
 		var itemsperpg = 10;
+
+		//get student list and set pagination
 		$("#add_attendance").submit(function (event) {
-			
 			event.preventDefault();
 			$.ajax({
 				url : "getstudentlist.php",
@@ -110,6 +96,8 @@
 					$("#attendance_form_div .pagination a").first().trigger("click");}
 				});
 });
+		
+		//manage list pagination
 
 		$("#attendance_form_div .pagination").on("click", "a", function (event) {
 			$("#attendance_form_div .content2").show();
@@ -138,6 +126,7 @@
 			$('.alert').delay(5000).fadeOut('slow');
 		}
 
+		//insert data after attendance list submitted
 		$("#attendance_form_div").on("submit", "#attendance_list", function (event) {
 			event.preventDefault();
 			var formobj = this;
@@ -159,6 +148,7 @@
 			});
 		});
 
+		//register form validation methods
 		$.validator.addMethod("Confirm_username", function (value, element) {
 			return /^[a-zA-Z0-9][a-zA-Z0-9_]{5,19}$/.test(value);
 		},"Needs an underscore and length between 6 & 20");
@@ -167,6 +157,15 @@
 			return /(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*/.test(value);
 		}, "At least 1 upper case, lower case or special character, numerical character. Minlength 6");
 
+		$.validator.addMethod("checkName", function(value, element) {
+				if(value == "")
+					return false;
+				else
+					return !/[\d]/.test(value);
+			}
+			, "Invalid Name");
+
+		//register form validation and ajax call on submit
 		$("#register_form").validate({
 			// Specify the validation rules
 			rules: {
@@ -189,13 +188,12 @@
 				},
 				
 			},
-			
 			// Specify the validation error messages
 			messages: {
 				gender: "Please select gender",
 				email: {
 					required: "Please enter your email address",
-					email: "Enter a volid Email!"
+					email: "Enter a valid Email!"
 				},
 				cnfpass: {
 					equalTo: "Password and Confirmation doesn't match"
@@ -204,7 +202,6 @@
 			},
 
 			submitHandler: function(form) {
-
 				$.ajax({
 					url : "register.php",
 					type : "POST",
@@ -220,25 +217,24 @@
 			}
 		});
 		
-		$.validator.addMethod("checkName",
-			function(value, element) {
-				if(value == "")
-					return false;
-				else
-					return !/[\d]/.test(value);
-			}
-			, "Invalid Name");
-		
+		//register form clear button
+		$("#clear").click(function(event) {
+			$("#register_form").find("input").val("");
+		});
+
 		$("[name=dept]").trigger("change");
-		
 		$("#staff").collapse("show");
 		$("#content > div").hide();
+
+		//use jquery datepicker if browser doesn't support date type
 		if ( $('[type="date"]').prop('type') != 'date' ) {
 			$('[type="date"]').datepicker();
 		}
 		
+		//set initial form chosen
 		setactiveform("<?=$_GET["formid"]?>");
 
+		//changing forms in same page
 		$("#staff").find("a").click(function(event) {
 			var id = $(event.target).parent().attr("id");
 			setactiveform(id);
@@ -252,22 +248,13 @@
 			$("#"+id+"_form_div").show();
 		}
 		
+		//link to student on click
 		$("#enggbranches").find("a").click(function(event) {
 			var classid = $(event.target).parent().attr("id");
 			var branchid = $(event.target).parent().parent().attr("id");
 
 			var url="student.php?branch="+branchid+"&class="+classid;
 			$(location).attr("href", url);
-		});
-
-		// $("#register_form").submit(function(event){
-		// 	event.preventDefault();
-		// 	$reply = $.post("register.php", $("#register_form").serialize());
-		// 	if($reply)
-		// 		alert("Success");
-		// });
-		$("#clear").click(function(event) {
-			$("#register_form").find("input").val("");
 		});
 		
 	});
