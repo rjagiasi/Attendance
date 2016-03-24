@@ -85,17 +85,21 @@
 				dataType: "json",
 			})
 			.done(function (data) {
+				if(data == false){
+					failuremessage("Attendance for the day already exists!");
+				}
+					else
+					{
+						table = 
+						"<form id=\"attendance_list\" method = \"POST\" action = \"add_attendance.php\"><table class = \"table table-striped\"><thead><tr><th>Present</th><th>Absent</th><th>Roll No</th><th>Name</th></tr></thead><tbody>";
+						for (var i = 0; i < data.length; i++) {
+							table += 
+							"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\" checked/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
+						};
+						table += "</table><input class=\"btn btn-primary\" type=\"submit\"/></form>";
+						$("#attendance_form_div .content2").html(table);
 
-					table = 
-					"<form id=\"attendance_list\" method = \"POST\" action = \"add_attendance.php\"><table class = \"table table-striped\"><thead><tr><th>P</th><th>A</th><th>Roll No</th><th>Name</th></tr></thead><tbody>";
-					for (var i = 0; i < data.length; i++) {
-						table += 
-						"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\" checked/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
-					};
-					table += "</table><input class=\"btn btn-primary\" type=\"submit\"/></form>";
-					$("#attendance_form_div .content2").html(table);
-
-					var noofpages = (data.length/itemsperpg)+1;
+						var noofpages = (data.length/itemsperpg)+1;
 					// alert(noofpages);
 					var pagination_html = "";
 
@@ -103,10 +107,10 @@
 						pagination_html += "<li value=\"" + i + "\"><a href=\"#\">"+i+"</a></li>"
 					};
 					$("#attendance_form_div .pagination").html(pagination_html);
-					$("#attendance_form_div .pagination a").first().trigger("click");
+					$("#attendance_form_div .pagination a").first().trigger("click");}
 				});
-		});
-	
+});
+
 		$("#attendance_form_div .pagination").on("click", "a", function (event) {
 			$("#attendance_form_div .content2").show();
 			$("#attendance_form_div .pagination").show();
@@ -118,6 +122,22 @@
 			$("#attendance_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
 		});
 
+		function failuremessage (output) {
+			$(".alert").show();
+			$(".alert").removeClass("alert-success");
+			$(".alert").addClass("alert-danger");
+			$(".alert").html("<strong>"+output+"</strong>");
+			$('.alert').delay(5000).fadeOut('slow');
+		}
+
+		function successmessage (output) {
+			$(".alert").show();
+			$(".alert").removeClass("alert-danger");
+			$(".alert").addClass("alert-success");
+			$(".alert").html("<strong>" + output + "</strong>");
+			$('.alert').delay(5000).fadeOut('slow');
+		}
+
 		$("#attendance_form_div").on("submit", "#attendance_list", function (event) {
 			event.preventDefault();
 			var formobj = this;
@@ -126,6 +146,16 @@
 				url : "add_attendance.php",
 				type : "POST",
 				data : $(formobj).serialize() + "&" + $(formobj).parent().siblings("form").serialize(),
+				dataType : "json",
+			})
+			.done(function (data) {
+				if(data == false)
+					failuremessage("Some Error Occured");
+				else if(data == true){
+					successmessage("Attendance added Successfully");
+					$("#attendance_form_div .content2").hide();
+					$("#attendance_form_div .pagination").hide();
+				}
 			});
 		});
 
@@ -182,21 +212,10 @@
 					dataType: "json",
 				})
 				.done(function (data) {
-					if(data == false){
-						$(".alert").show();
-						$(".alert").removeClass("alert-success");
-						$(".alert").addClass("alert-danger");
-						$(".alert").html("<strong>Username Taken</strong>");
-						$('.alert').delay(5000).fadeOut('slow');
-					}
+					if(data == false)
+						failuremessage("Username Taken");
 					else if(data == true)
-					{
-						$(".alert").show();
-						$(".alert").removeClass("alert-danger");
-						$(".alert").addClass("alert-success");
-						$(".alert").html("<strong>Registration Successful</strong>");
-						$('.alert').delay(5000).fadeOut('slow');
-					}
+						successmessage("Registration Successful");
 				});
 			}
 		});
@@ -259,7 +278,7 @@
 			<br/>
 			<div id = "report_form_div">
 				<label for="gen_report">For Generating Attendance Status for a particular subject</label>
-				<form class="form-inline" id="gen_report" name="gen_report" action="nextpage.htm">
+				<form class="form-inline" id="gen_report" name="gen_report" action="">
 					<select class="form-control" name="dept" required>
 						<option value="">Select Dept</option>
 						<option value="it">IT</option>
@@ -284,7 +303,7 @@
 
 			<div id="attendance_form_div">
 				<label for="add_attendance">Add attendance</label>
-				<form class="form-inline" id="add_attendance" name="add_attendance" action="nextpage.htm">
+				<form class="form-inline" id="add_attendance" name="add_attendance" action="">
 					<select class="form-control" name="dept" required>
 						<option value="">Select Dept</option>
 						<option value="it">IT</option>
