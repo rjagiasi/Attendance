@@ -24,7 +24,7 @@
 			$_SESSION["uid"] = $result[0]["StaffId"];
 			$_SESSION["name"] = $result[0]["Name"];
 			$_SESSION["username"] = $result[0]["Username"];
-			header("Location: ".$_SERVER["HTTP_REFERER"]);
+			header("Location: ".explode("?",$_SERVER["HTTP_REFERER"])[0]);
 			// header("Refresh:0");
 		}
 		else

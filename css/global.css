@@ -35,7 +35,7 @@ footer
 	width: 81%;
 	float: right;
 	margin: 1%;
-	overflow: auto;
+	/*overflow: auto;*/
 }
 #report_form_div, #attendance_form_div{
 	float: center;

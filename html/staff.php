@@ -8,66 +8,126 @@
 		$("[name=dept]").change(function () {
 			
 			var listValue = this.value;
-			var classes = "";
-			
-			if(listValue == "it")
-				classes = "<option value=\"\">Select Class</option><option value=\"d10\">D10</option><option value=\"d15\">D15</option>";
-			
-			else if(listValue == "comps")
-				classes = "<option value=\"\">Select Class</option><option value=\"d7a\">D7A</option><option value=\"d7b\">D7B</option>";
-			
-			else
-				return;
-			
-			$(this).next("[name=classes]").html(classes);
+			var dropdownobj = this;
+			var classes = "<option value=\"\">Select Class</option>";
+			var datastring = "dept="+listValue;
+			$.ajax({
+					url : "getclasses.php",
+					type : "POST",
+					data : datastring,
+					dataType: "json",
+				})
+				.done(function (data) {
+					for (var i = 0; i < data.length; i++) {
+						classes = classes + "<option value=\"" + data[i].ClassId + "\">"+ data[i].Name + "</option>";
+					};
+					$(dropdownobj).next("[name=classes]").html(classes);
+			});
+			$(dropdownobj).parent().siblings(".content2").hide();
+			$(dropdownobj).parent().siblings(".pagination").hide();
 		});
 		
 		$("[name=classes]").change(function () {
 			
 			var listValue = this.value;
-			var subjects = "";
-			
-			if(listValue == "d10")
-				subjects = "<option value=\"\">Select Subject</option><option value=\"at\">AT</option><option value=\"wp\">WP</option><option value=\"cn\">CN</option>";
-			else
-				subjects = "<option value=\"\">Select Subject</option><option value=\"\">"+ listValue +" subjects</option>";
-			
-			$(this).next("[name=subject]").html(subjects);
+			var dropdownobj = this;
+			var classes = "<option value=\"\">Select Subject</option>";
+			var datastring = "class="+listValue;
+			$.ajax({
+					url : "getsubjects.php",
+					type : "POST",
+					data : datastring,
+					dataType: "json",
+				})
+				.done(function (data) {
+					for (var i = 0; i < data.length; i++) {
+						classes = classes + "<option value=\"" + data[i].SubjectId + "\">"+ data[i].Name + "</option>";
+					};
+					$(dropdownobj).next("[name=subject]").html(classes);
+					// alert(classes);
+				});
+			$(dropdownobj).parent().siblings(".content2").hide();
+			$(dropdownobj).parent().siblings(".pagination").hide();
 		});
 		
-		
+		$("[name=subject]").change(function () {
+			var dropdownobj = this;
+			$(dropdownobj).parent().siblings(".content2").hide();
+			$(dropdownobj).parent().siblings(".pagination").hide();
+		});
 		// $("[name=classes]").trigger("change");
 		
-		$("#attendance_button").click(function() {
-			$("#add_attendance").validate({
-				rules:
-				{
-					roll_nos:
-					{Confirm_roll : true},
-				},
-				submitHandler: function() {
-					alert("Success!");
-				},
-				onfocusout: false,
-				onkeyup: false,
-				onclick: false,
+		// $("#attendance_button").click(function() {
+		// 	$("#add_attendance").validate({
+		// 		rules:
+		// 		{
+		// 			roll_nos:
+		// 			{Confirm_roll : true},
+		// 		},
+		// 		submitHandler: function() {
+		// 			alert("Success!");
+		// 		},
+		// 		onfocusout: false,
+		// 		onkeyup: false,
+		// 		onclick: false,
 				
+		// 	});
+		// });
+		var table = "";
+		var itemsperpg = 10;
+		$("#add_attendance").submit(function (event) {
+			
+			event.preventDefault();
+			$.ajax({
+				url : "getstudentlist.php",
+				type : "POST",
+				data : $("#add_attendance").serialize(),
+				dataType: "json",
+			})
+			.done(function (data) {
+
+					table = 
+					"<form id=\"attendance_list\" method = \"POST\" action = \"add_attendance.php\"><table class = \"table table-striped\"><thead><tr><th>P</th><th>A</th><th>Roll No</th><th>Name</th></tr></thead><tbody>";
+					for (var i = 0; i < data.length; i++) {
+						table += 
+						"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\" checked/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
+					};
+					table += "</table><input class=\"btn btn-primary\" type=\"submit\"/></form>";
+					$("#attendance_form_div .content2").html(table);
+
+					var noofpages = (data.length/itemsperpg)+1;
+					// alert(noofpages);
+					var pagination_html = "";
+
+					for (var i = 1; i <= noofpages; i++) {
+						pagination_html += "<li value=\"" + i + "\"><a href=\"#\">"+i+"</a></li>"
+					};
+					$("#attendance_form_div .pagination").html(pagination_html);
+					$("#attendance_form_div .pagination a").first().trigger("click");
+				});
+		});
+	
+		$("#attendance_form_div .pagination").on("click", "a", function (event) {
+			$("#attendance_form_div .content2").show();
+			$("#attendance_form_div .pagination").show();
+			$(".pagination .active").toggleClass("active", false);
+			var parent = $(event.target).parent();
+			parent.addClass("active");
+			var pgno = parent.attr("value");
+			$("#attendance_form_div .content2 tbody tr").hide();
+			$("#attendance_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
+		});
+
+		$("#attendance_form_div").on("submit", "#attendance_list", function (event) {
+			event.preventDefault();
+			var formobj = this;
+			// alert($(this).parent().siblings("form").html());
+			$.ajax({
+				url : "add_attendance.php",
+				type : "POST",
+				data : $(formobj).serialize() + "&" + $(formobj).parent().siblings("form").serialize(),
 			});
 		});
-		
-		$.validator.addMethod("Confirm_roll", function(value, element){
-			var bool;
-			
-			if($("#status").val() == "p" && value == "")
-				bool = confirm("All Absent?");
-			else if($("#status").val() == "a" && value == "")
-				bool = confirm("All Present?");
-			else
-				bool = true;
-			
-			return bool;
-			
-		}, "Add Some Roll Nos");
 
 		$.validator.addMethod("Confirm_username", function (value, element) {
 			return /^[a-zA-Z0-9][a-zA-Z0-9_]{5,19}$/.test(value);
@@ -127,6 +187,7 @@
 						$(".alert").removeClass("alert-success");
 						$(".alert").addClass("alert-danger");
 						$(".alert").html("<strong>Username Taken</strong>");
+						$('.alert').delay(5000).fadeOut('slow');
 					}
 					else if(data == true)
 					{
@@ -134,6 +195,7 @@
 						$(".alert").removeClass("alert-danger");
 						$(".alert").addClass("alert-success");
 						$(".alert").html("<strong>Registration Successful</strong>");
+						$('.alert').delay(5000).fadeOut('slow');
 					}
 				});
 			}
@@ -164,7 +226,7 @@
 		});
 
 		function setactiveform(id){
-			$(".active").toggleClass("active", false);
+			$("#menu .active").toggleClass("active", false);
 			$("#"+id).addClass("active");
 
 			$("#content > div").hide();
@@ -211,6 +273,13 @@
 					</select>
 					<button class="btn btn-primary" type="submit">Generate Report</button>
 				</form>
+				<ul class="pagination" style="float:left;">
+
+				</ul>
+				<div class="content2">
+					
+				</div>
+				
 			</div>
 
 			<div id="attendance_form_div">
@@ -227,14 +296,16 @@
 					<select class="form-control" name="subject" required>
 						<option value="">Select Subject</option>
 					</select>
-					<select class="form-control" id="status" name="status" required>
-						<option value="p">Enter Presentees</option>
-						<option value="a">Enter Absentees</option>
-					</select><br/><br/>
-					<input type="text" class="form-control" id="roll_nos" name="roll_nos" placeholder="Enter Roll Numbers"/>
 					<input type="date" class="form-control" id="date" name="date" placeholder="mm/dd/yyyy" required/>
-					<button class="btn btn-primary" id="attendance_button" type="submit">Add Attendance</button>
+					<button class="btn btn-primary" id="attendance_button" type="submit">Get List</button>
 				</form>
+				<br/>
+				<ul class="pagination" style="float:center;">
+					
+				</ul>
+				<div class="content2">
+					
+				</div>
 			</div>
 
 			<div id="register_form_div">

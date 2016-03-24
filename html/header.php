@@ -38,20 +38,22 @@
 					<h2>VESIT Attendance Portal</h2>
 					<p id="greet">Welcome <?= $_SESSION["name"] ?></p>
 					<a href="logout.php"><button id="logout"class="btn btn-primary" style="float:right">Logout</button></a>
+					<br/>
 				</div>
 				<?php endif ?>
 
 
 			</div>
 			<hr/>
-			<p class="alert" style="text-align:center"/>
+			<p class="alert"style="text-align:center"></p>
 				<script type="text/javascript">
 					$(".alert").hide();
 
 					<?php if(isset($_GET["error"])): ?>
 						$(".alert").show();
 						$(".alert").addClass("alert-danger");
-						$(".alert").html(<?php urldecode($_GET["error"])?>);
+						$(".alert").html("<?php echo(urldecode($_GET["error"]))?>");
+						$('.alert').delay(5000).fadeOut('slow');
 					<?php endif ?>
 				</script>
 
