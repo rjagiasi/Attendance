@@ -31,7 +31,7 @@ footer
 .sectionbranches{
 	background-color: #f2f2f2;
 }
-#content{
+#content, #loadinggif{
 	width: 81%;
 	float: right;
 	margin: 1%;

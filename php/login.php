@@ -25,6 +25,7 @@
 			$_SESSION["name"] = $result[0]["Name"];
 			$_SESSION["username"] = $result[0]["Username"];
 			header("Location: ".explode("?",$_SERVER["HTTP_REFERER"])[0]);
+			// print($_GET["branch"]);
 			// header("Refresh:0");
 		}
 		else

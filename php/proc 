@@ -1,0 +1,6 @@
+CREATE FUNCTION `GetAttReport`(`subject` INT, `student` INT) RETURNS INT NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER BEGIN DECLARE nooflect int; DECLARE lectattended int; DECLARE percent float; SELECT COUNT(DISTINCT Date) INTO nooflect FROM Record WHERE Record.SubjectId = subject; SELECT COUNT(*) INTO lectattended FROM Record WHERE Record.SubjectId = subject AND Record.StudentId = student AND Record.PA = b'1'; SET percent = lectattended/nooflect; RETURN percent; END
+
+SELECT Student.ClassId, Student.RollNo, Record.SubjectId, COUNT(Record.PA)
+FROM Record JOIN Student
+ON Student.StudentId = Record.StudentId AND Record.PA = b'1'
+GROUP BY Record.SubjectId, Record.StudentId

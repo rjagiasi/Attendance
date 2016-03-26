@@ -10,7 +10,7 @@
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.validate.min.js"></script>
 		<script src="../js/jquery-ui.min.js"></script>
-
+		<script src="../js/functions.js"></script>
 	</head>
 	<body>
 		
@@ -48,10 +48,7 @@
 					$(".alert").hide();
 
 					<?php if(isset($_GET["error"])): ?>
-						$(".alert").show();
-						$(".alert").addClass("alert-danger");
-						$(".alert").html("<?php echo(urldecode($_GET["error"]))?>");
-						$('.alert').delay(5000).fadeOut('slow');
+						failuremessage("<?php echo(urldecode($_GET["error"]))?>");
 					<?php endif ?>
 				</script>
 
@@ -87,3 +84,4 @@
 					
 				</ul>
 			</div>
+			
