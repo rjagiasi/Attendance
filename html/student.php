@@ -2,13 +2,13 @@
 
 	<script type="text/javascript">
 	$(document).ready(function() {
-		$("#content").html("<p>Select a class</p>");
+		$("#disp").html("<p>Select a class</p>");
 		$("#enggbranches").collapse("show");
 
 		<?php if(isset($class) || isset($branch)): ?>
 		setactiveclass('<?=$class?>','<?=$branch?>');
 		<?php else : ?>
-		setactiveclass('d10','it');
+		setactiveclass('D10','IT');
 		<?php endif?>
 
 		$("#enggbranches").find("a").click(function(event) {
@@ -24,8 +24,30 @@
 			$("#enggbranches ul").not("#" + branchid).collapse("hide");
 			$("#enggbranches").collapse("show");
 			$("#" + classid).addClass("active");
-			$("#content").html("<p>Class Selected : "+ classid.toUpperCase() +"</p>");
+			$("#disp").html("Class Selected : "+ classid.toUpperCase());
 		}
+		var table = "";
+		$("#rollno").submit(function (event) {
+			event.preventDefault();
+			$("#loadinggif").show();
+			$.ajax({
+				url : "getstudrep.php",
+				type : "POST",
+				data : $("#rollno").serialize()+"&class="+$(".active").attr("id"),
+				dataType : "json",
+			})
+			.done(function (data) {
+				table = "<table class=\"table table-striped\"><tbody>";
+				$.each(data, function (key, value) {
+					table += "<tr><th>" + key.toUpperCase() + "</th><td>" + value + "</td>";
+					if(value == null)
+						failuremessage("Student data doesn't exist!");
+				});
+				table += "</tbody></table>";
+				$("#studrep").html(table);
+				$("#loadinggif").hide();
+			});
+		});
 
 		$("#staff").find("a").click(function(event) {
 			// $(".active").toggleClass("active", false);
@@ -36,10 +58,16 @@
 	});
 	</script>
 
-		<div id="content">
-
-		</div>
-		<div id="loadinggif" style="text-align:center;">
-			<img src="../imgs/loading.gif"/>
-		</div>
+	<div id="content">
+		<p id="disp"></p>
+		<form id="rollno" class="form-inline">
+			<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;" required/>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+		<br/>
+		<div id="studrep"></div>
+	</div>
+	<div id="loadinggif" style="text-align:center;">
+		<img src="../imgs/loading.gif"/>
+	</div>
 	

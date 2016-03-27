@@ -19,10 +19,12 @@ footer
 	width:15%;
 	float: left;
 	margin: 1%;
+
 }
 #menu .menuheads{
 	text-align: center;
 	color: black;
+	/*background-color: #e6f7ff;*/
 }
 #menu .menuheads:hover{
 	background-color: #555;

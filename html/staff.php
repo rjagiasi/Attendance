@@ -175,7 +175,8 @@
 			.done(function (data) {
 				if(data == null)
 					failuremessage("Some Error Occured!");
-				else{
+				else
+				{
 					table = "<table class = \"table table-striped\"><thead><tr><th>Roll No</th><th>Name</th>";
 					$.each(data[0]["percent"], function(key, value) {
 						table += "<th>"+key+"</th>";
@@ -194,20 +195,20 @@
 					table += "</tbody></table>";
 
 					var noofpages = (data.length/itemsperpg)+1;
-				// alert(noofpages);
-				var pagination_html = "";
+					// alert(noofpages);
+					var pagination_html = "";
 
-				for (var i = 1; i <= noofpages; i++) {
-					pagination_html += "<li value=\"" + i + "\"><a href=\"#\">"+i+"</a></li>"
-				};
-				$("#report_form_div .content2").html(table);
-				$("#report_form_div .pagination").html(pagination_html);
-				// $("#report_form_div .content2").show();
-				$("#report_form_div .pagination a").first().trigger("click");
-			}
-			$("#loadinggif").hide();
+					for (var i = 1; i <= noofpages; i++) {
+						pagination_html += "<li value=\"" + i + "\"><a href=\"#\">"+i+"</a></li>"
+					};
+					$("#report_form_div .content2").html(table);
+					$("#report_form_div .pagination").html(pagination_html);
+					// $("#report_form_div .content2").show();
+					$("#report_form_div .pagination a").first().trigger("click");
+				}
+				$("#loadinggif").hide();
+			});
 		});
-});
 
 		//manage attendance list pagination
 
@@ -312,7 +313,7 @@
 		
 		//set initial form chosen
 		$("#content > div").hide();
-		
+
 		setactiveform("<?=$_GET["formid"]?>");
 
 		//changing forms in same page
@@ -366,7 +367,7 @@
 				<div class="content2">
 					
 				</div>
-				
+				<p style="float:down;">If subject not selected, all subjects are shown</p>
 			</div>
 
 			<div id="attendance_form_div">

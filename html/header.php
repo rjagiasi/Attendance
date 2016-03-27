@@ -61,13 +61,13 @@
 					<div class="sectionbranches collapse" id="enggbranches" aria-expanded="false" style="height:0px;">
 						<li data-toggle="collapse" data-target="#it" class="menuheads" id="itheader" aria-expanded="true">IT</li>
 						<ul id="it" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-							<li id="d10"><a>D10</a></li>
-							<li id="d15"><a>D15</a></li>
+							<li id="D10"><a>D10</a></li>
+							<li id="D15"><a>D15</a></li>
 						</ul>
 						<li data-toggle="collapse" data-target="#comps" class="menuheads" id="compsheader" aria-expanded="true">Comps</li>
 						<ul id="comps" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-							<li id="d7a"><a>D7A</a></li>
-							<li id="d7b"><a>D7B</a></li>
+							<li id="D7A"><a>D7A</a></li>
+							<li id="D7B"><a>D7B</a></li>
 						</ul>
 					</div>
 					
