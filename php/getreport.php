@@ -21,7 +21,7 @@
 		$subjectnames = query("SELECT Name, SubjectId FROM Subjects Where SubjectId = $sub");
 	}
 	
-	for ($i=0, $n = count($studentnames), $j = 0; $i < $n; $i++) { 
+	for ($i=0, $n = count($studentnames),$m = count($subjectnames), $j = 0; $i < $n; $i++) { 
 		$t = 0;
 		$p = 0;
 		foreach ($subjectnames as $key => $value) {
@@ -31,6 +31,7 @@
 			$studentnames[$i][$value["Name"]] = sprintf("%02d", $res[$j]["Pres"])."/".sprintf("%02d",$lecttotal)." : ".round((($res[$j]["Pres"]/$lecttotal)*100), 2);
 			$j++;
 		}
+		if($m > 1)
 		$studentnames[$i]["Total"] = sprintf("%02d", $p)."/".sprintf("%02d",$t)." : ".round((($p/$t)*100), 2);
 	}
 

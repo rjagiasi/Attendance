@@ -1,24 +1,22 @@
 <?php 
-	// print_r($_POST);
+	
 	require_once 'functions.php';
 
 	$class = $_POST["class"];
 	$roll = $_POST["roll"];
 	$classid = query("SELECT ClassId FROM Class WHERE Name = '$class'");
-	$subid = query("SELECT Name, SubjectId FROM Subjects Where ClassId = '".$classid[0]["ClassId"]."'");
+
+	$res = query("Call GetStudentReport(".$classid[0]["ClassId"].", $roll)");
 	$name = query("SELECT Name FROM Student Where ClassId='".$classid[0]["ClassId"]."' and RollNo='$roll'");
-
+	$subnames = query("SELECT Name, SubjectId FROM Subjects Where ClassId = ".$classid[0]["ClassId"]." ORDER BY SubjectId ASC");
 	$jsonarr["name"] = explode(" ", $name[0]["Name"])[1];
-	// var_dump($name[0]["Name"]);
-
-	for ($i=0, $n=sizeof($subid); $i < $n; $i++) { 
-		
-		$percentage = query("SELECT GetStudentReport('".$classid[0]["ClassId"]."', '".$roll."', '".$subid[$i]["SubjectId"]."') AS percent");
-		// print(intval($i));
-		$jsonarr[$subid[$i]["Name"]] = round($percentage[0]["percent"], 2);
+	
+	$j=0;
+	foreach ($subnames as $key => $value) {
+		$lecttotal = $res[$j]["Pres"] + $res[$j]["Abs"];
+		$jsonarr[$value["Name"]] = sprintf("%02d", $res[$j]["Pres"])."/".sprintf("%02d",$lecttotal)." : ".round((($res[$j]["Pres"]/$lecttotal)*100), 2);
+		$j++;
 	}
-
-	// print($class[0]["ClassId"]);
-	// echo("SELECT GetStudentReport('".$classid[0]["ClassId"]."', '".$roll."', '".$subid[0]["SubjectId"]."') AS percent");
+	
 	echo json_encode($jsonarr);
 ?>
