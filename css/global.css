@@ -61,3 +61,12 @@ label.error{
 	font-size: 20px;
 	text-align: center;
 }
+.content2{
+	text-align: left;
+}
+.defaulter{
+	background-color: #ff6666;
+}
+.glyphicon-sort{
+	float: right;
+}

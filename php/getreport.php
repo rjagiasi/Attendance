@@ -4,28 +4,37 @@
 	$dept = $_POST["dept"];
 	$class = $_POST["classes"];
 	$sub = $_POST["subject"];
+	$startdate = $_POST["startdate"];
+	$enddate = $_POST["enddate"];
 
-		$students = query("SELECT RollNo, Name FROM Student Where ClassId = '$class'");
-		if(empty($sub))
-		$subjectids = query("SELECT Name, SubjectId From Subjects Where ClassId = '$class'");
-		else
-		$subjectids = query("SELECT Name, SubjectId From Subjects Where ClassId = '$class' AND SubjectId = '$sub'");
-		// foreach ($student as $key => $value) {
-		// 	foreach ($subjectids as $key => $value) {
-		// 		$percentage = query("SELECT GetStudentReport('$class', '2', '2') AS percent");
-		// 	}
-		// }
-		for ($i=0, $n=sizeof($students); $i <  $n; $i++) {  
-			for ($j=0, $m=sizeof($subjectids); $j < $m; $j++) { 
-				$percentage = query("SELECT GetStudentReport('$class', '".$students[$i]["RollNo"]."', '".$subjectids[$j]["SubjectId"]."') AS percent");
-				// print_r($percentage);
-				$percentarr[$subjectids[$j]["Name"]] = round($percentage[0]["percent"], 2);
-				
-			}
-			$jsonarr[$i] = array("roll" => $students[$i]["RollNo"], "name" => $students[$i]["Name"], "percent" => $percentarr);
+	$studentnames = query("SELECT RollNo, Name FROM Student Where ClassId = $class ORDER BY RollNo");
+
+	// $students = query("SELECT RollNo, Name FROM Student Where ClassId = '$class'");
+	if(empty($sub))
+	{
+		$res = query("Call GetClassReport('$startdate', '$enddate', $class)");
+		$subjectnames = query("Call GetSubjects('$startdate', '$enddate', $class)");
+	}
+	else
+	{
+		$res = query("Call GetSubjectReport('$startdate', '$enddate', $class, $sub)");
+		$subjectnames = query("SELECT Name, SubjectId FROM Subjects Where SubjectId = $sub");
+	}
+	
+	for ($i=0, $n = count($studentnames), $j = 0; $i < $n; $i++) { 
+		$t = 0;
+		$p = 0;
+		foreach ($subjectnames as $key => $value) {
+			$p += $res[$j]["Pres"];
+			$lecttotal = $res[$j]["Pres"] + $res[$j]["Abs"];
+			$t += $lecttotal;
+			$studentnames[$i][$value["Name"]] = sprintf("%02d", $res[$j]["Pres"])."/".sprintf("%02d",$lecttotal)." : ".round((($res[$j]["Pres"]/$lecttotal)*100), 2);
+			$j++;
 		}
-		
+		$studentnames[$i]["Total"] = sprintf("%02d", $p)."/".sprintf("%02d",$t)." : ".round((($p/$t)*100), 2);
+	}
 
-	// print_r($jsonarr);
-	echo json_encode($jsonarr);
+	// print_r($res);
+	// echo count(studentnames);
+	echo json_encode($studentnames);
 ?>

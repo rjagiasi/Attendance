@@ -84,7 +84,7 @@
 		
 
 		var table = "";
-		var itemsperpg = 10;
+		var itemsperpg = 25;
 
 		//get student list and set pagination
 		$("#add_attendance").submit(function (event) {
@@ -108,7 +108,7 @@
 						table += 
 						"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\" checked/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
 					};
-					table += "</table><input class=\"btn btn-primary\" type=\"submit\"/></form>";
+					table += "</table><input class=\"btn btn-primary\" type=\"submit\" style=\"float:center;\"/></form>";
 					$("#attendance_form_div .content2").html(table);
 
 					var noofpages = (data.length/itemsperpg)+1;
@@ -177,20 +177,24 @@
 					failuremessage("Some Error Occured!");
 				else
 				{
-					table = "<table class = \"table table-striped\"><thead><tr><th>Roll No</th><th>Name</th>";
-					$.each(data[0]["percent"], function(key, value) {
-						table += "<th>"+key+"</th>";
+					table = "<table class = \"table table-striped tablesorter\"><thead><tr>";
+					$.each(data[0], function(key, value) {
+						table += "<th>"+key+"<span class=\"glyphicon glyphicon-sort\"></th>";
 					});
 
 
 					table += "</tr></thead><tbody>";
 
 					for (var i = 0, n = data.length; i < n; i++) {
-						table += "<tr><td>" + data[i]["roll"] + "</td><td>" + data[i]["name"] + "</td>";
-						$.each(data[i]["percent"], function(key, value) {
-							table += "<td>"+value+"</td>";
+						table += "<tr>"
+						$.each(data[i], function(key, value) {
+							var per = value.split(" : ")[1];
+							if(per<75)
+								table += "<td class = \"defaulter\">"+value+"</td>";
+							else
+								table += "<td>"+value+"</td>";
 						});
-						table += "</tr>";
+						table += "</tr>"
 					};
 					table += "</tbody></table>";
 
@@ -204,11 +208,18 @@
 					$("#report_form_div .content2").html(table);
 					$("#report_form_div .pagination").html(pagination_html);
 					// $("#report_form_div .content2").show();
+					
 					$("#report_form_div .pagination a").first().trigger("click");
+					$(".tablesorter").tablesorter().bind("sortEnd", function () {
+						$(this).parent().siblings(".pagination").find(".active a").trigger("click");
+						// alert(id);
+					});
+
 				}
 				$("#loadinggif").hide();
 			});
 		});
+		
 
 		//manage attendance list pagination
 
@@ -358,7 +369,11 @@
 					</select>
 					<select class="form-control" name="subject">
 						<option value="">Select Subject</option>
-					</select>
+					</select><br/></br>
+					<label for="startdate">Start Date</label>
+					<input type="date" class="form-control" id="startdate" name="startdate" required/>
+					<label for="enddate">End Date</label>
+					<input type="date" class="form-control" id="enddate" name="enddate" required/>
 					<button class="btn btn-primary" type="submit">Generate Report</button>
 				</form>
 				<ul class="pagination" style="float:center;" >
@@ -383,7 +398,7 @@
 					<select class="form-control" name="subject" required>
 						<option value="">Select Subject</option>
 					</select>
-					<input type="date" class="form-control" id="date" name="date" placeholder="mm/dd/yyyy" required/>
+					<input type="date" class="form-control" id="date" name="date" required/>
 					<button class="btn btn-primary" id="attendance_button" type="submit">Get List</button>
 				</form>
 				<br/>
