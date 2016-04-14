@@ -221,8 +221,7 @@
 		});
 		
 
-		//manage attendance list pagination
-
+		//manage report list pagination
 		$("#report_form_div .pagination").on("click", "a", function (event) {
 			$("#report_form_div .content2").show();
 			$("#report_form_div .pagination").show();
@@ -232,6 +231,49 @@
 			var pgno = parent.attr("value");
 			$("#report_form_div .content2 tbody tr").hide();
 			$("#report_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
+		});
+
+		//update attendance ajax
+		$("#update_attendance").submit(function(event) {
+			event.preventDefault();
+			$("#loadinggif").show();
+			$.ajax({
+				url : "fetchdayatt.php",
+				type : "POST",
+				data : $("#update_attendance").serialize(),
+				dataType : "json",
+			})
+			.done(function (data) {
+				if(data == "false"){
+					failuremessage("Attendance data does not exist!");
+					$("#update_form_div .content2").hide();
+				}
+				else
+				{
+					var c = "";
+					c += "<p>"+data[0]["Name"]+"</p>";
+					c += (data[0]["PA"] == "1")?"<input val=\"1\" class=\"form-control\" value=\"Present\" name=\"old\" disabled style=\"width:100px; float:left;\"/>":"<input val=\"0\" class=\"form-control\" value=\"Absent\" name=\"old\" style=\"width:100px; float:left;\" disabled/>";
+					c += "<button id=\"change\" style=\"float:right;\" class=\"btn btn-primary\">Change</button>";
+					$("#update_form_div .content2").html(c);
+					$("#update_form_div .content2").show();
+				}
+			});
+			$("#loadinggif").hide();
+		});
+
+		//toggle attendance
+		$("#update_form_div .content2").on("click", "#change", function(event) {
+			$("#loadinggif").show();
+			$.ajax({
+				url : "update_att.php",
+				type : "POST",
+				data : $("#update_attendance").serialize() + "&" + "currval=" + $("[name=old]").attr("val"),
+				dataType : "json",
+			})
+			.done(function (data) {
+				$("#update_attendance").trigger("submit");
+			});
+			$("#loadinggif").hide();
 		});
 
 		//register form validation methods
@@ -305,6 +347,7 @@
 			}
 		});
 		
+
 		//register form clear button
 		$("#clear").click(function(event) {
 			$("#register_form").find("input").val("");
@@ -322,6 +365,10 @@
 			$('[type="date"]').datepicker();
 		}
 		
+		$("#roll").change(function(event) {
+			$(this).parent().siblings(".content2").hide();
+		});
+
 		//set initial form chosen
 		$("#content > div").hide();
 
@@ -424,6 +471,29 @@
 					<button type="submit" class="btn btn-default">Submit</button>
 					<button class="btn btn-default inline" id="clear">Clear</button>
 				</form>				
+			</div>
+
+			<div id="update_form_div">
+				<label for="update_attendance">Update attendance</label>
+				<form class="form-inline" id="update_attendance" name="update_attendance" action="">
+					<select class="form-control" name="dept" required>
+						<option value="">Select Dept</option>
+						
+					</select>
+					<select class="form-control" name="classes" required>
+						<option value="">Select Class</option>
+					</select>
+					<select class="form-control" name="subject" required>
+						<option value="">Select Subject</option>
+					</select>
+					<input type="date" class="form-control" id="date" name="date" required/>
+					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;" required/>
+					<button class="btn btn-primary" type="submit">Fetch</button>
+				</form>
+				<br/>
+				<div class="content2">
+					
+				</div>
 			</div>
 
 		</div>

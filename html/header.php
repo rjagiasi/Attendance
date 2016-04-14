@@ -80,6 +80,7 @@
 							<li id="register"><a>Register</a></li>
 							<li id="report"><a>Report</a></li>
 							<li id="attendance"><a>Add Attendance</a></li>
+							<li id="update"><a>Update</a></li>
 						</ul>
 					</div>
 					<?php endif ?>
