@@ -6,13 +6,18 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/global.css">
 		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
-		
+
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.validate.min.js"></script>
 		<script src="../js/jquery-ui.min.js"></script>
-		<script src="../js/functions.js"></script>
 		<script src="../js/jquery.tablesorter.min.js"></script>
+		<script src="../js/tableExport.js"></script>
+		<script src="../js/jquery.base64.js"></script>
+		<script src="../js/jspdf.debug.js"></script>
+
+		<script src="../js/functions.js"></script>
+		<script src="../js/js2pdf.js"></script>
 	</head>
 	<body>
 		
@@ -45,7 +50,7 @@
 
 			</div>
 			<hr/>
-			<p class="alert"style="text-align:center"></p>
+			<p class="alert"style="text-align:center"/>
 				<script type="text/javascript">
 					$(".alert").hide();
 
@@ -71,16 +76,21 @@
 							<li id="D7A"><a>D7A</a></li>
 							<li id="D7B"><a>D7B</a></li>
 						</ul>
+						<li data-toggle="collapse" data-target="#extc" class="menuheads" id="extcheader" aria-expanded="true">EXTC</li>
+						<ul id="extc" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
+							<li id="D9A"><a>D9A</a></li>
+							<li id="D9B"><a>D9B</a></li>
+						</ul>
 					</div>
 					
 					<?php if(isset($_SESSION["uid"])): ?>
 					<li><a data-toggle="collapse" data-target="#staff" class="menuheads collapsed" aria-expanded="false">Staff</a></li>
 					<div class="sectionbranches collapse" id="staff" aria-expanded="false" style="height:0px;">
 						<ul id="staff" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-							<li id="register"><a>Register</a></li>
-							<li id="report"><a>Report</a></li>
 							<li id="attendance"><a>Add Attendance</a></li>
 							<li id="update"><a>Update</a></li>
+							<li id="report"><a>Report</a></li>
+							<li id="register"><a>Register</a></li>
 						</ul>
 					</div>
 					<?php endif ?>

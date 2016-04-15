@@ -45,7 +45,7 @@
 			});
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
-			
+			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
 		
 		// set subjects dropdown
@@ -72,7 +72,7 @@
 				});
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
-			
+			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
 		
 		// hide content on subject change
@@ -80,6 +80,7 @@
 			var dropdownobj = this;
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
+			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
 		
 
@@ -177,7 +178,7 @@
 					failuremessage("Some Error Occured!");
 				else
 				{
-					table = "<table class = \"table table-striped tablesorter\"><thead><tr>";
+					table = "<table class = \"table table-striped tablesorter\" id=\"generated_report\"><thead><tr>";
 					$.each(data[0], function(key, value) {
 						table += "<th>"+key+"<span class=\"glyphicon glyphicon-sort\"></th>";
 					});
@@ -211,7 +212,7 @@
 					
 					$("#report_form_div .pagination a").first().trigger("click");
 					$(".tablesorter").tablesorter().bind("sortEnd", function () {
-						$(this).parent().siblings(".pagination").find(".active a").trigger("click");
+					$(this).parent().siblings(".pagination").find(".active a").trigger("click");
 						// alert(id);
 					});
 
@@ -225,6 +226,7 @@
 		$("#report_form_div .pagination").on("click", "a", function (event) {
 			$("#report_form_div .content2").show();
 			$("#report_form_div .pagination").show();
+			$("#download_buttons").show();
 			$(".pagination .active").toggleClass("active", false);
 			var parent = $(event.target).parent();
 			parent.addClass("active");
@@ -232,6 +234,20 @@
 			$("#report_form_div .content2 tbody tr").hide();
 			$("#report_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
 		});
+
+		//report download code
+		$("#download_buttons button").click(function(event) {
+			var downloadtype = $(event.target).attr("id");
+			$("#report_form_div .content2 tbody tr").show();
+
+			if(downloadtype == "pdf")
+				converttopdf();
+			else
+				$("#generated_report").tableExport({type: downloadtype,escape:'false'});
+
+			$("#report_form_div .pagination").find(".active a").trigger("click");
+		});
+
 
 		//update attendance ajax
 		$("#update_attendance").submit(function(event) {
@@ -358,6 +374,7 @@
 
 		//show only staff menu
 		$("#staff").collapse("show");
+		$("#download_buttons").hide();
 
 		$("#loadinggif").hide();
 		//use jquery datepicker if browser doesn't support date type
@@ -401,7 +418,6 @@
 	});
 
 </script>
-		
 		<div id="content">
 			<br/>
 			<div id = "report_form_div">
@@ -429,6 +445,13 @@
 				<div class="content2">
 					
 				</div>
+				<div id="download_buttons">
+					Download Report as
+					<button type="button" id = "csv" class="btn btn-primary">CSV</button>
+					<button type="button" id = "excel" class="btn btn-success">Excel</button>
+					<button type="button" id = "pdf" class="btn btn-danger">PDF</button>
+				</div>
+				<br/>
 				<p style="float:down;">If subject not selected, all subjects are shown</p>
 			</div>
 

@@ -37,14 +37,19 @@
 				dataType : "json",
 			})
 			.done(function (data) {
-				table = "<table class=\"table table-striped\"><tbody>";
-				$.each(data, function (key, value) {
-					table += "<tr><th>" + key.toUpperCase() + "</th><td>" + value + "</td>";
-					if(value == null)
-						failuremessage("Student data doesn't exist!");
-				});
-				table += "</tbody></table>";
-				$("#studrep").html(table);
+				if(data == "false")
+					failuremessage("Roll No. doesn't exist!");
+				else
+				{
+					table = "<table class=\"table table-striped\"><tbody>";
+					$.each(data, function (key, value) {
+						table += "<tr><th>" + key.toUpperCase() + "</th><td>" + value + "</td>";
+						if(value == null)
+							failuremessage("Student data doesn't exist!");
+					});
+					table += "</tbody></table>";
+					$("#studrep").html(table);
+				}
 				$("#loadinggif").hide();
 			});
 		});

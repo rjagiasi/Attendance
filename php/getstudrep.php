@@ -1,15 +1,21 @@
-<?php 
-	
-	require_once 'functions.php';
+<?php
 
-	$class = $_POST["class"];
-	$roll = $_POST["roll"];
-	$classid = query("SELECT ClassId FROM Class WHERE Name = '$class'");
+require_once 'functions.php';
 
-	$res = query("Call GetStudentReport(".$classid[0]["ClassId"].", $roll)");
+$class = $_POST["class"];
+$roll = $_POST["roll"];
+$classid = query("SELECT ClassId FROM Class WHERE Name = '$class'");
+
+$res = query("Call GetStudentReport(".$classid[0]["ClassId"].", $roll)");
+
+if(empty($res))
+	echo json_encode("false");
+else
+{
 	$name = query("SELECT Name FROM Student Where ClassId='".$classid[0]["ClassId"]."' and RollNo='$roll'");
 	$subnames = query("SELECT Name, SubjectId FROM Subjects Where ClassId = ".$classid[0]["ClassId"]." ORDER BY SubjectId ASC");
-	$jsonarr["name"] = explode(" ", $name[0]["Name"])[1];
+	$n = explode(" ", $name[0]["Name"]);
+	$jsonarr["name"] = $n[0]." ".$n[1];
 	
 	$j=0;
 	foreach ($subnames as $key => $value) {
@@ -19,4 +25,5 @@
 	}
 	
 	echo json_encode($jsonarr);
+}
 ?>
