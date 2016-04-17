@@ -158,8 +158,8 @@
 					successmessage("Attendance added Successfully");
 					$("#attendance_form_div .content2").hide();
 					$("#attendance_form_div .pagination").hide();
-					$("#loadinggif").hide();
 				}
+				$("#loadinggif").hide();
 			});
 		});
 
@@ -273,8 +273,8 @@
 					$("#update_form_div .content2").html(c);
 					$("#update_form_div .content2").show();
 				}
+				$("#loadinggif").hide();
 			});
-			$("#loadinggif").hide();
 		});
 
 		//toggle attendance
@@ -288,8 +288,9 @@
 			})
 			.done(function (data) {
 				$("#update_attendance").trigger("submit");
+				$("#loadinggif").hide();
 			});
-			$("#loadinggif").hide();
+			
 		});
 
 		//register form validation methods
@@ -360,7 +361,6 @@
 						successmessage("Registration Successful");
 					$("#loadinggif").hide();
 				});
-				$("#loadinggif").hide();
 			}
 		});
 		
