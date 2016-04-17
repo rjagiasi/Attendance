@@ -267,8 +267,8 @@
 				else
 				{
 					var c = "";
-					c += "<p>"+data[0]["Name"]+"</p>";
-					c += (data[0]["PA"] == "1")?"<input val=\"1\" class=\"form-control\" value=\"Present\" name=\"old\" disabled style=\"width:100px; float:left;\"/>":"<input val=\"0\" class=\"form-control\" value=\"Absent\" name=\"old\" style=\"width:100px; float:left;\" disabled/>";
+					c += "<p style=\"margin-right:20px;\">"+data[0]["Name"]+"</p>";
+					c += (data[0]["PA"] == "1")?"<input val=\"1\" class=\"form-control\" value=\"Present\" name=\"old\" disabled style=\"width:100px;margin-right:20px;\"/>":"<input val=\"0\" class=\"form-control\" value=\"Absent\" name=\"old\" style=\"width:100px; margin-right:20px;\" disabled/>";
 					c += "<button id=\"change\" style=\"float:right;\" class=\"btn btn-primary\">Change</button>";
 					$("#update_form_div .content2").html(c);
 					$("#update_form_div .content2").show();
@@ -379,7 +379,7 @@
 		$("#loadinggif").hide();
 		//use jquery datepicker if browser doesn't support date type
 		if ( $('[type="date"]').prop('type') != 'date' ) {
-			$('[type="date"]').datepicker();
+			$('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd' });
 		}
 		
 		$("#roll").change(function(event) {
@@ -514,7 +514,7 @@
 					<button class="btn btn-primary" type="submit">Fetch</button>
 				</form>
 				<br/>
-				<div class="content2">
+				<div class="content2" style="display:inline-flex;">
 					
 				</div>
 			</div>

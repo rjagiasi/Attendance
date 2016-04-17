@@ -36,8 +36,67 @@
 						<input name="password" class="form-control" placeholder="Password" type = "password" required/>
 						<button class = "btn btn-primary">Submit</button>
 					</form>
+					<a data-toggle="modal" data-target="#forgot_pass_modal" style="float:right;">Forgot Passsword?</a>
+					
+					<div class="modal fade" id="forgot_pass_modal" role="dialog">
+						<div class="modal-dialog">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Forgot Password</h4>
+								</div>
+								<div class="modal-body">
+									<form class="form-inline" id="fp">
+										<input id="fp_username" name="fp_username" class="form-control" autofocus placeholder="Username" type = "text" required>
+										<button type="submit" class="btn btn-primary">Submit</button>
+										<img id="fploading" src="../imgs/fploading.gif" height="20" width="20"/>
+									</form>
+								</div>
+								<div class="modal-footer" style="text-align:center;">
+									<p class="alert-danger" id="err"></p>
+									<p>Email with new password will be sent to your registered mail id</p>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				
+				<script type="text/javascript">
+				
+				$(document).ready(function() {
+					$("#fploading").hide();
+
+					$("#fp").submit(function(event) {
+						event.preventDefault();
+
+						$("#fploading").show();
+
+						$.ajax({
+							url : "../../changepass.php",
+							type : "POST",
+							data : $("#fp").serialize(),
+							dataType : "json",
+						})
+						.done(function (data) {
+							if(data == "false")
+								$("#err").html("No such Username");
+							else
+							{
+								$("#forgot_pass_modal").modal("toggle");
+								if(data == "1")
+									successmessage("Password has been reset. Check your mail!");
+								else if(data == "0")
+									failuremessage("Some Error Occured!");
+							}
+							$("#fploading").hide();
+						});
+						
+					});
+				});
+				
+				</script>
+
 				<?php else: ?>
 				<div>
 					<h2>VESIT Attendance Portal</h2>
