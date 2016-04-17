@@ -360,9 +360,45 @@
 						successmessage("Registration Successful");
 					$("#loadinggif").hide();
 				});
+				$("#loadinggif").hide();
 			}
 		});
 		
+		
+		$("#chngpass_form").validate({
+			// Specify the validation rules
+			rules: {
+				pass: {
+					confirm_password: true,
+				},
+				cnfpass: {
+					equalTo: "#pass2",
+				},
+			},
+			// Specify the validation error messages
+			messages: {
+				cnfpass: {
+					equalTo: "Password and Confirmation doesn't match"
+				}
+			},
+
+			submitHandler: function(form) {
+				$("#loadinggif").show();
+				$.ajax({
+					url : "chngpass.php",
+					type : "POST",
+					data : $("#chngpass_form").serialize(),
+					dataType: "json",
+				})
+				.done(function (data) {
+					if(data == false)
+						failuremessage("Some Error Occured");
+					else if(data == true)
+						successmessage("Password Changed Successfully!");
+					$("#loadinggif").hide();
+				});
+			}
+		});
 
 		//register form clear button
 		$("#clear").click(function(event) {
@@ -517,6 +553,15 @@
 				<div class="content2" style="display:inline-flex;">
 					
 				</div>
+			</div>
+
+			<div id="chngpass_form_div">
+				<form action="chngpass.php" method="post" id="chngpass_form">
+					<input autofocus class="form-control" name="oldpass" placeholder="Current Password" type="password"/><br/>
+					<input class="form-control" name="pass" id="pass2" placeholder="New Password" type="password"/><br/>
+					<input class="form-control" name="cnfpass" placeholder="Confirm New Password" type="password"/><br/>
+					<button type="submit" class="btn btn-primary">Change Password</button>
+				</form>
 			</div>
 
 		</div>

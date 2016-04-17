@@ -73,7 +73,7 @@
 						$("#fploading").show();
 
 						$.ajax({
-							url : "../../changepass.php",
+							url : "../../resetpass.php",
 							type : "POST",
 							data : $("#fp").serialize(),
 							dataType : "json",
@@ -150,6 +150,7 @@
 							<li id="update"><a>Update</a></li>
 							<li id="report"><a>Report</a></li>
 							<li id="register"><a>Register</a></li>
+							<li id="chngpass"><a>Change Password</a></li>
 						</ul>
 					</div>
 					<?php endif ?>
