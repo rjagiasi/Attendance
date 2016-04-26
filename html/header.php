@@ -15,6 +15,7 @@
 		<script src="../js/tableExport.js"></script>
 		<script src="../js/jquery.base64.js"></script>
 		<script src="../js/jspdf.debug.js"></script>
+		<!--script src="../js/html2canvas.js"></script-->
 
 		<script src="../js/functions.js"></script>
 		<script src="../js/js2pdf.js"></script>

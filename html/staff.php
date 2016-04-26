@@ -238,14 +238,16 @@
 		//report download code
 		$("#download_buttons button").click(function(event) {
 			var downloadtype = $(event.target).attr("id");
+			$("#loadinggif").show();
 			$("#report_form_div .content2 tbody tr").show();
 
 			if(downloadtype == "pdf")
-				converttopdf();
+				converttopdf();	//demoPDF()
 			else
 				$("#generated_report").tableExport({type: downloadtype,escape:'false'});
 
 			$("#report_form_div .pagination").find(".active a").trigger("click");
+			$("#loadinggif").hide();
 		});
 
 

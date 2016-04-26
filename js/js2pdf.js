@@ -38,9 +38,20 @@ function converttopdf() {
 }
 
 function demoPDF() {
-  var doc = new jsPDF('p', 'pt');
-  doc.text("From HTML", 40, 50);
-  var res = doc.autoTableHtmlToJson(document.getElementById("abc"));
-  doc.autoTable(res.columns, res.data, {startY: 60});
-  return doc;
+  var options = {
+    background: '#fff',
+    pagesplit: true, 
+    // width: 522
+};
+margins = {
+        top : 80,
+        bottom : 60,
+        left : 60,
+        width : 522
+      };
+var pdf = new jsPDF('p', 'pt', 'ledger');
+pdf.addHTML($('#report_form_div')[0],0,0, options, function () {
+pdf.save('Test.pdf');
+// HideLoader();
+}, margins);
 }
