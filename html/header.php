@@ -72,7 +72,7 @@
 						event.preventDefault();
 
 						$("#fploading").show();
-
+						$("#fp .btn").addClass("disabled");
 						$.ajax({
 							url : "../../resetpass.php",
 							type : "POST",
@@ -91,6 +91,7 @@
 									failuremessage("Some Error Occured!");
 							}
 							$("#fploading").hide();
+							$("#fp .btn").removeClass("disabled");
 						});
 						
 					});
