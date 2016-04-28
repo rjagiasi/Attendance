@@ -51,7 +51,7 @@
 									<form class="form-inline" id="fp">
 										<input id="fp_username" name="fp_username" class="form-control" autofocus placeholder="Username" type = "text" required>
 										<button type="submit" class="btn btn-primary">Submit</button>
-										<img id="fploading" src="../imgs/fploading.gif" height="20" width="20"/>
+										<img id="fploading" src="../imgs/fploading.gif" alt="Loading" style="height:20px; width:20px;"/>
 									</form>
 								</div>
 								<div class="modal-footer" style="text-align:center;">
@@ -111,7 +111,7 @@
 
 			</div>
 			<hr/>
-			<p class="alert"style="text-align:center"/>
+			<p class="alert" style="text-align:center"></p>
 				<script type="text/javascript">
 					$(".alert").hide();
 

@@ -73,6 +73,6 @@
 		<div id="studrep"></div>
 	</div>
 	<div id="loadinggif" style="text-align:center;">
-		<img src="../imgs/loading.gif"/>
+		<img src="../imgs/loading.gif" alt="Loading"/>
 	</div>
 	
