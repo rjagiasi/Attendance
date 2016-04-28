@@ -103,7 +103,7 @@
 				<div>
 					<h2>VESIT Attendance Portal</h2>
 					<p id="greet">Welcome <?= $_SESSION["name"] ?></p>
-					<a href="logout.php"><button id="logout"class="btn btn-primary" style="float:right">Logout</button></a>
+					<a href="logout.php"><button id="logout" class="btn btn-primary" style="float:right">Logout</button></a>
 					<br/>
 				</div>
 				<?php endif ?>
@@ -147,7 +147,7 @@
 					<?php if(isset($_SESSION["uid"])): ?>
 					<li><a data-toggle="collapse" data-target="#staff" class="menuheads collapsed" aria-expanded="false">Staff</a></li>
 					<div class="sectionbranches collapse" id="staff" aria-expanded="false" style="height:0px;">
-						<ul id="staff" class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
+						<ul class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
 							<li id="attendance"><a>Add Attendance</a></li>
 							<li id="update"><a>Update</a></li>
 							<li id="report"><a>Report</a></li>

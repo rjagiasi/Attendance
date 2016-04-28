@@ -506,7 +506,7 @@
 					<select class="form-control" name="subject" required>
 						<option value="">Select Subject</option>
 					</select>
-					<input type="date" class="form-control" id="date" name="date" required/>
+					<input type="date" class="form-control" name="date" required/>
 					<button class="btn btn-primary" id="attendance_button" type="submit">Get List</button>
 				</form>
 				<br/>
@@ -521,7 +521,7 @@
 			<div id="register_form_div">
 				<label>Register a New Staff Member</label>
 				<form id="register_form" class="form-horizontal" action="register.php" method="POST">
-					<input name="name" type="text" class="form-control" placeholder="Enter name" autofocus/><br/>
+					<input name="name" type="text" class="form-control" placeholder="Enter name"/><br/>
 					<label>Select Gender</label></br>
 					<input type="radio" name="gender" value="1"> Male </input><br/>
 					<input type="radio" name="gender" value="0"> Female </input><br/><br/>
@@ -547,7 +547,7 @@
 					<select class="form-control" name="subject" required>
 						<option value="">Select Subject</option>
 					</select>
-					<input type="date" class="form-control" id="date" name="date" required/>
+					<input type="date" class="form-control" name="date" required/>
 					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;" required/>
 					<button class="btn btn-primary" type="submit">Fetch</button>
 				</form>
@@ -559,7 +559,7 @@
 
 			<div id="chngpass_form_div">
 				<form action="chngpass.php" method="post" id="chngpass_form">
-					<input autofocus class="form-control" name="oldpass" placeholder="Current Password" type="password"/><br/>
+					<input class="form-control" name="oldpass" placeholder="Current Password" type="password"/><br/>
 					<input class="form-control" name="pass" id="pass2" placeholder="New Password" type="password"/><br/>
 					<input class="form-control" name="cnfpass" placeholder="Confirm New Password" type="password"/><br/>
 					<button type="submit" class="btn btn-primary">Change Password</button>
@@ -571,4 +571,4 @@
 			<img src="../imgs/loading.gif" alt="Loading"/>
 		</div>
 		<br/>
-	</div>
+	
