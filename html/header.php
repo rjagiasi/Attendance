@@ -72,9 +72,9 @@
 						event.preventDefault();
 
 						$("#fploading").show();
-						$("#fp .btn").addClass("disabled");
+						$("#fp .btn").hide();
 						$.ajax({
-							url : "../../resetpass.php",
+							url : "resetpass.php",
 							type : "POST",
 							data : $("#fp").serialize(),
 							dataType : "json",
@@ -91,7 +91,7 @@
 									failuremessage("Some Error Occured!");
 							}
 							$("#fploading").hide();
-							$("#fp .btn").removeClass("disabled");
+							$("#fp .btn").show();
 						});
 						
 					});
@@ -110,6 +110,7 @@
 
 
 			</div>
+			<!--br/><br/-->
 			<hr/>
 			<p class="alert" style="text-align:center"></p>
 				<script type="text/javascript">

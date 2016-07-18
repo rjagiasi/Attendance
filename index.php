@@ -1,3 +1,3 @@
 <?php
-	header("location: /Attendance/php/");
+	header("location: php/index.php");
 ?>
