@@ -8,4 +8,8 @@
 
 	define("USERNAME", "root");
 
+	define("EMAIL_ID", "");
+
+	define("EMAIL_PASSWORD", "");
+	
 ?>

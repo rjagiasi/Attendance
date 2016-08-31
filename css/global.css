@@ -30,9 +30,9 @@ footer
 	background-color: #555;
 	color: white;
 }
-.sectionbranches{
+/*.sectionbranches{
 	background-color: #f2f2f2;
-}
+}*/
 #content, #loadinggif{
 	width: 81%;
 	float: right;
@@ -53,13 +53,35 @@ footer
 	float:left;
 	display: inline-block;
 }
+#logo_img{
+	height: 120px;
+	width: 70px;
+}
+#login_form{
+	margin-top: 13%;
+}
+#forgot_pass_modal{
+	text-align: center;
+}
+#modal_anchor{
+	padding-left: 50%;
+}
+#register_anchor{
+	display: block;
+	padding-left: 35%;
+}
+#notification{
+	margin: 5% 20%;
+	width: 60%;
+	text-align: center;
+}
 label.error{
 	color:red;
 	float:right;
 }
 #greet{
 	font-size: 20px;
-	text-align: center;
+	display: -webkit-inline-box;
 }
 .content2{
 	text-align: left;

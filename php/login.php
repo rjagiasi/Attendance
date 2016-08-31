@@ -21,9 +21,9 @@
 			// $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			// $url = 
 			// $extra = "staff.php";
-			$_SESSION["uid"] = $result[0]["StaffId"];
-			$_SESSION["name"] = $result[0]["Name"];
-			$_SESSION["username"] = $result[0]["Username"];
+			setcookie("uid", $result[0]["StaffId"], time()+(86400*10),"/");
+			setcookie("name", $result[0]["Name"], time()+(86400*10),"/");
+			setcookie("username", $result[0]["Username"], time()+(86400*10),"/");
 			header("Location: ".explode("?",$_SERVER["HTTP_REFERER"])[0]);
 			// print($_GET["branch"]);
 			// header("Refresh:0");

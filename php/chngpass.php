@@ -3,10 +3,10 @@
 	session_start();
 	require "functions.php";
 
-	if(isset($_SESSION["uid"]))
+	if(isset($_COOKIE["uid"]))
 	{
 		$password = $_POST["oldpass"]; 
-		$res = query("SELECT Salt FROM Staff WHERE StaffId = ".$_SESSION["uid"]);
+		$res = query("SELECT Salt FROM Staff WHERE StaffId = ".$_COOKIE["uid"]);
 		$password = crypt($password, $res[0]["Salt"]);
 		// print_r($res);
 		// echo $password;
@@ -14,7 +14,7 @@
 		{
 			$dbpass = crypt($_POST["pass"]);
 
-			$res = query("UPDATE Staff SET Salt = '$dbpass' WHERE StaffId = ".$_SESSION["uid"]);
+			$res = query("UPDATE Staff SET Salt = '$dbpass' WHERE StaffId = ".$_COOKIE["uid"]);
 			
 			if(gettype($res) == "array")
 				echo json_encode(true);

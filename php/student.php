@@ -1,7 +1,9 @@
 <?php
-	session_start();
+	// session_start();
 
-	require("functions.php");
+	// require("functions.php");
 	
-	render("student.php", ["title" => "Student", "branch" => $_GET["branch"], "class" => $_GET["class"]] );
+	// render("student.php", ["title" => "Student", "branch" => $_GET["branch"], "class" => $_GET["class"]] );
+
+	echo("Doesn't exist");
 ?>

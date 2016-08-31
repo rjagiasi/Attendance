@@ -1,7 +1,7 @@
 <?php
 	session_start();
 
-	if(isset($_SESSION["uid"]))
+	if(isset($_COOKIE["uid"]))
 	{
 		require("functions.php");
 		render("staff.php", ["title" => "Staff"] );
