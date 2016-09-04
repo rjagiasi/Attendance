@@ -4,7 +4,7 @@
 	$(document).ready(function () {
 
 		//set dept dropdown initially
-		function setdepts () {
+		function setdepts (callback) {
 			$("#loadinggif").show();
 			var dept = "<option value=\"\">Select Dept</option>";
 			$.ajax({
@@ -12,47 +12,75 @@
 				dataType : "json",
 			})
 			.done(function (data) {
+				var no=0;
+				
 				for (var i = 0; i < data.length; i++) {
 					dept = dept + "<option value=\"" + data[i].DeptId + "\">"+ data[i].Name + "</option>";
-				};
+				}
+				
 				$("[name=dept]").html(dept);
+				// $("[name=dept]").first().trigger('change');
+				// changedept();
+				callback();
 				$("#loadinggif").hide();
 			});
+			return true;
 		}
 		
+		function changedept(){
+			var no = 0;
+			$("#loadinggif").show();
 
-		var deptdropdown = $("[name=dept]");
+			$("[name=dept] option").each(function() {
+				// alert($(this).html());
+				if($(this).html() == $("#enggbranches .active").parent().attr('id').toUpperCase())
+				{
+					no = $(this).val();
+					return false;
+				}
+			});
+
+			$("[name=dept]").val(no);
+			$("[name=dept]").first().trigger('change');
+
+			$("#loadinggif").hide();
+		}
+		// var deptdropdown = $("[name=dept]");
 
 		//set classes dropdown
 		$("[name=dept]").change(function () {
+
+			$("#loadinggif").show();
 			var listValue = this.value;
-			var dropdownobj = this;
 			var classes = "<option value=\"\">Select Class</option>";
 			var datastring = "dept="+listValue;
-			$("#loadinggif").show();
+			
 			$.ajax({
 					url : "getclasses.php",
 					type : "POST",
 					data : datastring,
 					dataType: "json",
 				})
-				.done(function (data) {
-					for (var i = 0; i < data.length; i++) {
+				.done(function(data) {
+					var no = 0;
+					for (var i = 0; i < data.length; i++) 
+					{
 						classes = classes + "<option value=\"" + data[i].ClassId + "\">"+ data[i].Name + "</option>";
-					};
-					$(dropdownobj).next("[name=classes]").html(classes);
+						if(data[i].Name == $("#enggbranches .active").attr('id').toUpperCase())
+						{
+							no = data[i].ClassId;
+						}
+					}
+					$("[name=classes]").html(classes).val(no);
+					$("[name=classes]").first().trigger('change');
 					$("#loadinggif").hide();
 			});
-			$(dropdownobj).parent().siblings(".content2").hide();
-			$(dropdownobj).parent().siblings(".pagination").hide();
-			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
 		
 		// set subjects dropdown
 		$("[name=classes]").change(function () {
 			
 			var listValue = this.value;
-			var dropdownobj = this;
 			var subjects = "<option value=\"\">Select Subject</option>";
 			var datastring = "class="+listValue;
 			$("#loadinggif").show();
@@ -65,14 +93,11 @@
 				.done(function (data) {
 					for (var i = 0; i < data.length; i++) {
 						subjects = subjects + "<option value=\"" + data[i].SubjectId + "\">"+ data[i].Name + "</option>";
-					};
-					$(dropdownobj).next("[name=subject]").html(subjects);
+					}
+					$("[name=subject]").html(subjects);
 					// alert(classes);
 					$("#loadinggif").hide();
 				});
-			$(dropdownobj).parent().siblings(".content2").hide();
-			$(dropdownobj).parent().siblings(".pagination").hide();
-			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
 		
 		// hide content on subject change
@@ -91,13 +116,20 @@
 		$("#add_attendance").submit(function (event) {
 			event.preventDefault();
 			$("#loadinggif").show();
+
+			var disabledfields = $(this).find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $(this).serialize();
+			disabledfields.attr('disabled', 'disabled');
+			
 			$.ajax({
 				url : "getstudentlist.php",
 				type : "POST",
-				data : $("#add_attendance").serialize(),
+				data : data,
 				dataType: "json",
 			})
 			.done(function (data) {
+				
 				if(data == false){
 					failuremessage("Attendance for the day already exists!");
 				}
@@ -109,7 +141,7 @@
 						table += 
 						"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\" checked/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
 					};
-					table += "</table><input class=\"btn btn-primary\" type=\"submit\" style=\"float:center;\"/></form>";
+					table += "<tr><td><input class=\"btn btn-primary\" type=\"submit\"/></td><td/><td/><td/></tr></table></form>";
 					$("#attendance_form_div .content2").html(table);
 
 					var noofpages = (data.length/itemsperpg)+1;
@@ -124,17 +156,18 @@
 				}
 				$("#loadinggif").hide();
 			});
-});
+		});
 
 		//manage attendance list pagination
 
 		$("#attendance_form_div .pagination").on("click", "a", function (event) {
 			$("#attendance_form_div .content2").show();
 			$("#attendance_form_div .pagination").show();
-			$(".pagination .active").toggleClass("active", false);
-			var parent = $(event.target).parent();
-			parent.addClass("active");
-			var pgno = parent.attr("value");
+			$("#attendance_form_div .pagination .active").toggleClass("active", false);
+			var pgno = $(event.target).parent().val();
+			// alert(pgno);
+			$("#attendance_form_div .pagination li[value="+pgno+"]").addClass("active");
+			// var pgno = parent.attr("value");
 			$("#attendance_form_div .content2 tbody tr").hide();
 			$("#attendance_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
 		});
@@ -167,10 +200,16 @@
 		$("#gen_report").submit(function (event) {
 			event.preventDefault();
 			$("#loadinggif").show();
+
+			var disabledfields = $(this).find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $(this).serialize();
+			disabledfields.attr('disabled', 'disabled');
+
 			$.ajax({
 				url : "getreport.php",
 				type : "POST",
-				data : $("#gen_report").serialize(),
+				data : data,
 				dataType : "json",
 			})
 			.done(function (data) {
@@ -190,8 +229,10 @@
 						table += "<tr>"
 						$.each(data[i], function(key, value) {
 							var per = value.split(" : ")[1];
-							if(per<75)
+							if(per<75 && per>50)
 								table += "<td class = \"defaulter\">"+value+"</td>";
+							else if(per<=50)
+								table += "<td class = \"critical\">"+value+"</td>";
 							else
 								table += "<td>"+value+"</td>";
 						});
@@ -227,10 +268,11 @@
 			$("#report_form_div .content2").show();
 			$("#report_form_div .pagination").show();
 			$("#download_buttons").show();
-			$(".pagination .active").toggleClass("active", false);
-			var parent = $(event.target).parent();
-			parent.addClass("active");
-			var pgno = parent.attr("value");
+			$("#report_form_div .pagination .active").toggleClass("active", false);
+			
+			var pgno = $(event.target).parent().val();
+			$("#report_form_div .pagination li[value="+pgno+"]").addClass("active");
+
 			$("#report_form_div .content2 tbody tr").hide();
 			$("#report_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
 		});
@@ -255,10 +297,16 @@
 		$("#update_attendance").submit(function(event) {
 			event.preventDefault();
 			$("#loadinggif").show();
+
+			var disabledfields = $(this).find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $(this).serialize();
+			disabledfields.attr('disabled', 'disabled');
+
 			$.ajax({
 				url : "fetchdayatt.php",
 				type : "POST",
-				data : $("#update_attendance").serialize(),
+				data : data,
 				dataType : "json",
 			})
 			.done(function (data) {
@@ -282,10 +330,16 @@
 		//toggle attendance
 		$("#update_form_div .content2").on("click", "#change", function(event) {
 			$("#loadinggif").show();
+
+			var disabledfields = $("#update_attendance").find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $("#update_attendance").serialize();
+			disabledfields.attr('disabled', 'disabled');
+
 			$.ajax({
 				url : "update_att.php",
 				type : "POST",
-				data : $("#update_attendance").serialize() + "&" + "currval=" + $("[name=old]").attr("val"),
+				data : data + "&" + "currval=" + $("[name=old]").attr("val"),
 				dataType : "json",
 			})
 			.done(function (data) {
@@ -294,16 +348,10 @@
 			});
 			
 		});
-
-		
 		
 		$.validator.addMethod("confirm_password", function (value, element) {
 			return /(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*/.test(value);
 		}, "At least 1 upper case, lower case or special character, numerical character. Minlength 6");
-
-		
-
-		
 		
 		$("#chngpass_form").validate({
 			// Specify the validation rules
@@ -343,10 +391,14 @@
 		
 
 		//initialize dept dropdown
-		setdepts();
+		// setdepts();
 
-		//show only staff menu
-		$("#staff").collapse("show");
+		setdepts(function () {
+			setactiveclass('<?=$class?>','<?=$branch?>');
+		});
+		
+
+		// $("#staff").collapse("show");
 		$("#download_buttons").hide();
 
 		$("#loadinggif").hide();
@@ -362,7 +414,7 @@
 		//set initial form chosen
 		// $("#content > div").not("#greeting_div").hide();
 
-		setactiveform("<?=$_GET["formid"]?>");
+		// $("#staff").find("#attendance a").first().trigger("click");
 
 		//changing forms in same page
 		$("#staff").find("a").click(function(event) {
@@ -370,36 +422,67 @@
 			setactiveform(id);
 		});
 
+		// setactiveform("attendance");
+		$("#attendance a").first().trigger("click");
+
 		function setactiveform(id){
-			$("#menu .active").toggleClass("active", false);
+			$("#staff .active").toggleClass("active", false);
 			$("#"+id).addClass("active");
 
-			$("#content > div").not("#greeting_div").hide();
+			$("#content > div").not("#greeting_div").not('#staff').hide();
 			$("#"+id+"_form_div").show();
 		}
 		
-		//link to student on click
-		$("#enggbranches").find("a").click(function(event) {
+		
+		$("#enggbranches ul").find("a").click(function(event) {
 			var classid = $(event.target).parent().attr("id");
 			var branchid = $(event.target).parent().parent().attr("id");
-
-			var url="student.php?branch="+branchid+"&class="+classid;
-			$(location).attr("href", url);
+			setactiveclass(classid, branchid);
 		});
+		
+		// changedept();
+		function setactiveclass(classid, branchid) {
+			
+			$("#enggbranches .active").toggleClass("active", false);
+			$("#enggbranches ul").not("#" + branchid).collapse("hide");
+			// $("#" + branchid).collapse("show");
+			$("#" + classid).addClass("active");
+			changedept();
+			$(".content2").hide();
+			$(".pagination").hide();
+			$("#download_buttons").hide();
+			// $("#attendance a").first().trigger("click");
+		}
+
 		// $("#loadinggif").show();
 	});
+	$("#enggbranches ul").collapse("show");
 
 </script>
 		<!-- <div id="content"> -->
+			<!-- <ul class="nav nav-tabs">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#">Menu 1</a></li>
+				<li><a href="#">Menu 2</a></li>
+				<li><a href="#">Menu 3</a></li>
+			</ul> -->
+			<div class="sectionbranches" id="staff" aria-expanded="true">
+				<ul class="nav nav-tabs nav-justified" aria-expanded="true">
+					<li id="attendance"><a>Add Attendance</a></li>
+					<li id="update"><a>Update</a></li>
+					<li id="report"><a>Report</a></li>
+					<li id="chngpass"><a>Change Password</a></li>
+				</ul>
+			</div>
 			<br/>
 			<div id = "report_form_div">
 				<label for="gen_report">For Generating Attendance Status for a particular subject</label>
 				<form class="form-inline" id="gen_report" name="gen_report" action="">
-					<select class="form-control" name="dept" required>
+					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
 						
 					</select>
-					<select class="form-control" name="classes" required>
+					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
 					</select>
 					<select class="form-control" name="subject">
@@ -417,6 +500,9 @@
 				<div class="content2">
 					
 				</div>
+				<ul class="pagination" style="float:center;" >
+
+				</ul>
 				<div id="download_buttons">
 					Download Report as
 					<button type="button" id = "csv" class="btn btn-primary">CSV</button>
@@ -430,11 +516,11 @@
 			<div id="attendance_form_div">
 				<label for="add_attendance">Add attendance</label>
 				<form class="form-inline" id="add_attendance" name="add_attendance" action="">
-					<select class="form-control" name="dept" required>
+					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
 						
 					</select>
-					<select class="form-control" name="classes" required>
+					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
 					</select>
 					<select class="form-control" name="subject" required>
@@ -450,16 +536,19 @@
 				<div class="content2">
 					
 				</div>
+				<ul class="pagination" style="float:center;">
+					
+				</ul>
 			</div>
 
 			<div id="update_form_div">
 				<label for="update_attendance">Update attendance</label>
 				<form class="form-inline" id="update_attendance" name="update_attendance" action="">
-					<select class="form-control" name="dept" required>
+					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
 						
 					</select>
-					<select class="form-control" name="classes" required>
+					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
 					</select>
 					<select class="form-control" name="subject" required>
@@ -473,6 +562,7 @@
 				<div class="content2" style="display:inline-flex;">
 					
 				</div>
+				
 			</div>
 
 			<div id="chngpass_form_div">

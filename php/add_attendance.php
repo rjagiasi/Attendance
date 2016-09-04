@@ -2,8 +2,6 @@
 	require_once 'functions.php';
 	$date = array_pop($_POST);
 	$subjectid = array_pop($_POST);
-	array_pop($_POST);
-	array_pop($_POST);
 	
 	$querystring = "INSERT INTO Record (Date, StudentId, SubjectId, PA) VALUES ";
 

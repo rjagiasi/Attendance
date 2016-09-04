@@ -21,14 +21,24 @@ footer
 	margin: 1%;
 
 }
+#enggbranches li{
+	padding: 1px 0;
+}
+
+#enggbranches{
+	padding: 1px 0;
+}
+#enggbranches ul li{
+	/*background-color: #eb93a8;*/
+}
 #menu .menuheads{
 	text-align: center;
-	color: black;
-	/*background-color: #e6f7ff;*/
+	color: white;
+	background-color: #951b38;
 }
 #menu .menuheads:hover{
-	background-color: #555;
-	color: white;
+	background-color: #ebb812;
+	color: #951b38;
 }
 /*.sectionbranches{
 	background-color: #f2f2f2;
@@ -86,8 +96,11 @@ label.error{
 .content2{
 	text-align: left;
 }
-.defaulter{
+.critical{
 	background-color: #ff6666;
+}
+.defaulter{
+	background-color: #ffd633;
 }
 .glyphicon-sort{
 	float: right;

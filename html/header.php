@@ -46,40 +46,28 @@
 					<li><a class="menuheads" href="index.php">Home</a></li>
 					<?php if(!isset($_COOKIE["uid"])): ?>
 						<li><a class="menuheads" href="register_page.php">Register</a></li>
-					<?php endif ?>
-					<li><a class="menuheads">MCA</a></li>
-					<li><a class="menuheads">Diploma</a></li>
-					<!-- <li><a data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed" aria-expanded="false">Engineering</a></li> -->
+					<?php else : ?>
+					<!-- <li><a class="menuheads">MCA</a></li>
+					<li><a class="menuheads">Diploma</a></li> -->
+					<!-- <li><a data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed">Engineering</a></li> -->
 					<ul class="nav nav-pills nav-stacked" id="enggbranches">
-						<li data-toggle="collapse" data-target="#it" id="itheader" aria-expanded="false"><a class="menuheads">IT</a></li>
-						<ul id="it" class="nav nav-pills nav-stacked collapse" aria-expanded="false">
+						<li data-toggle="collapse" data-target="#it" id="itheader"><a class="menuheads">IT</a></li>
+						<ul id="it" class="nav nav-pills nav-stacked collapse">
 							<li id="D10"><a>D10</a></li>
 							<li id="D15"><a>D15</a></li>
 						</ul>
-						<li data-toggle="collapse" data-target="#comps" id="compsheader" aria-expanded="false"><a class="menuheads">Comps</a></li>
-						<ul id="comps" class="nav nav-pills nav-stacked collapse" aria-expanded="false">
+						<li data-toggle="collapse" data-target="#comps" id="compsheader"><a class="menuheads">Comps</a></li>
+						<ul id="comps" class="nav nav-pills nav-stacked collapse">
 							<li id="D7A"><a>D7A</a></li>
 							<li id="D7B"><a>D7B</a></li>
 						</ul>
-						<li data-toggle="collapse" data-target="#extc" id="extcheader" aria-expanded="false"><a class="menuheads">EXTC</a></li>
-						<ul id="extc" class="nav nav-pills nav-stacked collapse" aria-expanded="false">
+						<li data-toggle="collapse" data-target="#extc" id="extcheader"><a class="menuheads">EXTC</a></li>
+						<ul id="extc" class="nav nav-pills nav-stacked collapse">
 							<li id="D9A"><a>D9A</a></li>
 							<li id="D9B"><a>D9B</a></li>
 						</ul>
 					</ul>
-
-					<?php if(isset($_COOKIE["uid"])): ?>
-					<li><a data-toggle="collapse" data-target="#staff" class="menuheads collapsed" aria-expanded="false">Staff</a></li>
-					<div class="sectionbranches collapse" id="staff" aria-expanded="false" style="height:0px;">
-						<ul class="nav nav-pills nav-stacked collapse in" aria-expanded="true">
-							<li id="attendance"><a>Add Attendance</a></li>
-							<li id="update"><a>Update</a></li>
-							<li id="report"><a>Report</a></li>
-							<li id="chngpass"><a>Change Password</a></li>
-						</ul>
-					</div>
 					<?php endif ?>
-					
 				</ul>
 			</div>
 			<div id="content">
