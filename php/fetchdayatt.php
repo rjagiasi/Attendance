@@ -4,6 +4,11 @@
 	$classid = $_POST["classes"];
 	$roll = $_POST["roll"];
 	$subject = $_POST["subject"];
+
+	if(strpos($subject, "_") == true)
+		$subject = explode("_", $subject)[1];
+		
+
 	$date = $_POST["date"];
 	$studid = query("Select StudentId, Name From Student Where ClassId = $classid AND RollNo = $roll");
 

@@ -404,9 +404,12 @@
 		$("#loadinggif").hide();
 		//use jquery datepicker if browser doesn't support date type
 		if ( $('[type="date"]').prop('type') != 'date' ) {
-			$('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd' });
+			$('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd', maxDate:0});
 		}
-		
+
+		var date = new Date();
+		$('[type="date"]').attr('max', date.toISOString().substring(0,10));
+
 		$("#roll").change(function(event) {
 			$(this).parent().siblings(".content2").hide();
 		});

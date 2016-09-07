@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 18, 2016 at 04:07 PM
--- Server version: 5.6.30-0ubuntu0.15.10.1
+-- Generation Time: Sep 07, 2016 at 12:53 PM
+-- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -121,6 +121,44 @@ CREATE TABLE IF NOT EXISTS `Department` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Labs`
+--
+
+CREATE TABLE IF NOT EXISTS `Labs` (
+  `LabId` int(10) NOT NULL,
+  `SubjectId` int(10) NOT NULL,
+  `BatchId` int(1) NOT NULL,
+  `StaffId` int(10) NOT NULL,
+  `Days` bit(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LabStudent`
+--
+
+CREATE TABLE IF NOT EXISTS `LabStudent` (
+  `SubjectId` int(10) NOT NULL,
+  `LabId` int(10) NOT NULL,
+  `StudentId` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Lectures`
+--
+
+CREATE TABLE IF NOT EXISTS `Lectures` (
+  `SubjectId` int(10) NOT NULL,
+  `StaffId` int(10) NOT NULL,
+  `Days` bit(6) NOT NULL DEFAULT b'0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `NOL`
 --
 CREATE TABLE IF NOT EXISTS `NOL` (
@@ -182,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `Subjects` (
   `SubjectId` int(10) NOT NULL,
   `Name` varchar(20) NOT NULL,
   `ClassId` int(10) NOT NULL,
-  `StaffId` int(10) NOT NULL
+  `LectorLab` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -212,12 +250,35 @@ ALTER TABLE `Department`
   ADD PRIMARY KEY (`DeptId`);
 
 --
+-- Indexes for table `Labs`
+--
+ALTER TABLE `Labs`
+  ADD PRIMARY KEY (`LabId`),
+  ADD UNIQUE KEY `SubjectId` (`SubjectId`,`BatchId`),
+  ADD KEY `StaffId` (`StaffId`);
+
+--
+-- Indexes for table `LabStudent`
+--
+ALTER TABLE `LabStudent`
+  ADD UNIQUE KEY `SubjectId` (`SubjectId`,`StudentId`),
+  ADD KEY `StudentId` (`StudentId`),
+  ADD KEY `LabId` (`LabId`);
+
+--
+-- Indexes for table `Lectures`
+--
+ALTER TABLE `Lectures`
+  ADD UNIQUE KEY `SubjectId` (`SubjectId`),
+  ADD KEY `ClassId` (`StaffId`);
+
+--
 -- Indexes for table `Record`
 --
 ALTER TABLE `Record`
   ADD PRIMARY KEY (`Date`,`StudentId`,`SubjectId`),
   ADD KEY `StudentId` (`StudentId`,`SubjectId`),
-  ADD KEY `SubjectId` (`SubjectId`);
+  ADD KEY `Record_ibfk_2` (`SubjectId`);
 
 --
 -- Indexes for table `Staff`
@@ -239,8 +300,8 @@ ALTER TABLE `Student`
 --
 ALTER TABLE `Subjects`
   ADD PRIMARY KEY (`SubjectId`),
-  ADD KEY `ClassId` (`ClassId`),
-  ADD KEY `StaffId` (`StaffId`);
+  ADD UNIQUE KEY `Name` (`Name`),
+  ADD KEY `ClassId` (`ClassId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -256,6 +317,11 @@ ALTER TABLE `Class`
 --
 ALTER TABLE `Department`
   MODIFY `DeptId` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `Labs`
+--
+ALTER TABLE `Labs`
+  MODIFY `LabId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `Staff`
 --
@@ -282,11 +348,33 @@ ALTER TABLE `Class`
   ADD CONSTRAINT `Class_ibfk_1` FOREIGN KEY (`DeptId`) REFERENCES `Department` (`DeptId`);
 
 --
+-- Constraints for table `Labs`
+--
+ALTER TABLE `Labs`
+  ADD CONSTRAINT `Labs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Labs_ibfk_2` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
+
+--
+-- Constraints for table `LabStudent`
+--
+ALTER TABLE `LabStudent`
+  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`StudentId`) REFERENCES `Student` (`StudentId`),
+  ADD CONSTRAINT `LabStudent_ibfk_3` FOREIGN KEY (`LabId`) REFERENCES `Labs` (`LabId`),
+  ADD CONSTRAINT `LabStudent_ibfk_4` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`);
+
+--
+-- Constraints for table `Lectures`
+--
+ALTER TABLE `Lectures`
+  ADD CONSTRAINT `Lectures_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Lectures_ibfk_3` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
+
+--
 -- Constraints for table `Record`
 --
 ALTER TABLE `Record`
-  ADD CONSTRAINT `Record_ibfk_1` FOREIGN KEY (`StudentId`) REFERENCES `Student` (`StudentId`),
-  ADD CONSTRAINT `Record_ibfk_2` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`);
+  ADD CONSTRAINT `Record_ibfk_1` FOREIGN KEY (`StudentId`) REFERENCES `Student` (`StudentId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Record_ibfk_2` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Student`
@@ -298,8 +386,7 @@ ALTER TABLE `Student`
 -- Constraints for table `Subjects`
 --
 ALTER TABLE `Subjects`
-  ADD CONSTRAINT `Subjects_ibfk_1` FOREIGN KEY (`ClassId`) REFERENCES `Class` (`ClassId`),
-  ADD CONSTRAINT `Subjects_ibfk_2` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
+  ADD CONSTRAINT `Subjects_ibfk_1` FOREIGN KEY (`ClassId`) REFERENCES `Class` (`ClassId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
