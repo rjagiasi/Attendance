@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 07, 2016 at 12:53 PM
+-- Generation Time: Sep 10, 2016 at 09:08 PM
 -- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -98,6 +98,19 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Cancelled`
+--
+
+CREATE TABLE IF NOT EXISTS `Cancelled` (
+  `StaffId` int(10) NOT NULL,
+  `SubjectId` int(10) NOT NULL,
+  `Date` date NOT NULL,
+  `Reason` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Class`
 --
 
@@ -139,8 +152,8 @@ CREATE TABLE IF NOT EXISTS `Labs` (
 --
 
 CREATE TABLE IF NOT EXISTS `LabStudent` (
-  `SubjectId` int(10) NOT NULL,
-  `LabId` int(10) NOT NULL,
+  `ClassId` int(10) NOT NULL,
+  `BatchId` int(1) NOT NULL,
   `StudentId` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -167,6 +180,18 @@ CREATE TABLE IF NOT EXISTS `NOL` (
 ,`SubjectId` int(10)
 ,`nooflect` bigint(21)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Notifs`
+--
+
+CREATE TABLE IF NOT EXISTS `Notifs` (
+  `SubjectId` int(10) NOT NULL,
+  `DateMissed` date NOT NULL,
+  `StaffId` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -237,6 +262,13 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 
 --
+-- Indexes for table `Cancelled`
+--
+ALTER TABLE `Cancelled`
+  ADD UNIQUE KEY `StaffId` (`StaffId`,`SubjectId`,`Date`),
+  ADD KEY `SubjectId` (`SubjectId`);
+
+--
 -- Indexes for table `Class`
 --
 ALTER TABLE `Class`
@@ -261,9 +293,9 @@ ALTER TABLE `Labs`
 -- Indexes for table `LabStudent`
 --
 ALTER TABLE `LabStudent`
-  ADD UNIQUE KEY `SubjectId` (`SubjectId`,`StudentId`),
+  ADD UNIQUE KEY `SubjectId` (`ClassId`,`StudentId`),
   ADD KEY `StudentId` (`StudentId`),
-  ADD KEY `LabId` (`LabId`);
+  ADD KEY `LabId` (`BatchId`);
 
 --
 -- Indexes for table `Lectures`
@@ -271,6 +303,13 @@ ALTER TABLE `LabStudent`
 ALTER TABLE `Lectures`
   ADD UNIQUE KEY `SubjectId` (`SubjectId`),
   ADD KEY `ClassId` (`StaffId`);
+
+--
+-- Indexes for table `Notifs`
+--
+ALTER TABLE `Notifs`
+  ADD UNIQUE KEY `SubjectId_2` (`SubjectId`,`DateMissed`,`StaffId`),
+  ADD KEY `StaffId` (`StaffId`);
 
 --
 -- Indexes for table `Record`
@@ -342,6 +381,13 @@ ALTER TABLE `Subjects`
 --
 
 --
+-- Constraints for table `Cancelled`
+--
+ALTER TABLE `Cancelled`
+  ADD CONSTRAINT `Cancelled_ibfk_1` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`),
+  ADD CONSTRAINT `Cancelled_ibfk_2` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`);
+
+--
 -- Constraints for table `Class`
 --
 ALTER TABLE `Class`
@@ -358,9 +404,7 @@ ALTER TABLE `Labs`
 -- Constraints for table `LabStudent`
 --
 ALTER TABLE `LabStudent`
-  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`StudentId`) REFERENCES `Student` (`StudentId`),
-  ADD CONSTRAINT `LabStudent_ibfk_3` FOREIGN KEY (`LabId`) REFERENCES `Labs` (`LabId`),
-  ADD CONSTRAINT `LabStudent_ibfk_4` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`);
+  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`ClassId`) REFERENCES `Class` (`ClassId`);
 
 --
 -- Constraints for table `Lectures`
@@ -368,6 +412,13 @@ ALTER TABLE `LabStudent`
 ALTER TABLE `Lectures`
   ADD CONSTRAINT `Lectures_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
   ADD CONSTRAINT `Lectures_ibfk_3` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
+
+--
+-- Constraints for table `Notifs`
+--
+ALTER TABLE `Notifs`
+  ADD CONSTRAINT `Notifs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Notifs_ibfk_2` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
 
 --
 -- Constraints for table `Record`

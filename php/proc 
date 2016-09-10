@@ -53,3 +53,36 @@ COUNT(CASE WHEN Record.PA = 0x00 then 1 ELSE NULL END) as "Abs"
            AND Record.Date BETWEEN startDate AND endDate))) 
  group by `Attendance`.`Record`.`SubjectId`,`Attendance`.`Record`.`StudentId`)
  ORDER BY RollNo, SubjectId ASC
+
+
+--cursor demo
+DELIMITER $$
+CREATE PROCEDURE curdemo()
+BEGIN
+  DECLARE done INT DEFAULT FALSE;
+  DECLARE a CHAR(16);
+  DECLARE b, c INT;
+  DECLARE cur1 CURSOR FOR SELECT Subjectid,Name FROM Subjects;
+  DECLARE cur2 CURSOR FOR SELECT StaffId FROM Staff;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+  OPEN cur1;
+  OPEN cur2;
+
+  read_loop: LOOP
+    FETCH cur1 INTO a, b;
+    FETCH cur2 INTO c;
+    IF done THEN
+      LEAVE read_loop;
+    END IF;
+    IF b < c THEN
+      INSERT INTO test.t3 VALUES (a,b);
+    ELSE
+      INSERT INTO test.t3 VALUES (a,c);
+    END IF;
+  END LOOP;
+
+  CLOSE cur1;
+  CLOSE cur2;
+END$$
+DELIMITER

@@ -49,10 +49,16 @@ footer
 	margin: 1%;
 	/*overflow: auto;*/
 }
-#report_form_div, #attendance_form_div, #update_form_div{
+#report_form_div, #attendance_form_div, #update_form_div, #lectcancel_form_div{
 	float: center;
 	text-align: center;
 }
+.datacell{
+	min-width: 70px;
+}
+/*table{
+	table-layout: fixed;
+}*/
 #heading{
 	text-align: center;
 	display: initial;

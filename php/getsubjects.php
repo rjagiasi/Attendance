@@ -6,14 +6,14 @@
 	$querystring = "Select SubjectId, Name from Subjects where ClassId = '$class' and SubjectId in (Select SubjectId from Lectures where StaffId = '$sid')";
 	$result = query($querystring);
 	
-	$qs2 = "Select l.LabId, l.SubjectId, l.BatchId, s.Name from Labs as l, Subjects as s where s.ClassId = '$class' and s.SubjectId = l.SubjectId and l.StaffId = '$sid'";
+	$qs2 = "Select l.SubjectId, l.BatchId, s.Name from Labs as l, Subjects as s where s.ClassId = '$class' and s.SubjectId = l.SubjectId and l.StaffId = '$sid'";
 	$res2 = query($qs2);
 	// print_r($res2);
 
 	$i = sizeof($result);
 
 	foreach ($res2 as $key => $value) {
-		$result[$i]["SubjectId"] = $value["LabId"]."_".$value["SubjectId"];
+		$result[$i]["SubjectId"] = $value["BatchId"]."_".$value["SubjectId"];
 		$result[$i]["Name"] = $value["Name"]." ".(chr($value["BatchId"]+ord('A')-1));
 		$i++;
 	}

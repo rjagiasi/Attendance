@@ -99,10 +99,34 @@
 				</script>
 			<?php else:?>
 
-			<div class="alert alert-danger" id="notification">
-				<strong>Danger!</strong> Indicates a dangerous or potentially negative action. ydasgykudgyuagsdfykugsykuagkuadgeykwaeyu
+			<div class="alert alert-info" id="notification">
+				
 			</div>
-
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$("#loadinggif").show();
+					$.ajax({
+						url: 'getnotifs.php',
+						dataType: 'json',
+					})
+					.done(function(data) {
+						var notif;
+						if(data == false)
+							notif = "<strong>All up to date! Good Job!</strong><br/>";
+						else
+						{	
+							notif = "<strong>Data not yet added!</strong><br/>";
+							for (var i = 0; i < data.length; i++) {
+								notif += "<strong>"+data[i]["Name"]+"</strong> - "+data[i]["DateMissed"] + "<br/>";
+							};
+						}
+						// alert(notif);
+						$("#notification").html(notif);
+						$("#loadinggif").hide();
+					});
+					
+				});
+			</script>
 		<?php endif ?>
 				
 		

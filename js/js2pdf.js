@@ -1,5 +1,6 @@
 function converttopdf() {
-  var pdf = new jsPDF('p', 'pt', 'ledger');
+  var pdf = new jsPDF('l', 'pt', 'a4');
+
   // source can be HTML-formatted string, or a reference
   // to an actual DOM element from which the text will be scraped.
   source = $('#report_form_div .content2')[0];
@@ -16,9 +17,9 @@ function converttopdf() {
         }
       };
       margins = {
-        top : 80,
-        bottom : 60,
-        left : 60,
+        top : 50,
+        bottom : 50,
+        left : 30,
         width : 522
       };
   // all coords and widths are in jsPDF instance's declared units
@@ -27,7 +28,8 @@ function converttopdf() {
   margins.left, // x coord
   margins.top, { // y coord
       'width' : margins.width, // max width of content on PDF
-      'elementHandlers' : specialElementHandlers
+      'elementHandlers' : specialElementHandlers,
+
     },
 
     function(dispose) {

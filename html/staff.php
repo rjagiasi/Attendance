@@ -204,6 +204,7 @@
 			var disabledfields = $(this).find(':input:disabled');
 			disabledfields.removeAttr('disabled');
 			var data = $(this).serialize();
+			// alert($(this).find("select,textarea, input").serialize());
 			disabledfields.attr('disabled', 'disabled');
 
 			$.ajax({
@@ -213,13 +214,13 @@
 				dataType : "json",
 			})
 			.done(function (data) {
-				if(data == null)
+				if(data == false)
 					failuremessage("Some Error Occured!");
 				else
 				{
-					table = "<table class = \"table table-striped tablesorter\" id=\"generated_report\"><thead><tr>";
+					table = "<div class = \"table-responsive\"><table class = \"table table-striped\" id=\"generated_report\"><thead><tr>";
 					$.each(data[0], function(key, value) {
-						table += "<th>"+key+"<span class=\"glyphicon glyphicon-sort\"></th>";
+						table += "<th class = \"datacell\">"+key+"</th>";	//<span class=\"glyphicon glyphicon-sort\">
 					});
 
 
@@ -238,7 +239,7 @@
 						});
 						table += "</tr>"
 					};
-					table += "</tbody></table>";
+					table += "</tbody></table></div>";
 
 					var noofpages = (data.length/itemsperpg)+1;
 					// alert(noofpages);
@@ -252,10 +253,10 @@
 					// $("#report_form_div .content2").show();
 					
 					$("#report_form_div .pagination a").first().trigger("click");
-					$(".tablesorter").tablesorter().bind("sortEnd", function () {
-					$(this).parent().siblings(".pagination").find(".active a").trigger("click");
-						// alert(id);
-					});
+					// $(".tablesorter").tablesorter().bind("sortEnd", function () {
+					// 	$(this).parent().siblings(".pagination").find(".active a").trigger("click");
+					// 	// alert(id);
+					// });
 
 				}
 				$("#loadinggif").hide();
@@ -311,7 +312,7 @@
 			})
 			.done(function (data) {
 				if(data == "false"){
-					failuremessage("Attendance data does not exist!");
+					failuremessage("Attendance data not found!");
 					$("#update_form_div .content2").hide();
 				}
 				else
@@ -389,6 +390,34 @@
 		});
 
 		
+
+		$("#cancel_form").submit(function(event) {
+			event.preventDefault();
+
+			var disabledfields = $(this).find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $(this).serialize();
+			disabledfields.attr('disabled', 'disabled');
+
+			$("#loadinggif").show();
+
+			$.ajax({
+				url: 'cancel.php',
+				type: 'POST',
+				dataType: 'json',
+				data: data,
+			})
+			.done(function(data) {
+				if(data == false)
+					failuremessage("Some Error Occured");
+				else if(data == true)
+					successmessage("Lecture Cancelled");
+				$("#loadinggif").hide();
+			});
+			
+
+			// $("#loadinggif").hide();
+		});
 
 		//initialize dept dropdown
 		// setdepts();
@@ -473,11 +502,31 @@
 				<ul class="nav nav-tabs nav-justified" aria-expanded="true">
 					<li id="attendance"><a>Add Attendance</a></li>
 					<li id="update"><a>Update</a></li>
+					<li id="lectcancel"><a>Cancelled</a></li>
 					<li id="report"><a>Report</a></li>
 					<li id="chngpass"><a>Change Password</a></li>
 				</ul>
 			</div>
 			<br/>
+			<div id = "lectcancel_form_div">
+				<label for="cancel_form">Lecture Cancelled</label>
+				<form class="form-inline" id="cancel_form" name="cancel_form">
+					<select class="form-control" name="dept" required disabled>
+						<option value="">Select Dept</option>
+						
+					</select>
+					<select class="form-control" name="classes" required disabled>
+						<option value="">Select Class</option>
+					</select>
+					<select class="form-control" name="subject" required>
+						<option value="">Select Subject</option>
+					</select>
+					<input type="date" class="form-control" name="date" required/>
+					<br/><br/>
+					<input type="text" class="form-control" maxlength="255" name="reason" required></input>
+					<button class="btn btn-primary" id="cancel_button" type="submit">Cancel</button>
+				</form>
+			</div>
 			<div id = "report_form_div">
 				<label for="gen_report">For Generating Attendance Status for a particular subject</label>
 				<form class="form-inline" id="gen_report" name="gen_report" action="">

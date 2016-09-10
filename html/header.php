@@ -11,7 +11,7 @@
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.validate.min.js"></script>
 		<script src="../js/jquery-ui.min.js"></script>
-		<script src="../js/jquery.tablesorter.min.js"></script>
+		<!--script src="../js/jquery.tablesorter.min.js"></script-->
 		<script src="../js/tableExport.js"></script>
 		<script src="../js/jquery.base64.js"></script>
 		<script src="../js/jspdf.debug.js"></script>

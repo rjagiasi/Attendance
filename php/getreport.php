@@ -7,7 +7,20 @@
 	$startdate = $_POST["startdate"];
 	$enddate = $_POST["enddate"];
 
-	$studentnames = query("SELECT RollNo, Name FROM Student Where ClassId = $class ORDER BY RollNo");
+	if(strpos($sub, "_") == true){
+		$temp = explode("_", $sub);
+		$sub = $temp[1];
+		$batchid = $temp[0];
+		$studentnames = query("SELECT RollNo, Name FROM Student Where ClassId = $class and StudentId in (SELECT StudentId from LabStudent Where BatchId = '$batchid' and ClassId = '$class') ORDER BY RollNo");
+	}
+	else
+		$studentnames = query("SELECT RollNo, Name FROM Student Where ClassId = $class ORDER BY RollNo");
+
+	if(empty($studentnames))
+	{
+		echo json_encode(false);
+		return;
+	}
 
 	// $students = query("SELECT RollNo, Name FROM Student Where ClassId = '$class'");
 	if(empty($sub))
@@ -35,7 +48,7 @@
 		$p = 0;
 		
 		foreach ($subjectnames as $key => $value) {
-			if ($res[$j]["RollNo"] != $studentnames[$i]["RollNo"]) {
+			if ($res[$j]["SubjectId"] != $value["SubjectId"]) {
 				$studentnames[$i][$value["Name"]] = "0/0 : 0";
 				// $j++;
 			}

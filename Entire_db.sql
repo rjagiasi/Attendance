@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 07, 2016 at 12:52 PM
+-- Generation Time: Sep 10, 2016 at 09:06 PM
 -- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -98,6 +98,28 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Cancelled`
+--
+
+CREATE TABLE IF NOT EXISTS `Cancelled` (
+  `StaffId` int(10) NOT NULL,
+  `SubjectId` int(10) NOT NULL,
+  `Date` date NOT NULL,
+  `Reason` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Cancelled`
+--
+
+INSERT INTO `Cancelled` (`StaffId`, `SubjectId`, `Date`, `Reason`) VALUES
+(2, 4, '2016-09-08', 'Test'),
+(2, 5, '2016-09-08', 'yfdsgfk'),
+(2, 14, '2016-09-08', '97t87yh');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Class`
 --
 
@@ -152,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `Labs` (
   `BatchId` int(1) NOT NULL,
   `StaffId` int(10) NOT NULL,
   `Days` bit(6) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Labs`
@@ -163,7 +185,11 @@ INSERT INTO `Labs` (`LabId`, `SubjectId`, `BatchId`, `StaffId`, `Days`) VALUES
 (2, 13, 2, 2, b'010000'),
 (3, 13, 3, 3, b'000100'),
 (4, 14, 1, 2, b'000010'),
-(5, 14, 3, 2, b'100000');
+(5, 14, 3, 2, b'100000'),
+(6, 15, 1, 2, b'000001'),
+(7, 15, 2, 3, b'100000'),
+(8, 16, 1, 2, b'000001'),
+(9, 17, 2, 2, b'100000');
 
 -- --------------------------------------------------------
 
@@ -172,8 +198,8 @@ INSERT INTO `Labs` (`LabId`, `SubjectId`, `BatchId`, `StaffId`, `Days`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `LabStudent` (
-  `SubjectId` int(10) NOT NULL,
-  `LabId` int(10) NOT NULL,
+  `ClassId` int(10) NOT NULL,
+  `BatchId` int(1) NOT NULL,
   `StudentId` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -181,16 +207,16 @@ CREATE TABLE IF NOT EXISTS `LabStudent` (
 -- Dumping data for table `LabStudent`
 --
 
-INSERT INTO `LabStudent` (`SubjectId`, `LabId`, `StudentId`) VALUES
-(13, 1, 79),
-(13, 1, 80),
-(13, 1, 81),
-(13, 1, 82),
-(13, 2, 83),
-(13, 2, 84),
-(13, 3, 85),
-(13, 3, 86),
-(13, 3, 87);
+INSERT INTO `LabStudent` (`ClassId`, `BatchId`, `StudentId`) VALUES
+(1, 1, 79),
+(1, 1, 80),
+(1, 1, 81),
+(1, 1, 82),
+(1, 2, 83),
+(1, 2, 84),
+(1, 3, 85),
+(1, 3, 86),
+(1, 3, 87);
 
 -- --------------------------------------------------------
 
@@ -225,6 +251,18 @@ CREATE TABLE IF NOT EXISTS `NOL` (
 ,`SubjectId` int(10)
 ,`nooflect` bigint(21)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Notifs`
+--
+
+CREATE TABLE IF NOT EXISTS `Notifs` (
+  `SubjectId` int(10) NOT NULL,
+  `DateMissed` date NOT NULL,
+  `StaffId` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -4080,7 +4118,7 @@ INSERT INTO `Record` (`Date`, `StudentId`, `SubjectId`, `PA`) VALUES
 ('2016-09-02', 82, 1, b'0'),
 ('2016-09-02', 82, 13, b'0'),
 ('2016-09-02', 83, 1, b'1'),
-('2016-09-02', 83, 13, b'1'),
+('2016-09-02', 83, 13, b'0'),
 ('2016-09-02', 84, 1, b'1'),
 ('2016-09-02', 84, 13, b'0'),
 ('2016-09-02', 85, 1, b'1'),
@@ -4248,7 +4286,9 @@ INSERT INTO `Record` (`Date`, `StudentId`, `SubjectId`, `PA`) VALUES
 ('2016-09-05', 81, 2, b'0'),
 ('2016-09-05', 82, 2, b'1'),
 ('2016-09-05', 83, 2, b'1'),
+('2016-09-05', 83, 15, b'1'),
 ('2016-09-05', 84, 2, b'1'),
+('2016-09-05', 84, 15, b'1'),
 ('2016-09-05', 85, 2, b'1'),
 ('2016-09-05', 85, 13, b'1'),
 ('2016-09-05', 86, 2, b'1'),
@@ -4324,12 +4364,187 @@ INSERT INTO `Record` (`Date`, `StudentId`, `SubjectId`, `PA`) VALUES
 ('2016-09-05', 154, 2, b'0'),
 ('2016-09-05', 155, 2, b'1'),
 ('2016-09-05', 156, 2, b'0'),
+('2016-09-07', 79, 15, b'1'),
+('2016-09-07', 80, 15, b'0'),
+('2016-09-07', 81, 15, b'0'),
+('2016-09-07', 82, 15, b'1'),
+('2016-09-07', 83, 17, b'1'),
+('2016-09-07', 84, 17, b'1'),
+('2016-09-08', 79, 1, b'1'),
+('2016-09-08', 79, 2, b'1'),
+('2016-09-08', 79, 15, b'1'),
+('2016-09-08', 80, 1, b'1'),
+('2016-09-08', 80, 2, b'1'),
+('2016-09-08', 80, 15, b'0'),
+('2016-09-08', 81, 1, b'1'),
+('2016-09-08', 81, 2, b'1'),
+('2016-09-08', 81, 15, b'1'),
+('2016-09-08', 82, 1, b'1'),
+('2016-09-08', 82, 2, b'1'),
+('2016-09-08', 82, 15, b'0'),
+('2016-09-08', 83, 1, b'1'),
+('2016-09-08', 83, 2, b'1'),
+('2016-09-08', 83, 15, b'1'),
+('2016-09-08', 83, 17, b'1'),
+('2016-09-08', 84, 1, b'1'),
+('2016-09-08', 84, 2, b'1'),
+('2016-09-08', 84, 15, b'0'),
+('2016-09-08', 84, 17, b'1'),
+('2016-09-08', 85, 1, b'1'),
+('2016-09-08', 85, 2, b'0'),
+('2016-09-08', 85, 13, b'1'),
+('2016-09-08', 86, 1, b'1'),
+('2016-09-08', 86, 2, b'1'),
+('2016-09-08', 86, 13, b'0'),
+('2016-09-08', 87, 1, b'1'),
+('2016-09-08', 87, 2, b'1'),
+('2016-09-08', 87, 13, b'0'),
+('2016-09-08', 88, 1, b'1'),
+('2016-09-08', 88, 2, b'0'),
+('2016-09-08', 89, 1, b'1'),
+('2016-09-08', 89, 2, b'1'),
+('2016-09-08', 90, 1, b'1'),
+('2016-09-08', 90, 2, b'1'),
+('2016-09-08', 91, 1, b'1'),
+('2016-09-08', 91, 2, b'1'),
+('2016-09-08', 92, 1, b'1'),
+('2016-09-08', 92, 2, b'1'),
+('2016-09-08', 93, 1, b'1'),
+('2016-09-08', 93, 2, b'0'),
+('2016-09-08', 94, 1, b'1'),
+('2016-09-08', 94, 2, b'1'),
+('2016-09-08', 95, 1, b'1'),
+('2016-09-08', 95, 2, b'1'),
+('2016-09-08', 96, 1, b'1'),
+('2016-09-08', 96, 2, b'1'),
+('2016-09-08', 97, 1, b'1'),
+('2016-09-08', 97, 2, b'1'),
+('2016-09-08', 98, 1, b'1'),
+('2016-09-08', 98, 2, b'0'),
+('2016-09-08', 99, 1, b'1'),
+('2016-09-08', 99, 2, b'1'),
+('2016-09-08', 100, 1, b'1'),
+('2016-09-08', 100, 2, b'0'),
+('2016-09-08', 101, 1, b'1'),
+('2016-09-08', 101, 2, b'1'),
+('2016-09-08', 102, 1, b'1'),
+('2016-09-08', 102, 2, b'1'),
+('2016-09-08', 103, 1, b'1'),
+('2016-09-08', 103, 2, b'0'),
+('2016-09-08', 104, 1, b'1'),
+('2016-09-08', 104, 2, b'0'),
+('2016-09-08', 105, 1, b'1'),
+('2016-09-08', 105, 2, b'1'),
+('2016-09-08', 106, 1, b'1'),
+('2016-09-08', 106, 2, b'1'),
+('2016-09-08', 107, 1, b'1'),
+('2016-09-08', 107, 2, b'1'),
+('2016-09-08', 108, 1, b'1'),
+('2016-09-08', 108, 2, b'0'),
+('2016-09-08', 109, 1, b'1'),
+('2016-09-08', 109, 2, b'1'),
+('2016-09-08', 110, 1, b'1'),
+('2016-09-08', 110, 2, b'1'),
+('2016-09-08', 111, 1, b'1'),
+('2016-09-08', 111, 2, b'1'),
+('2016-09-08', 112, 1, b'1'),
+('2016-09-08', 112, 2, b'1'),
+('2016-09-08', 113, 1, b'1'),
+('2016-09-08', 113, 2, b'1'),
+('2016-09-08', 114, 1, b'1'),
+('2016-09-08', 114, 2, b'0'),
+('2016-09-08', 115, 1, b'1'),
+('2016-09-08', 115, 2, b'1'),
+('2016-09-08', 116, 1, b'1'),
+('2016-09-08', 116, 2, b'1'),
+('2016-09-08', 117, 1, b'1'),
+('2016-09-08', 117, 2, b'0'),
+('2016-09-08', 118, 1, b'1'),
+('2016-09-08', 118, 2, b'1'),
+('2016-09-08', 119, 1, b'1'),
+('2016-09-08', 119, 2, b'0'),
+('2016-09-08', 120, 1, b'1'),
+('2016-09-08', 120, 2, b'1'),
+('2016-09-08', 121, 1, b'1'),
+('2016-09-08', 121, 2, b'1'),
+('2016-09-08', 122, 1, b'1'),
+('2016-09-08', 122, 2, b'1'),
+('2016-09-08', 123, 1, b'1'),
+('2016-09-08', 123, 2, b'0'),
+('2016-09-08', 124, 1, b'1'),
+('2016-09-08', 124, 2, b'1'),
+('2016-09-08', 125, 1, b'1'),
+('2016-09-08', 125, 2, b'1'),
+('2016-09-08', 126, 1, b'1'),
+('2016-09-08', 126, 2, b'1'),
+('2016-09-08', 127, 1, b'1'),
+('2016-09-08', 127, 2, b'1'),
+('2016-09-08', 128, 1, b'1'),
+('2016-09-08', 128, 2, b'1'),
+('2016-09-08', 129, 1, b'1'),
+('2016-09-08', 129, 2, b'1'),
+('2016-09-08', 130, 1, b'1'),
+('2016-09-08', 130, 2, b'1'),
+('2016-09-08', 131, 1, b'1'),
+('2016-09-08', 131, 2, b'1'),
+('2016-09-08', 132, 1, b'1'),
+('2016-09-08', 132, 2, b'1'),
+('2016-09-08', 133, 1, b'1'),
+('2016-09-08', 133, 2, b'1'),
+('2016-09-08', 134, 1, b'1'),
+('2016-09-08', 134, 2, b'1'),
+('2016-09-08', 135, 1, b'1'),
+('2016-09-08', 135, 2, b'1'),
+('2016-09-08', 136, 1, b'1'),
+('2016-09-08', 136, 2, b'1'),
+('2016-09-08', 137, 1, b'1'),
+('2016-09-08', 137, 2, b'1'),
+('2016-09-08', 138, 1, b'1'),
+('2016-09-08', 138, 2, b'1'),
+('2016-09-08', 139, 1, b'1'),
+('2016-09-08', 139, 2, b'1'),
+('2016-09-08', 140, 1, b'1'),
+('2016-09-08', 140, 2, b'1'),
+('2016-09-08', 141, 1, b'1'),
+('2016-09-08', 141, 2, b'1'),
+('2016-09-08', 142, 1, b'1'),
+('2016-09-08', 142, 2, b'1'),
+('2016-09-08', 143, 1, b'1'),
+('2016-09-08', 143, 2, b'1'),
+('2016-09-08', 144, 1, b'1'),
+('2016-09-08', 144, 2, b'1'),
+('2016-09-08', 145, 1, b'1'),
+('2016-09-08', 145, 2, b'1'),
+('2016-09-08', 146, 1, b'1'),
+('2016-09-08', 146, 2, b'1'),
+('2016-09-08', 147, 1, b'1'),
+('2016-09-08', 147, 2, b'1'),
+('2016-09-08', 148, 1, b'1'),
+('2016-09-08', 148, 2, b'1'),
+('2016-09-08', 149, 1, b'1'),
+('2016-09-08', 149, 2, b'1'),
+('2016-09-08', 150, 1, b'1'),
+('2016-09-08', 150, 2, b'1'),
+('2016-09-08', 151, 1, b'1'),
+('2016-09-08', 151, 2, b'1'),
+('2016-09-08', 152, 1, b'1'),
+('2016-09-08', 152, 2, b'1'),
+('2016-09-08', 153, 1, b'1'),
+('2016-09-08', 153, 2, b'1'),
+('2016-09-08', 154, 1, b'0'),
+('2016-09-08', 154, 2, b'1'),
+('2016-09-08', 155, 1, b'0'),
+('2016-09-08', 155, 2, b'1'),
+('2016-09-08', 156, 1, b'0'),
+('2016-09-08', 156, 2, b'1'),
 ('2016-09-09', 79, 1, b'0'),
 ('2016-09-09', 80, 1, b'0'),
 ('2016-09-09', 81, 1, b'0'),
 ('2016-09-09', 82, 1, b'0'),
 ('2016-09-09', 83, 1, b'0'),
+('2016-09-09', 83, 17, b'1'),
 ('2016-09-09', 84, 1, b'1'),
+('2016-09-09', 84, 17, b'1'),
 ('2016-09-09', 85, 1, b'1'),
 ('2016-09-09', 86, 1, b'1'),
 ('2016-09-09', 87, 1, b'1'),
@@ -4401,11 +4616,21 @@ INSERT INTO `Record` (`Date`, `StudentId`, `SubjectId`, `PA`) VALUES
 ('2016-09-09', 153, 1, b'1'),
 ('2016-09-09', 154, 1, b'1'),
 ('2016-09-10', 79, 1, b'1'),
+('2016-09-10', 79, 15, b'1'),
+('2016-09-10', 79, 16, b'0'),
 ('2016-09-10', 80, 1, b'1'),
+('2016-09-10', 80, 15, b'0'),
+('2016-09-10', 80, 16, b'1'),
 ('2016-09-10', 81, 1, b'1'),
+('2016-09-10', 81, 15, b'1'),
+('2016-09-10', 81, 16, b'0'),
 ('2016-09-10', 82, 1, b'1'),
+('2016-09-10', 82, 15, b'0'),
+('2016-09-10', 82, 16, b'1'),
 ('2016-09-10', 83, 1, b'1'),
+('2016-09-10', 83, 17, b'1'),
 ('2016-09-10', 84, 1, b'1'),
+('2016-09-10', 84, 17, b'0'),
 ('2016-09-10', 85, 1, b'1'),
 ('2016-09-10', 86, 1, b'1'),
 ('2016-09-10', 87, 1, b'1'),
@@ -4579,7 +4804,7 @@ CREATE TABLE IF NOT EXISTS `Staff` (
 
 INSERT INTO `Staff` (`StaffId`, `Name`, `Gender`, `Email`, `Username`, `Salt`, `RegisterTime`) VALUES
 (2, 'Rohan', b'1', 'rjagiasi@gmail.com', 'admin', '$1$Ws8YqaRS$CN6sxmJaMOV69yr.YNeah1', '2016-03-10 08:56:34'),
-(3, 'R J', b'1', 'rohan.jagiasi@ves.ac.in', 'abc_def', '$1$H2nWBeO9$LfYXXjXzHk8zYMroY9lvY.', '2016-03-14 14:44:20'),
+(3, 'R J', b'1', 'rohan.jagiasi@ves.ac.in', 'abc_def', '$1$V2KO9TXz$PBdU2vwDIppx1Ht5lTSby1', '2016-03-14 14:44:20'),
 (46, 'ahxbsckjab', b'1', 'rjagiasi@yahoo.com', 'abc_defg', '$1$Wo2sTRMn$MEBvBg14CGnQtcwdd3gUy/', '2016-03-14 17:52:50'),
 (49, 'a', b'1', 'a@b.com', 'abc_defgh', '$1$D3MY6f3W$xKOeEfa9k3fNjhwBh/yHU1', '2016-03-22 14:18:12'),
 (74, 'a', b'1', 'a@b.cdsd', 'abc_defghij', '$1$r2TAGYA6$Be.U5cFxtGxMDHHcGQnin/', '2016-03-24 14:37:44'),
@@ -4775,7 +5000,7 @@ CREATE TABLE IF NOT EXISTS `Subjects` (
   `Name` varchar(20) NOT NULL,
   `ClassId` int(10) NOT NULL,
   `LectorLab` bit(1) NOT NULL DEFAULT b'0'
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Subjects`
@@ -4791,7 +5016,10 @@ INSERT INTO `Subjects` (`SubjectId`, `Name`, `ClassId`, `LectorLab`) VALUES
 (7, 'CN', 1, b'0'),
 (8, 'COA', 1, b'0'),
 (13, 'WP_LAB', 1, b'1'),
-(14, 'AE2_LAB', 7, b'1');
+(14, 'AE2_LAB', 7, b'1'),
+(15, 'AT_LAB', 1, b'1'),
+(16, 'CN_LAB', 1, b'1'),
+(17, 'COA_LAB', 1, b'1');
 
 -- --------------------------------------------------------
 
@@ -4805,6 +5033,13 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `Cancelled`
+--
+ALTER TABLE `Cancelled`
+  ADD UNIQUE KEY `StaffId` (`StaffId`,`SubjectId`,`Date`),
+  ADD KEY `SubjectId` (`SubjectId`);
 
 --
 -- Indexes for table `Class`
@@ -4831,9 +5066,9 @@ ALTER TABLE `Labs`
 -- Indexes for table `LabStudent`
 --
 ALTER TABLE `LabStudent`
-  ADD UNIQUE KEY `SubjectId` (`SubjectId`,`StudentId`),
+  ADD UNIQUE KEY `SubjectId` (`ClassId`,`StudentId`),
   ADD KEY `StudentId` (`StudentId`),
-  ADD KEY `LabId` (`LabId`);
+  ADD KEY `LabId` (`BatchId`);
 
 --
 -- Indexes for table `Lectures`
@@ -4841,6 +5076,13 @@ ALTER TABLE `LabStudent`
 ALTER TABLE `Lectures`
   ADD UNIQUE KEY `SubjectId` (`SubjectId`),
   ADD KEY `ClassId` (`StaffId`);
+
+--
+-- Indexes for table `Notifs`
+--
+ALTER TABLE `Notifs`
+  ADD UNIQUE KEY `SubjectId_2` (`SubjectId`,`DateMissed`,`StaffId`),
+  ADD KEY `StaffId` (`StaffId`);
 
 --
 -- Indexes for table `Record`
@@ -4891,7 +5133,7 @@ ALTER TABLE `Department`
 -- AUTO_INCREMENT for table `Labs`
 --
 ALTER TABLE `Labs`
-  MODIFY `LabId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `LabId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `Staff`
 --
@@ -4906,10 +5148,17 @@ ALTER TABLE `Student`
 -- AUTO_INCREMENT for table `Subjects`
 --
 ALTER TABLE `Subjects`
-  MODIFY `SubjectId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+  MODIFY `SubjectId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `Cancelled`
+--
+ALTER TABLE `Cancelled`
+  ADD CONSTRAINT `Cancelled_ibfk_1` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`),
+  ADD CONSTRAINT `Cancelled_ibfk_2` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`);
 
 --
 -- Constraints for table `Class`
@@ -4928,9 +5177,7 @@ ALTER TABLE `Labs`
 -- Constraints for table `LabStudent`
 --
 ALTER TABLE `LabStudent`
-  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`StudentId`) REFERENCES `Student` (`StudentId`),
-  ADD CONSTRAINT `LabStudent_ibfk_3` FOREIGN KEY (`LabId`) REFERENCES `Labs` (`LabId`),
-  ADD CONSTRAINT `LabStudent_ibfk_4` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`);
+  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`ClassId`) REFERENCES `Class` (`ClassId`);
 
 --
 -- Constraints for table `Lectures`
@@ -4938,6 +5185,13 @@ ALTER TABLE `LabStudent`
 ALTER TABLE `Lectures`
   ADD CONSTRAINT `Lectures_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
   ADD CONSTRAINT `Lectures_ibfk_3` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
+
+--
+-- Constraints for table `Notifs`
+--
+ALTER TABLE `Notifs`
+  ADD CONSTRAINT `Notifs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Notifs_ibfk_2` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
 
 --
 -- Constraints for table `Record`

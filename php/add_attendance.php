@@ -15,7 +15,8 @@
 	$querystring = rtrim($querystring, ",");
 	// print($querystring);
 	$result = query($querystring);
-
+	query("Delete from Notifs where SubjectId = '$subjectid' and DateMissed = '$date' and StaffId = '".$_COOKIE["uid"]."'");
+	
 	if(gettype($result) == "array")
 		echo json_encode(true);
 	else
