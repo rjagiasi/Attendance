@@ -523,7 +523,7 @@
 					</select>
 					<input type="date" class="form-control" name="date" required/>
 					<br/><br/>
-					<input type="text" class="form-control" maxlength="255" name="reason" required></input>
+					<input type="text" class="form-control" maxlength="255" name="reason" placeholder="Reason" required></input>
 					<button class="btn btn-primary" id="cancel_button" type="submit">Cancel</button>
 				</form>
 			</div>
@@ -544,6 +544,11 @@
 					<input type="date" class="form-control" id="startdate" name="startdate" required/>
 					<label for="enddate">End Date</label>
 					<input type="date" class="form-control" id="enddate" name="enddate" required/>
+					<br/><br/>
+					<label for="from_percentage">From % </label>
+					<input id="from_percentage" name="from_percentage" type="number" class="form-control" min="0" max="100" style="width:100px;" value="0" required/>
+					<label for="to_percentage">To % </label>
+					<input id="to_percentage" name="to_percentage" type="number" class="form-control"  min="0" max="100" style="width:100px;" value="100" required/>
 					<button class="btn btn-primary" type="submit">Generate Report</button>
 				</form>
 				<ul class="pagination" style="float:center;" >
