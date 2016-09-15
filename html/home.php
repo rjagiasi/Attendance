@@ -37,6 +37,7 @@
 					<a data-toggle="modal" id="modal_anchor" data-target="#forgot_pass_modal">Forgot Passsword?</a>
 					<br/><br/><br/>
 					<a id="register_anchor" href="register_page.php">New User? Register Here</a>
+					<a id="admin_anchor" href="admin_login.php">Admin Page</a>
 
 					<div class="modal fade" id="forgot_pass_modal" role="dialog">
 						<div class="modal-dialog">

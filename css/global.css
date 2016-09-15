@@ -76,13 +76,13 @@ footer
 #login_form{
 	margin-top: 13%;
 }
-#forgot_pass_modal{
+#forgot_pass_modal, .admin_label{
 	text-align: center;
 }
 #modal_anchor{
 	padding-left: 50%;
 }
-#register_anchor{
+#register_anchor, #admin_anchor{
 	display: block;
 	padding-left: 35%;
 }

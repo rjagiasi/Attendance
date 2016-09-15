@@ -225,8 +225,9 @@
 
 
 					table += "</tr></thead><tbody>";
-
+					
 					for (var i = 0, n = data.length; i < n; i++) {
+						
 						table += "<tr>"
 						$.each(data[i], function(key, value) {
 							var per = value.split(" : ")[1];
