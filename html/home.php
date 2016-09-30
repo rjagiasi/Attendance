@@ -12,6 +12,7 @@
 			});
 
 			$("#menu ul li").first().toggleClass('active', true);
+
 		});
 		</script>
 
@@ -116,10 +117,11 @@
 							notif = "<strong>All up to date! Good Job!</strong><br/>";
 						else
 						{	
-							notif = "<strong>Data not yet added!</strong><br/>";
+							notif = "<strong>Data not yet added!</strong><br/></br><table class=\"table\"><thead><tr><th>Subject</th><th>Date</th></tr></thead><tbody>";
 							for (var i = 0; i < data.length; i++) {
-								notif += "<strong>"+data[i]["Name"]+"</strong> - "+data[i]["DateMissed"] + "<br/>";
+								notif += "<tr><td>"+data[i]["Name"]+"</td><td>"+data[i]["DateMissed"] + "</tr>";
 							};
+							notif += "</tbody></table>"
 						}
 						// alert(notif);
 						$("#notification").html(notif);

@@ -27,13 +27,13 @@
 	// $students = query("SELECT RollNo, Name FROM Student Where ClassId = '$class'");
 	if(empty($sub))
 	{
-		$res = query("Call GetClassReport('$startdate', '$enddate', $class)");
-		$subjectnames = query("Call GetSubjects('$startdate', '$enddate', $class)");
+		$res = query("Call GetClassReport('$startdate', '$enddate', '$class')");
+		$subjectnames = query("Call GetSubjects('$startdate', '$enddate', '$class')");
 
 	}
 	else
 	{
-		$res = query("Call GetSubjectReport('$startdate', '$enddate', $class, $sub)");
+		$res = query("Call GetSubjectReport('$startdate', '$enddate', '$class', '$sub')");
 		$subjectnames = query("SELECT Name, SubjectId FROM Subjects Where SubjectId = $sub");
 	}
 	

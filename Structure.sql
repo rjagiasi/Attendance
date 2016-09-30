@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 10, 2016 at 09:08 PM
+-- Generation Time: Sep 30, 2016 at 11:27 AM
 -- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -27,20 +27,20 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClassReport`(IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT(10))
     NO SQL
 (select 
- `Attendance`.`Student`.`RollNo` AS `RollNo`,
- `Attendance`.`Record`.`SubjectId` AS `SubjectId`,
+ `Student`.`RollNo` AS `RollNo`,
+ `Record`.`SubjectId` AS `SubjectId`,
  
 COUNT(CASE WHEN Record.PA = 0x01 then 1 ELSE NULL END) as "Pres",
 COUNT(CASE WHEN Record.PA = 0x00 then 1 ELSE NULL END) as "Abs"
  
- from (`Attendance`.`Student` 
-       join `Attendance`.`Record` 
+ from (`Student` 
+       join `Record` 
        on(((
-           `Attendance`.`Student`.`StudentId` = `Attendance`.`Record`.`StudentId`
+           `Student`.`StudentId` = `Record`.`StudentId`
        ) 
            AND Student.ClassId = classId 
            AND Record.Date BETWEEN startDate AND endDate))) 
- group by `Attendance`.`Record`.`SubjectId`,`Attendance`.`Record`.`StudentId`)
+ group by `Record`.`SubjectId`,`Record`.`StudentId`)
  ORDER BY RollNo, SubjectId ASC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetStudentReport`(IN `class` INT, IN `rollno` INT)
@@ -92,6 +92,10 @@ AND Record.SubjectId = s.SubjectId
 AND s.ClassId = classId)
 
 ORDER BY SubjectId$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertSub`(IN `class` INT(10), IN `name` VARCHAR(20), IN `ll` BIT(1), IN `id` INT(10), IN `days` BIT(6))
+    NO SQL
+Select * from Class$$
 
 DELIMITER ;
 
@@ -273,13 +277,15 @@ ALTER TABLE `Cancelled`
 --
 ALTER TABLE `Class`
   ADD PRIMARY KEY (`ClassId`),
+  ADD UNIQUE KEY `Name` (`Name`),
   ADD KEY `DeptId` (`DeptId`);
 
 --
 -- Indexes for table `Department`
 --
 ALTER TABLE `Department`
-  ADD PRIMARY KEY (`DeptId`);
+  ADD PRIMARY KEY (`DeptId`),
+  ADD UNIQUE KEY `Name` (`Name`);
 
 --
 -- Indexes for table `Labs`
@@ -294,8 +300,8 @@ ALTER TABLE `Labs`
 --
 ALTER TABLE `LabStudent`
   ADD UNIQUE KEY `SubjectId` (`ClassId`,`StudentId`),
-  ADD KEY `StudentId` (`StudentId`),
-  ADD KEY `LabId` (`BatchId`);
+  ADD KEY `LabId` (`BatchId`),
+  ADD KEY `StudentId` (`StudentId`);
 
 --
 -- Indexes for table `Lectures`
@@ -397,20 +403,21 @@ ALTER TABLE `Class`
 -- Constraints for table `Labs`
 --
 ALTER TABLE `Labs`
-  ADD CONSTRAINT `Labs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Labs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`) ON DELETE CASCADE,
   ADD CONSTRAINT `Labs_ibfk_2` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
 
 --
 -- Constraints for table `LabStudent`
 --
 ALTER TABLE `LabStudent`
-  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`ClassId`) REFERENCES `Class` (`ClassId`);
+  ADD CONSTRAINT `LabStudent_ibfk_2` FOREIGN KEY (`ClassId`) REFERENCES `Class` (`ClassId`),
+  ADD CONSTRAINT `LabStudent_ibfk_3` FOREIGN KEY (`StudentId`) REFERENCES `Student` (`StudentId`);
 
 --
 -- Constraints for table `Lectures`
 --
 ALTER TABLE `Lectures`
-  ADD CONSTRAINT `Lectures_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Lectures_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`) ON DELETE CASCADE,
   ADD CONSTRAINT `Lectures_ibfk_3` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
 
 --

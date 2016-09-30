@@ -5,13 +5,9 @@
 
 		//set dept dropdown initially
 		function setdepts (callback) {
-			$("#loadinggif").show();
+
 			var dept = "<option value=\"\">Select Dept</option>";
-			$.ajax({
-				url : "getdepts.php", 
-				dataType : "json",
-			})
-			.done(function (data) {
+			ajaxcall("getdepts.php", "", function (data) {
 				var no=0;
 				
 				for (var i = 0; i < data.length; i++) {
@@ -19,10 +15,9 @@
 				}
 				
 				$("[name=dept]").html(dept);
-				// $("[name=dept]").first().trigger('change');
-				// changedept();
+	
 				callback();
-				$("#loadinggif").hide();
+			
 			});
 			return true;
 		}
@@ -50,30 +45,22 @@
 		//set classes dropdown
 		$("[name=dept]").change(function () {
 
-			$("#loadinggif").show();
 			var listValue = this.value;
 			var classes = "<option value=\"\">Select Class</option>";
 			var datastring = "dept="+listValue;
 			
-			$.ajax({
-					url : "getclasses.php",
-					type : "POST",
-					data : datastring,
-					dataType: "json",
-				})
-				.done(function(data) {
-					var no = 0;
-					for (var i = 0; i < data.length; i++) 
+			ajaxcall("getclasses.php", datastring, function(data) {
+				var no = 0;
+				for (var i = 0; i < data.length; i++) 
+				{
+					classes = classes + "<option value=\"" + data[i].ClassId + "\">"+ data[i].Name + "</option>";
+					if(data[i].Name == $("#enggbranches .active").attr('id').toUpperCase())
 					{
-						classes = classes + "<option value=\"" + data[i].ClassId + "\">"+ data[i].Name + "</option>";
-						if(data[i].Name == $("#enggbranches .active").attr('id').toUpperCase())
-						{
-							no = data[i].ClassId;
-						}
+						no = data[i].ClassId;
 					}
-					$("[name=classes]").html(classes).val(no);
-					$("[name=classes]").first().trigger('change');
-					$("#loadinggif").hide();
+				}
+				$("[name=classes]").html(classes).val(no);
+				$("[name=classes]").first().trigger('change');
 			});
 		});
 		
@@ -83,20 +70,11 @@
 			var listValue = this.value;
 			var subjects = "<option value=\"\">Select Subject</option>";
 			var datastring = "class="+listValue;
-			$("#loadinggif").show();
-			$.ajax({
-					url : "getsubjects.php",
-					type : "POST",
-					data : datastring,
-					dataType: "json",
-				})
-				.done(function (data) {
+			ajaxcall("getsubjects.php", datastring, function (data) {
 					for (var i = 0; i < data.length; i++) {
 						subjects = subjects + "<option value=\"" + data[i].SubjectId + "\">"+ data[i].Name + "</option>";
 					}
 					$("[name=subject]").html(subjects);
-					// alert(classes);
-					$("#loadinggif").hide();
 				});
 		});
 		
@@ -115,20 +93,13 @@
 		//get student list and set pagination
 		$("#add_attendance").submit(function (event) {
 			event.preventDefault();
-			$("#loadinggif").show();
 
 			var disabledfields = $(this).find(':input:disabled');
 			disabledfields.removeAttr('disabled');
 			var data = $(this).serialize();
 			disabledfields.attr('disabled', 'disabled');
 			
-			$.ajax({
-				url : "getstudentlist.php",
-				type : "POST",
-				data : data,
-				dataType: "json",
-			})
-			.done(function (data) {
+			ajaxcall("getstudentlist.php",data,function (data) {
 				
 				if(data == false){
 					failuremessage("Attendance for the day already exists!");
@@ -154,7 +125,6 @@
 					$("#attendance_form_div .pagination").html(pagination_html);
 					$("#attendance_form_div .pagination a").first().trigger("click");
 				}
-				$("#loadinggif").hide();
 			});
 		});
 
@@ -175,16 +145,13 @@
 		//insert data after attendance list submitted
 		$("#attendance_form_div").on("submit", "#attendance_list", function (event) {
 			event.preventDefault();
-			$("#loadinggif").show();
+			
 			var formobj = this;
 			// alert($(this).parent().siblings("form").html());
-			$.ajax({
-				url : "add_attendance.php",
-				type : "POST",
-				data : $(formobj).serialize() + "&" + $(formobj).parent().siblings("form").serialize(),
-				dataType : "json",
-			})
-			.done(function (data) {
+
+			ajaxcall("add_attendance.php",
+				$(formobj).serialize() + "&" + $(formobj).parent().siblings("form").serialize(),
+				function (data) {
 				if(data == false)
 					failuremessage("Some Error Occured");
 				else if(data == true){
@@ -192,14 +159,13 @@
 					$("#attendance_form_div .content2").hide();
 					$("#attendance_form_div .pagination").hide();
 				}
-				$("#loadinggif").hide();
 			});
+			
 		});
 
 		//gen report ajax call
 		$("#gen_report").submit(function (event) {
 			event.preventDefault();
-			$("#loadinggif").show();
 
 			var disabledfields = $(this).find(':input:disabled');
 			disabledfields.removeAttr('disabled');
@@ -207,15 +173,9 @@
 			// alert($(this).find("select,textarea, input").serialize());
 			disabledfields.attr('disabled', 'disabled');
 
-			$.ajax({
-				url : "getreport.php",
-				type : "POST",
-				data : data,
-				dataType : "json",
-			})
-			.done(function (data) {
+			ajaxcall("getreport.php", data, function (data) {
 				if(data == false)
-					failuremessage("Some Error Occured!");
+					failuremessage("No Data Found!");
 				else
 				{
 					table = "<div class = \"table-responsive\"><table class = \"table table-striped\" id=\"generated_report\"><thead><tr>";
@@ -260,7 +220,6 @@
 					// });
 
 				}
-				$("#loadinggif").hide();
 			});
 		});
 		
@@ -298,20 +257,13 @@
 		//update attendance ajax
 		$("#update_attendance").submit(function(event) {
 			event.preventDefault();
-			$("#loadinggif").show();
 
 			var disabledfields = $(this).find(':input:disabled');
 			disabledfields.removeAttr('disabled');
 			var data = $(this).serialize();
 			disabledfields.attr('disabled', 'disabled');
 
-			$.ajax({
-				url : "fetchdayatt.php",
-				type : "POST",
-				data : data,
-				dataType : "json",
-			})
-			.done(function (data) {
+			ajaxcall("fetchdayatt.php", data, function (data) {
 				if(data == "false"){
 					failuremessage("Attendance data not found!");
 					$("#update_form_div .content2").hide();
@@ -325,28 +277,21 @@
 					$("#update_form_div .content2").html(c);
 					$("#update_form_div .content2").show();
 				}
-				$("#loadinggif").hide();
 			});
+
 		});
 
 		//toggle attendance
 		$("#update_form_div .content2").on("click", "#change", function(event) {
-			$("#loadinggif").show();
 
 			var disabledfields = $("#update_attendance").find(':input:disabled');
 			disabledfields.removeAttr('disabled');
 			var data = $("#update_attendance").serialize();
 			disabledfields.attr('disabled', 'disabled');
+			data = data + "&" + "currval=" + $("[name=old]").attr("val");
 
-			$.ajax({
-				url : "update_att.php",
-				type : "POST",
-				data : data + "&" + "currval=" + $("[name=old]").attr("val"),
-				dataType : "json",
-			})
-			.done(function (data) {
+			ajaxcall("update_att.php", data, function (data) {
 				$("#update_attendance").trigger("submit");
-				$("#loadinggif").hide();
 			});
 			
 		});
@@ -373,20 +318,14 @@
 			},
 
 			submitHandler: function(form) {
-				$("#loadinggif").show();
-				$.ajax({
-					url : "chngpass.php",
-					type : "POST",
-					data : $("#chngpass_form").serialize(),
-					dataType: "json",
-				})
-				.done(function (data) {
+
+				ajaxcall("chngpass.php", $("#chngpass_form").serialize(), function (data) {
 					if(data == false)
 						failuremessage("Some Error Occured");
 					else if(data == true)
 						successmessage("Password Changed Successfully!");
-					$("#loadinggif").hide();
 				});
+
 			}
 		});
 
@@ -400,24 +339,13 @@
 			var data = $(this).serialize();
 			disabledfields.attr('disabled', 'disabled');
 
-			$("#loadinggif").show();
-
-			$.ajax({
-				url: 'cancel.php',
-				type: 'POST',
-				dataType: 'json',
-				data: data,
-			})
-			.done(function(data) {
+			ajaxcall('cancel.php', data, function(data) {
 				if(data == false)
 					failuremessage("Some Error Occured");
 				else if(data == true)
 					successmessage("Lecture Cancelled");
-				$("#loadinggif").hide();
 			});
-			
 
-			// $("#loadinggif").hide();
 		});
 
 		//initialize dept dropdown

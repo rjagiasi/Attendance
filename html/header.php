@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/global.css">
 		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
+		<link rel="icon" href="../imgs/logo.png" type="image/x-icon" />
 
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
@@ -33,10 +34,10 @@
 			</div>
 			<!--br/><br/-->
 			<br/><br/>
-			<p class="alert" style="text-align:center"></p>
+			<p class="alert" id="response"></p>
 				<script type="text/javascript">
-					$(".alert").hide();
-
+					$("#response").hide();
+					
 					<?php if(isset($_GET["error"])): ?>
 						failuremessage("<?php echo(urldecode($_GET["error"]))?>");
 					<?php endif ?>

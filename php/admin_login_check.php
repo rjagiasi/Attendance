@@ -5,9 +5,9 @@
 
 	if($_POST["username"]==ADMIN_ID && $_POST["password"] == ADMIN_PASS)
 	{
-		setcookie("admin", "0", time()+1800, "/");
+		setcookie("admin", "0", time()+(3600), "/");
 		echo json_encode(true);
 	}
 	else
-		echo json_encode(false);
+		echo json_encode("refresh")
 ?>

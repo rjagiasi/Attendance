@@ -65,7 +65,7 @@
 				})
 				.done(function (data) {
 					if(data == false)
-						failuremessage("Username Taken");
+						failuremessage("Username Taken or email already registered!");
 					else if(data == true)
 						successmessage("Registration Successful");
 					$("#loadinggif").hide();

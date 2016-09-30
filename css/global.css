@@ -89,7 +89,7 @@ footer
 #notification{
 	margin: 5% 20%;
 	width: 60%;
-	text-align: center;
+	text-align: -webkit-center;
 }
 label.error{
 	color:red;
@@ -110,4 +110,19 @@ label.error{
 }
 .glyphicon-sort{
 	float: right;
+}
+#create_batches_div, #preview{
+	max-height: 10cm;
+	overflow: auto;
+}
+table[name^="days_table"]{
+	width: 6cm;
+	display: inline;
+}
+#response{
+	text-align: center;
+	position: fixed;
+    width: 50%;
+    top: 20px;
+    margin: 0 20% 0 30%;
 }
