@@ -10,16 +10,17 @@
 
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
+		<!--script src="../js/jquery.tablesorter.min.js"></script-->
 		<script src="../js/jquery.validate.min.js"></script>
 		<script src="../js/jquery-ui.min.js"></script>
-		<!--script src="../js/jquery.tablesorter.min.js"></script-->
 		<script src="../js/tableExport.js"></script>
 		<script src="../js/jquery.base64.js"></script>
 		<script src="../js/jspdf.debug.js"></script>
+		<script src="../js/js2pdf.js"></script>
 		<!--script src="../js/html2canvas.js"></script-->
 
 		<script src="../js/functions.js"></script>
-		<script src="../js/js2pdf.js"></script>
+		
 	</head>
 	<body>
 		
@@ -70,7 +71,15 @@
 					</ul>
 					<?php endif ?>
 				</ul>
+
+				<div id="loadinggif">
+					<img src="../imgs/loading.gif" alt="Loading"/>
+				</div>
+				<script type="text/javascript">
+					$("#loadinggif").hide();
+				</script>
 			</div>
+
 			<div id="content">
 				<?php if(isset($_COOKIE["uid"])): ?>
 				<div id = "greeting_div">

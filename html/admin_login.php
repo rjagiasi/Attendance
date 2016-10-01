@@ -1,6 +1,6 @@
 
 <!-- <h4 class="col-sm-4">Admin Login</h4> -->
-<?php if(!isset($_COOKIE["admin"])) : ?>
+<?php if ( !isset( $_COOKIE["admin"] ) ) : ?>
 	<form class = "form-horizontal" id="admin_login_form">
 
 		<label class="control-label col-sm-4" for="username">Admin Username : </label>
@@ -44,9 +44,9 @@
 <?php else : ?>
 
 	<script type="text/javascript">
-	
+
 	$(document).ready(function() {
-		
+
 		function setdepts () {
 			var dept = "<option value=\"\">Select Dept</option>";
 			ajaxcall("getdepts.php","",function (data) {
@@ -56,7 +56,7 @@
 				$("[name=dept]").html(dept);
 			});
 		}
-		
+
 		function setteaachers () {
 			ajaxcall("admin_getteachers.php", "", function (data) {
 				var teacher_obj = $("select[name^=teacher]");
@@ -79,7 +79,7 @@
 			weekday[4] = "T";
 			weekday[5] = "F";
 			weekday[6] = "S";
-			
+
 			var days_ip = $("[name=days_table]");
 
 			for (var i = 0; i < days_ip.length; i++) {
@@ -99,21 +99,18 @@
 			var dropdownobj = this;
 			var classes = "<option value=\"\">Select Class</option>";
 			var datastring = "dept="+listValue;
-			
+
 			ajaxcall("getclasses.php",datastring,function (data) {
 				for (var i = 0; i < data.length; i++) {
 					classes = classes + "<option value=\"" + data[i].ClassId + "\">"+ data[i].Name + "</option>";
 				};
 				$(dropdownobj).next("[name=classes]").html(classes);
 			});
-			$(dropdownobj).parent().siblings(".content2").hide();
-			$(dropdownobj).parent().siblings(".pagination").hide();
-			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
-		
+
 		// set subjects dropdown
 		$("[name=classes]").change(function () {
-			
+
 			var listValue = this.value;
 			var dropdownobj = this;
 			var subjects = "<option value=\"\">Select Subject</option>";
@@ -124,20 +121,43 @@
 				};
 				$(dropdownobj).next("[name=subject]").html(subjects);
 			});
-			$(dropdownobj).parent().siblings(".content2").hide();
-			$(dropdownobj).parent().siblings(".pagination").hide();
-			$(dropdownobj).parent().siblings("#download_buttons").hide();
 		});
-		
-		// hide content on subject change
-		$("[name=subject]").change(function () {
-			var dropdownobj = this;
-			$(dropdownobj).parent().siblings(".content2").hide();
-			$(dropdownobj).parent().siblings(".pagination").hide();
-			$(dropdownobj).parent().siblings("#download_buttons").hide();
-		});
-		
 
+
+		$("#modify_subjects").find('[name=subject]').change(function () {
+			ajaxcall("admin_getsubdetails.php", $(this).serialize(), function(data) {
+				$("#modify_subjects").find('[name^=teacher] option').each(function(){
+			        // alert(data[0]["StaffId"]);
+			        if($(this).val()==parseInt(data[0]["StaffId"])){ 
+			        	$(this).attr("selected","selected");
+			        	return;
+			        }
+		    	});
+
+				var pad = "000000"
+		    	var bin = parseInt(data[0]["Days"], 10).toString(2);
+		    	bin = pad.substring(0, pad.length - bin.length) + bin;
+
+		    	var i=0;
+		    	$("#modify_subjects").find('[name=days_table] input').each(function() {
+		    		if(bin[i] == "1")
+		    			$(this).attr('checked', true);
+		    		else
+		    			$(this).attr('checked', false);
+		    		i++;
+		    	});
+			});
+		});
+
+		$("#modify_subjects").submit(function(event) {
+			event.preventDefault();
+			ajaxcall("admin_modifysub.php", $(this).serialize(), function(data) {
+				if(data == true)
+					successmessage("Subject modified!");
+				else
+					failuremessage("Some Error Occurred");
+			});
+		});
 
 		$("#create_dept").submit(function(event) {
 			event.preventDefault();
@@ -160,7 +180,7 @@
 				// setdepts();
 			});
 		});
-		
+
 		$("#create_batches").submit(function(event) {
 			event.preventDefault();
 			ajaxcall("admin_getstudlist.php", $(this).serialize(), function (data) {
@@ -234,13 +254,13 @@
 		});
 
 		$("[name=haslab]").click(function(event) {
-			
+
 			if($(this).is(':checked') != true)
 			{
 				$("#lab_form").hide();
 			}
 			else
-			{	
+			{
 				var labsubstring = "Name : "+$("#add_subjects > [name=subject]").val()+"_lab <br/>";
 				ajaxcall("admin_getbatches.php", $("#add_subjects").serialize(), function(data) {
 					if(data == false)
@@ -264,7 +284,7 @@
 			$('#lab_form input').attr('disabled',! this.checked);
 
 		});
-		
+
 		$("#add_student").submit(function(event) {
 			event.preventDefault()
 			$("#loadinggif").show();
@@ -290,11 +310,11 @@
 					failuremessage(data);
 				$("#loadinggif").hide();
 			});
-			
+
 		});
 
 		$("[name=bulkdata]").change(function(event) {
-			
+
 			if (window.File && window.FileReader && window.FileList && window.Blob) {
 				// Great success! All the File APIs are supported.
 				var input, file, fr;
@@ -310,7 +330,7 @@
 				}
 				else if(input.value.split('.').pop() != "csv")
 				{
-					failuremessage("Invalid File Format!");	
+					failuremessage("Invalid File Format!");
 					$("#preview").html("");
 				}
 				else {
@@ -376,15 +396,15 @@
 <div id = "greeting_div">
 	<p id="greet">Welcome Admin</p>
 	<a href="logout.php"><button id="logout" class="btn btn-primary" style="float:right">Logout</button></a>
-	<br/><br/>
+	<br/>
 </div>
-
+<!-- <h4>Add Data</h4> -->
 <label class="admin_label" for="create_dept">Create a Department</label>
 <form id="create_dept" class = "form-inline">
 	<input type="text" name="dept" placeholder="Dept Name" class="form-control" required/>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<br/><hr/>
+<hr/>
 
 <label class="admin_label" for="add_classes">Add a class</label>
 <form id="add_classes" class = "form-inline">
@@ -395,9 +415,9 @@
 	<input type="text" name="class" placeholder="Class Name" class="form-control" required/>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<br/><hr/>
+<hr/>
 
-<label class="admin_label" for="create_batches">Create Batches</label>
+<label class="admin_label" for="create_batches">Create or Modify Batches</label>
 <form id="create_batches" class = "form-inline">
 	<select class="form-control" name="dept" required >
 		<option value="">Select Dept</option>
@@ -412,7 +432,7 @@
 </form>
 <div id="create_batches_div"></div>
 
-<br/><hr/>
+<hr/>
 
 <label class="admin_label" for="add_subjects">Add a Subject</label>
 <form id="add_subjects" class = "form-inline">
@@ -431,16 +451,16 @@
 	<table class="table table-striped" name="days_table" style="margin-left:1cm">
 
 	</table>
-	
+
 </form><br/>
 <form id = "lab_form" class = "form-inline">
 
-	
+
 </form>
 
 <button type="submit" class="btn btn-primary" id="add_subject_submit">Submit</button>
 
-<br/><hr/>
+<hr/>
 
 <label class="admin_label" for="add_student">Add a Student</label>
 <form id="add_student" class = "form-inline">
@@ -451,10 +471,33 @@
 		<option value="">Select Class</option>
 	</select>
 	<input type="number" name="rollno" placeholder="Roll No" class="form-control" />
-	<input type="text" name="name" placeholder="Name" class="form-control" min="1" /> 
+	<input type="text" name="name" placeholder="Name" class="form-control" min="1" />
 	<br/><br/> OR bulk insert (csv file with rollno and name)
 	<input type="file" name="bulkdata" id="bulkdata" class="form-control" accept=".csv"/><br/>
 	<div id="preview"></div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<hr/>
+
+<!-- <h4>Modify Data</h4> -->
+
+<label class="admin_label" for="modify_subjects">Modify Subject</label>
+<form id="modify_subjects" class = "form-inline">
+	<select class="form-control" name="dept" required >
+		<option value="">Select Dept</option>
+	</select>
+	<select class="form-control" name="classes" required >
+		<option value="">Select Class</option>
+	</select>
+	<select class="form-control" name="subject" required >
+		<option value="">Select Subject</option>
+	</select>
+	<select class="form-control" name="teacher" required >
+		<option value="">Select Teacher</option>
+	</select>
+	<table class="table table-striped" name="days_table" style="margin-left:1cm">
+
+	</table>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <?php endif ?>

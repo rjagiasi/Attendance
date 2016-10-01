@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 30, 2016 at 11:27 AM
+-- Generation Time: Oct 01, 2016 at 11:58 PM
 -- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -424,7 +424,7 @@ ALTER TABLE `Lectures`
 -- Constraints for table `Notifs`
 --
 ALTER TABLE `Notifs`
-  ADD CONSTRAINT `Notifs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`),
+  ADD CONSTRAINT `Notifs_ibfk_1` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`SubjectId`) ON DELETE CASCADE,
   ADD CONSTRAINT `Notifs_ibfk_2` FOREIGN KEY (`StaffId`) REFERENCES `Staff` (`StaffId`);
 
 --

@@ -19,7 +19,6 @@ footer
 	width:15%;
 	float: left;
 	margin: 1%;
-
 }
 #enggbranches li{
 	padding: 1px 0;
@@ -43,11 +42,16 @@ footer
 /*.sectionbranches{
 	background-color: #f2f2f2;
 }*/
-#content, #loadinggif{
+#content{
 	width: 81%;
 	float: right;
 	margin: 1%;
 	/*overflow: auto;*/
+}
+#loadinggif{
+	bottom: 100px;
+    margin-left: 4%;
+    position: fixed;
 }
 #report_form_div, #attendance_form_div, #update_form_div, #lectcancel_form_div{
 	float: center;
