@@ -16,10 +16,19 @@
 			else
 				$res = query("Insert into Student (Name, ClassId, RollNo) values ('".$_POST["name"]."', '".$_POST["classes"]."', '".$_POST["rollno"]."')");
 
-			if($res == true || gettype($res) == "array")
+			if($res == true)
 				echo json_encode(true);
+			else if(gettype($res) == "array")
+			{
+				$studid = query("Select StudentId from Student Where ClassId = '".$_POST["classes"]."' and RollNo = '".$_POST["rollno"]."'");
+				$res = query("Insert into LabStudent (ClassId, BatchId, StudentId) values ('".$_POST["classes"]."', '".$_POST["batch"]."', '".$studid[0]["StudentId"]."')");
+				if(gettype($res) == "array")
+					echo json_encode(true);
+				else
+					echo json_encode("Couldn't add to Batch.");
+			}
 			else
-				echo json_encode(false);
+				echo json_encode("Roll No already Exists!");
 		}
 		else
 			echo json_encode("Fill form Correctly!");

@@ -4,9 +4,14 @@
 	$date = date('Y-m-d');
 	// echo($date);
 	$day = date('N');
+	
+	if($day == 7)
+		return;
+
 	$days = "000000";
 	$days[$day-1] = "1";
 	// echo $days;
+
 
 	$lects = query("Select SubjectId, StaffId from Lectures where (Days & $days) > 0 and SubjectId");
 					

@@ -472,6 +472,13 @@
 	</select>
 	<input type="number" name="rollno" placeholder="Roll No" class="form-control" />
 	<input type="text" name="name" placeholder="Name" class="form-control" min="1" />
+	<select class="form-control" name="batch" >
+		<option value="">Select Batch</option>
+		<option value="1">A</option>
+		<option value="2">B</option>
+		<option value="3">C</option>
+		<option value="4">D</option>
+	</select> (optional)
 	<br/><br/> OR bulk insert (csv file with rollno and name)
 	<input type="file" name="bulkdata" id="bulkdata" class="form-control" accept=".csv"/><br/>
 	<div id="preview"></div>

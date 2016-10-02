@@ -70,15 +70,16 @@ function sendmail($subject, $body, $to, $to_name)
 	//Ask for HTML-friendly debug output
 	$mail->Debugoutput = 'html';
 	//Set the hostname of the mail server
-	$mail->Host = 'smtp.mail.yahoo.com';
+	// $mail->Host = 'smtp.mail.yahoo.com';
+	$mail->Host = 'smtp.gmail.com';
 
 	// use
 	// $mail->Host = gethostbyname('smtp.gmail.com');
 	// if your network does not support SMTP over IPv6
 	//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
 	
-	$mail->Port = 25;	// port 25 for yahoo
-	// $mail->Port = 587; //for gmail
+	// $mail->Port = 25;	// port 25 for yahoo
+	$mail->Port = 587; //for gmail
 
 	//Set the encryption system to use - ssl (deprecated) or tls
 	$mail->SMTPSecure = 'tls';
