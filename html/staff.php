@@ -243,9 +243,10 @@
 			var downloadtype = $(event.target).attr("id");
 			$("#loadinggif").show();
 			$("#report_form_div .content2 tbody tr").show();
+			var noofcol = $("#report_form_div .content2 thead th").length;
 
 			if(downloadtype == "pdf")
-				converttopdf();	//demoPDF()
+				converttopdf(noofcol);	//demoPDF()
 			else
 				$("#generated_report").tableExport({type: downloadtype,escape:'false'});
 
@@ -351,6 +352,33 @@
 		//initialize dept dropdown
 		// setdepts();
 
+		$("#search_form").submit(function (event) {
+			event.preventDefault();
+
+			var disabledfields = $(this).find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $(this).serialize();
+			disabledfields.attr('disabled', 'disabled');
+
+			ajaxcall("getstudrep.php", data, function (data) {
+				if(data == "false")
+					failuremessage("Roll No. doesn't exist!");
+				else
+				{
+					table = "<table class=\"table table-striped\"><tbody>";
+					$.each(data, function (key, value) {
+						table += "<tr><th>" + key.toUpperCase() + "</th><td>" + value + "</td>";
+						if(value == null)
+							failuremessage("Student data doesn't exist!");
+					});
+					table += "</tbody></table>";
+					$("#studrep").html(table);
+				}
+				$("#loadinggif").hide();
+			});
+				
+		});
+
 		setdepts(function () {
 			setactiveclass('<?=$class?>','<?=$branch?>');
 		});
@@ -431,12 +459,29 @@
 				<ul class="nav nav-tabs nav-justified" aria-expanded="true">
 					<li id="attendance"><a>Add Attendance</a></li>
 					<li id="update"><a>Update</a></li>
-					<li id="lectcancel"><a>Cancelled</a></li>
+					<li id="lectcancel"><a>Cancel</a></li>
 					<li id="report"><a>Report</a></li>
+					<li id="search"><a>Search</a></li>
 					<li id="chngpass"><a>Change Password</a></li>
 				</ul>
 			</div>
 			<br/>
+			<div id="search_form_div">
+				<label for="search_form">Search for a particular student</label>
+				<form class="form-inline" id="search_form" name="search_form">
+					<select class="form-control" name="dept" required disabled>
+						<option value="">Select Dept</option>
+						
+					</select>
+					<select class="form-control" name="classes" required disabled>
+						<option value="">Select Class</option>
+					</select>
+					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;" required/>
+					<button class="btn btn-primary" type="submit">Search</button>
+				</form>
+				<br/><br/>
+				<div id = "studrep"></div>
+			</div>
 			<div id = "lectcancel_form_div">
 				<label for="cancel_form">Lecture Cancelled</label>
 				<form class="form-inline" id="cancel_form" name="cancel_form">

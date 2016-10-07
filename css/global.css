@@ -53,7 +53,7 @@ footer
     margin-left: 4%;
     position: fixed;
 }
-#report_form_div, #attendance_form_div, #update_form_div, #lectcancel_form_div{
+#report_form_div, #attendance_form_div, #update_form_div, #lectcancel_form_div, #search_form_div{
 	float: center;
 	text-align: center;
 }
@@ -63,6 +63,9 @@ footer
 /*table{
 	table-layout: fixed;
 }*/
+#studrep{
+	text-align: left;
+}
 #heading{
 	text-align: center;
 	display: initial;
