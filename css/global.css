@@ -133,3 +133,6 @@ table[name^="days_table"]{
     top: 20px;
     margin: 0 20% 0 30%;
 }
+.panel a{
+	color: #337ab7;
+}

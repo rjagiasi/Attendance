@@ -3,6 +3,12 @@
 
 	$subid = $_POST["subject"];
 
+	if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST["reason"]))
+	{
+    	echo(json_encode(false));
+		return;
+	}
+
 	if(strpos($subid, "_") == true)
 		$subid = explode("_", $subid)[1];
 

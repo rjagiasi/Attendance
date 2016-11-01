@@ -360,19 +360,19 @@
 			var data = $(this).serialize();
 			disabledfields.attr('disabled', 'disabled');
 
+			if(!($(this).find('#name').val() == "" ^ $(this).find('#roll').val() == ""))
+			{
+				failuremessage("Enter either name or roll no!");
+				return;
+			}
+
 			ajaxcall("getstudrep.php", data, function (data) {
 				if(data == "false")
 					failuremessage("Roll No. doesn't exist!");
 				else
 				{
-					table = "<table class=\"table table-striped\"><tbody>";
-					$.each(data, function (key, value) {
-						table += "<tr><th>" + key.toUpperCase() + "</th><td>" + value + "</td>";
-						if(value == null)
-							failuremessage("Student data doesn't exist!");
-					});
-					table += "</tbody></table>";
-					$("#studrep").html(table);
+					
+					$("#studrep").html(data);
 				}
 				$("#loadinggif").hide();
 			});
@@ -390,7 +390,18 @@
 		$("#loadinggif").hide();
 		//use jquery datepicker if browser doesn't support date type
 		if ( $('[type="date"]').prop('type') != 'date' ) {
-			$('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd', maxDate:0});
+			$("#loadinggif").show();
+			$('<link/>', {
+				rel: 'stylesheet',
+				type: 'text/css',
+				href: '../css/jquery-ui.min.css'
+			}).appendTo('head');
+
+			$.getScript("../js/jquery-ui.min.js").done(function() {
+				$('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd', maxDate:0});
+				$("#loadinggif").hide();
+			});
+			
 		}
 
 		var date = new Date();
@@ -476,7 +487,8 @@
 					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
 					</select>
-					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;" required/>
+					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;"/>
+					<label>OR</label> <input id="name" name="name" type="text" class="form-control" placeholder="Name"/>
 					<button class="btn btn-primary" type="submit">Search</button>
 				</form>
 				<br/><br/>

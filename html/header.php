@@ -5,14 +5,12 @@
 		<title><?=$title?> - VESIT Attendance</title>
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/global.css">
-		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
 		<link rel="icon" href="../imgs/logo.png" type="image/x-icon" />
 
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<!--script src="../js/jquery.tablesorter.min.js"></script-->
 		<script src="../js/jquery.validate.min.js"></script>
-		<script src="../js/jquery-ui.min.js"></script>
 		<script src="../js/tableExport.js"></script>
 		<script src="../js/jquery.base64.js"></script>
 		<script src="../js/jspdf.debug.js"></script>
