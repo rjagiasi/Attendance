@@ -16,7 +16,7 @@
 		<script src="../js/jspdf.debug.js"></script>
 		<script src="../js/js2pdf.js"></script>
 		<!--script src="../js/html2canvas.js"></script-->
-
+		<script src="../js/jspdf.plugin.autotable.js"></script>
 		<script src="../js/functions.js"></script>
 		
 	</head>

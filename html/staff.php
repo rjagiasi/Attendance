@@ -255,8 +255,8 @@
 		});
 
 
-		//update attendance ajax
-		$("#update_attendance").submit(function(event) {
+		//modify attendance ajax
+		$("#modify_attendance").submit(function(event) {
 			event.preventDefault();
 
 			var disabledfields = $(this).find(':input:disabled');
@@ -267,7 +267,7 @@
 			ajaxcall("fetchdayatt.php", data, function (data) {
 				if(data == "false"){
 					failuremessage("Attendance data not found!");
-					$("#update_form_div .content2").hide();
+					$("#modify_form_div .content2").hide();
 				}
 				else
 				{
@@ -275,24 +275,24 @@
 					c += "<p style=\"margin-right:20px;\">"+data[0]["Name"]+"</p>";
 					c += (data[0]["PA"] == "1")?"<input val=\"1\" class=\"form-control\" value=\"Present\" name=\"old\" disabled style=\"width:100px;margin-right:20px;\"/>":"<input val=\"0\" class=\"form-control\" value=\"Absent\" name=\"old\" style=\"width:100px; margin-right:20px;\" disabled/>";
 					c += "<button id=\"change\" style=\"float:right;\" class=\"btn btn-primary\">Change</button>";
-					$("#update_form_div .content2").html(c);
-					$("#update_form_div .content2").show();
+					$("#modify_form_div .content2").html(c);
+					$("#modify_form_div .content2").show();
 				}
 			});
 
 		});
 
 		//toggle attendance
-		$("#update_form_div .content2").on("click", "#change", function(event) {
+		$("#modify_form_div .content2").on("click", "#change", function(event) {
 
-			var disabledfields = $("#update_attendance").find(':input:disabled');
+			var disabledfields = $("#modify_attendance").find(':input:disabled');
 			disabledfields.removeAttr('disabled');
-			var data = $("#update_attendance").serialize();
+			var data = $("#modify_attendance").serialize();
 			disabledfields.attr('disabled', 'disabled');
 			data = data + "&" + "currval=" + $("[name=old]").attr("val");
 
 			ajaxcall("update_att.php", data, function (data) {
-				$("#update_attendance").trigger("submit");
+				$("#modify_attendance").trigger("submit");
 			});
 			
 		});
@@ -371,12 +371,109 @@
 					failuremessage("Roll No. doesn't exist!");
 				else
 				{
-					
 					$("#studrep").html(data);
 				}
 				$("#loadinggif").hide();
 			});
 				
+		});
+
+		$("#list_form").submit(function(event) {
+			event.preventDefault();
+
+			var disabledfields = $(this).find(':input:disabled');
+			disabledfields.removeAttr('disabled');
+			var data = $(this).serialize();
+			disabledfields.attr('disabled', 'disabled');
+
+			ajaxcall("getmonthlylist.php", data, function(data) {
+				
+				var table = "<div class = \"table-responsive\"><table class = \"table table-striped\" id=\"generated_list\"><thead><tr><th>Roll No</th><th>Name</th>";
+
+				headers = data.pop();
+
+				if(headers[0] === undefined)
+				{
+					failuremessage("No data found!");
+					return false;
+				}
+
+				for (var i = 0, n = headers.length; i < n; i++) {
+					table += "<th>"+headers[i]+"</th>";
+				};
+				
+				table += "</tr></thead><tbody>";
+
+				for (var i = 0, n = data.length; i < n; i++) {
+					//for each student
+					var j=0;
+					var att = "", roll = "", name = "";
+
+					$.each(data[i], function(index, el) {
+
+						if(index == headers[j])
+						{
+							att += "<td>"+el+"</td>";
+							j++;
+						}
+						else if(index == "RollNo")
+							roll = "<td>"+el+"</td>";
+						else if(index == "Name")
+							name = "<td>"+el+"</td>";
+						else
+						{
+							while(index != headers[j])
+							{
+								att += "<td>-</td>";
+								j++;
+							}
+							att += "<td>"+el+"</td>";
+							j++;
+						}
+
+
+					});
+
+					while(j != headers.length)
+					{
+						att += "<td>-</td>";
+						j++;
+					}
+
+					table += "<tr>" + roll + name + att + "</tr>";
+				};
+
+				table += "</tbody></table></div>";
+
+				var noofpages = (data.length/itemsperpg)+1;
+				// alert(noofpages);
+				var pagination_html = "";
+
+				for (var i = 1; i <= noofpages; i++) {
+					pagination_html += "<li value=\"" + i + "\"><a href=\"#\">"+i+"</a></li>"
+				};
+
+
+				$('#list_form_div .content2').html(table);
+
+				$("#list_form_div .pagination").html(pagination_html);
+				$("#list_form_div .pagination a").first().trigger("click");
+
+				$('#list_form_div .content2').show();
+				$("#list_form_div .pagination").show();
+			});
+		});
+		
+		$("#list_form_div .pagination").on("click", "a", function (event) {
+			$("#list_form_div .content2").show();
+			$("#list_form_div .pagination").show();
+			$("#list_form_div .pagination .active").toggleClass("active", false);
+			var pgno = $(event.target).parent().val();
+			// alert(pgno);
+			$("#list_form_div .pagination li[value="+pgno+"]").addClass("active");
+			// var pgno = parent.attr("value");
+			$("#list_form_div .content2 tbody tr").hide();
+			$("#list_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
 		});
 
 		setdepts(function () {
@@ -468,21 +565,60 @@
 			</ul> -->
 			<div class="sectionbranches" id="staff" aria-expanded="true">
 				<ul class="nav nav-tabs nav-justified" aria-expanded="true">
-					<li id="attendance"><a>Add Attendance</a></li>
-					<li id="update"><a>Update</a></li>
+					<li id="attendance"><a>Add</a></li>
+					<li id="modify"><a>Modify</a></li>
 					<li id="lectcancel"><a>Cancel</a></li>
+					<li id="list"><a>List</a></li>
 					<li id="report"><a>Report</a></li>
 					<li id="search"><a>Search</a></li>
-					<li id="chngpass"><a>Change Password</a></li>
+					<li id="chngpass"><a>Password</a></li>
 				</ul>
 			</div>
 			<br/>
+			<div id="list_form_div">
+				<label for="list_form">Get attendance sheet for a specific month</label>
+				<form class="form-inline" id="list_form" name="list_form">
+					<select class="form-control" name="dept" required disabled>
+						<option value="">Select Dept</option>
+					</select>
+					<select class="form-control" name="classes" required disabled>
+						<option value="">Select Class</option>
+					</select>
+					<select class="form-control" name="subject" required>
+						<option value="">Select Subject</option>
+					</select>
+					<select class="form-control" name="month" required>
+						<option value="">Select Month</option>
+						<option value="1">January</option>
+						<option value="2">February</option>
+						<option value="3">March</option>
+						<option value="4">April</option>
+						<option value="5">May</option>
+						<option value="6">June</option>
+						<option value="7">July</option>
+						<option value="8">August</option>
+						<option value="9">September</option>
+						<option value="10">October</option>
+						<option value="11">November</option>
+						<option value="12">December</option>
+					</select>
+					<button class="btn btn-primary" type="submit">Get List</button>
+				</form>
+				<ul class="pagination" style="float:center;">
+					
+				</ul>
+				<div class="content2">
+
+				</div>
+				<ul class="pagination" style="float:center;">
+					
+				</ul>
+			</div>
 			<div id="search_form_div">
 				<label for="search_form">Search for a particular student</label>
 				<form class="form-inline" id="search_form" name="search_form">
 					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
-						
 					</select>
 					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
@@ -495,11 +631,10 @@
 				<div id = "studrep"></div>
 			</div>
 			<div id = "lectcancel_form_div">
-				<label for="cancel_form">Lecture Cancelled</label>
+				<label for="cancel_form">Cancel a lecture</label>
 				<form class="form-inline" id="cancel_form" name="cancel_form">
 					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
-						
 					</select>
 					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
@@ -514,7 +649,7 @@
 				</form>
 			</div>
 			<div id = "report_form_div">
-				<label for="gen_report">For Generating Attendance Status for a particular subject</label>
+				<label for="gen_report">Generate Attendance Report</label>
 				<form class="form-inline" id="gen_report" name="gen_report" action="">
 					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
@@ -557,7 +692,7 @@
 			</div>
 
 			<div id="attendance_form_div">
-				<label for="add_attendance">Add attendance</label>
+				<label for="add_attendance">Add attendance for a lecture</label>
 				<form class="form-inline" id="add_attendance" name="add_attendance" action="">
 					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
@@ -584,9 +719,9 @@
 				</ul>
 			</div>
 
-			<div id="update_form_div">
-				<label for="update_attendance">Update attendance</label>
-				<form class="form-inline" id="update_attendance" name="update_attendance" action="">
+			<div id="modify_form_div">
+				<label for="modify_attendance">Modify attendance of a student</label>
+				<form class="form-inline" id="modify_attendance" name="modify_attendance" action="">
 					<select class="form-control" name="dept" required disabled>
 						<option value="">Select Dept</option>
 						
@@ -609,6 +744,7 @@
 			</div>
 
 			<div id="chngpass_form_div">
+				<label for="chngpass_form">Change Password</label>
 				<form action="chngpass.php" method="post" id="chngpass_form">
 					<input class="form-control" name="oldpass" placeholder="Current Password" type="password"/><br/>
 					<input class="form-control" name="pass" id="pass2" placeholder="New Password" type="password"/><br/>

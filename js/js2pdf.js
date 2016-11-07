@@ -1,4 +1,4 @@
-function converttopdf(noofcol) {
+function converttopdfold(noofcol) {
 	
 	var layout;
 	if(noofcol <= 9)
@@ -7,7 +7,8 @@ function converttopdf(noofcol) {
 		layout = 'l';
 
 	var pdf = new jsPDF(layout, 'pt', 'a4');
-
+	// pdf.cellInitialize();
+	// pdf.setFontSize(10);
   // source can be HTML-formatted string, or a reference
   // to an actual DOM element from which the text will be scraped.
   source = $('#report_form_div .content2')[0];
@@ -27,7 +28,7 @@ function converttopdf(noofcol) {
   	top : 50,
   	bottom : 50,
   	left : 30,
-  	width : 522
+  	width : 600
   };
   // all coords and widths are in jsPDF instance's declared units
   // 'inches' in this case
@@ -46,6 +47,48 @@ function converttopdf(noofcol) {
   }, margins);
   
 
+}
+
+function converttopdf (noofcol) {
+
+	var layout;
+	if(noofcol < 7)
+		layout = 'p';
+	else
+		layout = 'l';
+
+	var source = $('#report_form_div .content2')[0];
+	var columns = [];
+	var headers = $(source).find("th");
+	$.each(headers, function(index, el) {
+		columns.push($(el).html());
+	});
+
+	var data = $(source).find("td");
+	var rows = [];
+	var n = headers.length, j=0;
+	var studrow = [];
+
+	$.each(data, function(index, el) {
+
+		var val = $(el).html();
+		if(val.includes(":"))
+			val = val.split(":")[1] + "%";
+
+		studrow.push(val);
+
+		if(j==n-1)
+		{
+			rows.push(studrow);
+			studrow = [];
+		}
+
+		j = (j+1)%n;
+	});
+
+    var doc = new jsPDF(layout, 'pt');
+    doc.autoTable(columns, rows);
+    doc.save("Report.pdf");
 }
 
 function demoPDF() {

@@ -53,7 +53,7 @@ footer
     margin-left: 4%;
     position: fixed;
 }
-#report_form_div, #attendance_form_div, #update_form_div, #lectcancel_form_div, #search_form_div{
+#report_form_div, #attendance_form_div, #modify_form_div, #lectcancel_form_div, #search_form_div, #list_form_div{
 	float: center;
 	text-align: center;
 }
@@ -135,4 +135,7 @@ table[name^="days_table"]{
 }
 .panel a{
 	color: #337ab7;
+}
+#generated_list{
+	text-align: left;
 }
