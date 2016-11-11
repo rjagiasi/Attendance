@@ -331,7 +331,7 @@
 		});
 
 		
-
+		//cancel a lecture
 		$("#cancel_form").submit(function(event) {
 			event.preventDefault();
 
@@ -352,6 +352,7 @@
 		//initialize dept dropdown
 		// setdepts();
 
+		//get searched student
 		$("#search_form").submit(function (event) {
 			event.preventDefault();
 
@@ -378,6 +379,7 @@
 				
 		});
 
+		//generate monthly list
 		$("#list_form").submit(function(event) {
 			event.preventDefault();
 
@@ -458,15 +460,16 @@
 
 				$("#list_form_div .pagination").html(pagination_html);
 				$("#list_form_div .pagination a").first().trigger("click");
-
-				$('#list_form_div .content2').show();
-				$("#list_form_div .pagination").show();
+				
+				// $('#list_form_div .content2').show();
+				// $("#list_form_div .pagination").show();
 			});
 		});
 		
 		$("#list_form_div .pagination").on("click", "a", function (event) {
 			$("#list_form_div .content2").show();
 			$("#list_form_div .pagination").show();
+			$("#download_buttons_list").show();
 			$("#list_form_div .pagination .active").toggleClass("active", false);
 			var pgno = $(event.target).parent().val();
 			// alert(pgno);
@@ -476,6 +479,24 @@
 			$("#list_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
 		});
 
+
+		//list download code
+		$("#download_buttons_list button").click(function(event) {
+			var downloadtype = $(event.target).attr("name");
+			$("#loadinggif").show();
+			$("#list_form_div .content2 tbody tr").show();
+			var noofcol = $("#list_form_div .content2 thead th").length;
+
+			if(downloadtype == "pdf")
+				convertlisttopdf(noofcol);	//demoPDF()
+			else
+				$("#generated_list").tableExport({type: downloadtype,escape:'false'});
+
+			$("#list_form_div .pagination").find(".active a").trigger("click");
+			$("#loadinggif").hide();
+		});
+
+
 		setdepts(function () {
 			setactiveclass('<?=$class?>','<?=$branch?>');
 		});
@@ -483,6 +504,7 @@
 
 		// $("#staff").collapse("show");
 		$("#download_buttons").hide();
+		$("#download_buttons_list").hide();
 
 		$("#loadinggif").hide();
 		//use jquery datepicker if browser doesn't support date type
@@ -613,6 +635,12 @@
 				<ul class="pagination" style="float:center;">
 					
 				</ul>
+				<div id="download_buttons_list">
+					Download Attendance list as
+					<button type="button" name = "csv" class="btn btn-primary">CSV</button>
+					<button type="button" name = "excel" class="btn btn-success">Excel</button>
+					<button type="button" name = "pdf" class="btn btn-danger">PDF</button>
+				</div>
 			</div>
 			<div id="search_form_div">
 				<label for="search_form">Search for a particular student</label>

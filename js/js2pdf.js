@@ -49,10 +49,12 @@ function converttopdfold(noofcol) {
 
 }
 
+
+
 function converttopdf (noofcol) {
 
 	var layout;
-	if(noofcol < 7)
+	if(noofcol <= 10)
 		layout = 'p';
 	else
 		layout = 'l';
@@ -90,6 +92,50 @@ function converttopdf (noofcol) {
     doc.autoTable(columns, rows);
     doc.save("Report.pdf");
 }
+
+
+
+function convertlisttopdf (noofcol) {
+
+	var layout;
+	if(noofcol < 20)
+		layout = 'p';
+	else
+		layout = 'l';
+
+	var source = $('#list_form_div .content2')[0];
+	var columns = [];
+	var headers = $(source).find("th");
+	$.each(headers, function(index, el) {
+		columns.push($(el).html());
+	});
+
+	var data = $(source).find("td");
+	var rows = [];
+	var n = headers.length, j=0;
+	var studrow = [];
+
+	$.each(data, function(index, el) {
+
+		var val = $(el).html();
+		studrow.push(val);
+
+		if(j==n-1)
+		{
+			rows.push(studrow);
+			studrow = [];
+		}
+
+		j = (j+1)%n;
+	});
+
+    var doc = new jsPDF(layout, 'pt');
+    doc.autoTable(columns, rows);
+    doc.save("List.pdf");
+}
+
+
+
 
 function demoPDF() {
 	var options = {
