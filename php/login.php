@@ -7,9 +7,10 @@
 	{
 		$password = $_POST["password"]; 
 		$username = $_POST["username"];
+
 		$result = query( "SELECT * FROM Staff WHERE username = \"$username\"" );
 		// print($username);
-		// print_r($result);
+		print_r($result);
 		$password = crypt($password, $result[0]["Salt"]);
 		// printf("\n%s", $password);
 		// printf("\n%s\n%s\n", $salt, $password);
@@ -21,9 +22,13 @@
 			// $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			// $url = 
 			// $extra = "staff.php";
+
+			$res = query("CALL GetClasses(".$result[0]["StaffId"].")");
+
 			setcookie("uid", $result[0]["StaffId"], time()+(86400*10),"/");
 			setcookie("name", $result[0]["Name"], time()+(86400*10),"/");
-			setcookie("username", $result[0]["Username"], time()+(86400*10),"/");
+			// setcookie("username", $result[0]["Username"], time()+(86400*10),"/");
+			setcookie("cust_menu", json_encode($res), time()+(86400*10),"/");
 			header("Location: ".explode("?",$_SERVER["HTTP_REFERER"])[0]);
 			// print($_GET["branch"]);
 			// header("Refresh:0");

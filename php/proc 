@@ -86,3 +86,13 @@ BEGIN
   CLOSE cur2;
 END$$
 DELIMITER
+
+<script type="text/javascript">
+              var x;
+              var value = "; " + document.cookie;
+              var parts = value.split("; " + "cust_menu" + "=");
+              if (parts.length == 2) 
+                x = parts.pop().split(";").shift();
+              
+              
+              </script>

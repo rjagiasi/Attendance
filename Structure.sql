@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 02, 2016 at 03:00 PM
+-- Generation Time: Dec 04, 2016 at 11:28 PM
 -- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -24,6 +24,19 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClasses`(IN `sid` INT)
+    NO SQL
+SELECT classes.Name as c, dept.Name as d from
+					(SELECT Name, DeptId from Class Where ClassId in
+						(SELECT distinct ClassId From Subjects Where SubjectId in
+							(SELECT distinct SubjectId from Labs Where StaffId = sid
+							UNION
+							SELECT distinct SubjectId from Lectures Where StaffId = sid
+							)
+						)
+					) as classes, Department as dept
+					WHERE classes.DeptId = dept.DeptId$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClassReport`(IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT(10))
     NO SQL
 (select 

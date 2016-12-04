@@ -6,7 +6,8 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/global.css">
 		<link rel="icon" href="../imgs/logo.png" type="image/x-icon" />
-
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
 		<script src="../js/jquery.min.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
 		<!--script src="../js/jquery.tablesorter.min.js"></script-->
@@ -50,21 +51,39 @@
 					<!-- <li><a class="menuheads">MCA</a></li>
 					<li><a class="menuheads">Diploma</a></li> -->
 					<!-- <li><a data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed">Engineering</a></li> -->
+					<ul class="nav nav-pills nav-stacked" id="custom_menu">
+						<li data-toggle="collapse" data-target="#custom" id="customheader"><a class="menuheads">Teaching</a></li>
+						<ul id="custom" class="nav nav-pills nav-stacked collapse">
+							<!-- <li class="D10" data-branch="it"><a>D10</a></li>
+							<li class="D9B" data-branch="extc"><a>D9B</a></li> -->
+
+							<?php
+							$values = json_decode($_COOKIE["cust_menu"], true);
+	
+							$str = "";
+							foreach ($values as $sub) {
+								$str .= "<li class=".$sub["c"]." data-branch=".strtolower($sub["d"])."><a>".$sub["c"]."</a></li>";
+							}
+							echo($str);
+							?>
+						</ul>
+					</ul>
+
 					<ul class="nav nav-pills nav-stacked" id="enggbranches">
 						<li data-toggle="collapse" data-target="#it" id="itheader"><a class="menuheads">IT</a></li>
 						<ul id="it" class="nav nav-pills nav-stacked collapse">
-							<li id="D10"><a>D10</a></li>
-							<li id="D15"><a>D15</a></li>
+							<li id="D10" class="D10"><a>D10</a></li>
+							<li id="D15" class="D15"><a>D15</a></li>
 						</ul>
-						<li data-toggle="collapse" data-target="#comps" id="compsheader"><a class="menuheads">Comps</a></li>
-						<ul id="comps" class="nav nav-pills nav-stacked collapse">
-							<li id="D7A"><a>D7A</a></li>
-							<li id="D7B"><a>D7B</a></li>
+						<li data-toggle="collapse" data-target="#cmpn" id="cmpnheader"><a class="menuheads">CMPN</a></li>
+						<ul id="cmpn" class="nav nav-pills nav-stacked collapse">
+							<li id="D7A" class="D7A"><a>D7A</a></li>
+							<li id="D7B" class="D7B"><a>D7B</a></li>
 						</ul>
 						<li data-toggle="collapse" data-target="#extc" id="extcheader"><a class="menuheads">EXTC</a></li>
 						<ul id="extc" class="nav nav-pills nav-stacked collapse">
-							<li id="D9A"><a>D9A</a></li>
-							<li id="D9B"><a>D9B</a></li>
+							<li id="D9A" class="D9A"><a>D9A</a></li>
+							<li id="D9B" class="D9B"><a>D9B</a></li>
 						</ul>
 					</ul>
 					<?php endif ?>

@@ -11,6 +11,14 @@
 				$(location).attr("href", url);
 			});
 
+			$("#custom_menu ul").find("a").click(function(event) {
+				var classid = $(event.target).parent().attr("class");
+				var branchid = $(event.target).parent().attr("data-branch");
+				
+				var url="staff.php?branch="+branchid+"&class="+classid;
+				$(location).attr("href", url);
+			});
+
 			$("#menu ul li").first().toggleClass('active', true);
 
 		});

@@ -84,6 +84,7 @@
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
 			$(dropdownobj).parent().siblings("#download_buttons").hide();
+			$("#download_buttons_list").hide();
 		});
 		
 
@@ -140,6 +141,9 @@
 			// var pgno = parent.attr("value");
 			$("#attendance_form_div .content2 tbody tr").hide();
 			$("#attendance_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
+			$('html, body').animate({
+				scrollTop: $("#attendance_form_div").offset().top
+			}, 500);
 		});
 
 		//insert data after attendance list submitted
@@ -236,6 +240,9 @@
 
 			$("#report_form_div .content2 tbody tr").hide();
 			$("#report_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
+			$('html, body').animate({
+				scrollTop: $("#report_form_div").offset().top
+			}, 500);
 		});
 
 		//report download code
@@ -466,6 +473,7 @@
 			});
 		});
 		
+		//list pagination
 		$("#list_form_div .pagination").on("click", "a", function (event) {
 			$("#list_form_div .content2").show();
 			$("#list_form_div .pagination").show();
@@ -477,6 +485,9 @@
 			// var pgno = parent.attr("value");
 			$("#list_form_div .content2 tbody tr").hide();
 			$("#list_form_div .content2 tbody tr").slice((pgno-1)*itemsperpg, pgno*itemsperpg).show();
+			$('html, body').animate({
+				scrollTop: $("#list_form_div").offset().top
+			}, 500);
 		});
 
 
@@ -552,30 +563,39 @@
 			$("#"+id+"_form_div").show();
 		}
 		
-		
+		$("#custom_menu ul").find("a").click(function(event) {
+			var classid = $(event.target).parent().attr("class");
+			var branchid = $(event.target).parent().attr("data-branch");
+
+			setactiveclass(classid, branchid);
+		});
+
 		$("#enggbranches ul").find("a").click(function(event) {
-			var classid = $(event.target).parent().attr("id");
+			var classid = $(event.target).parent().attr("class");
 			var branchid = $(event.target).parent().parent().attr("id");
 			setactiveclass(classid, branchid);
 		});
 		
 		// changedept();
 		function setactiveclass(classid, branchid) {
-			
+			// alert(branchid);
 			$("#enggbranches .active").toggleClass("active", false);
+			$("#custom_menu .active").toggleClass("active", false);
 			$("#enggbranches ul").not("#" + branchid).collapse("hide");
-			// $("#" + branchid).collapse("show");
-			$("#" + classid).addClass("active");
+			$("#" + branchid).collapse("show");
+			$("." + classid).addClass("active");
 			changedept();
 			$(".content2").hide();
 			$(".pagination").hide();
 			$("#download_buttons").hide();
+			$("#download_buttons_list").hide();
 			// $("#attendance a").first().trigger("click");
 		}
 
 		// $("#loadinggif").show();
 	});
 	$("#enggbranches ul").collapse("show");
+	$("#custom_menu ul").collapse("show");
 
 </script>
 		<!-- <div id="content"> -->
