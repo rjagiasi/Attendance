@@ -66,7 +66,6 @@
 		
 		// set subjects dropdown
 		$("[name=classes]").change(function () {
-			
 			var listValue = this.value;
 			var subjects = "<option value=\"\">Select Subject</option>";
 			var datastring = "class="+listValue;

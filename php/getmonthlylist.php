@@ -3,11 +3,33 @@
 	// print_r($_POST);
 	$class = $_POST["classes"];
 	$month = $_POST["month"];
-	$subject = strpos($_POST["subject"], "_")?explode("_", $_POST["subject"])[1]:$_POST["subject"];
 
-	$res = query("SELECT Day(Date) as date, StudentId, PA from Record Where Month(Date) = $month and SubjectId = $subject order by StudentId, date");
+	if(strpos($_POST["subject"], "_") == true)
+	{
+		//lab
 
-	$res2 = query("SELECT StudentId, Name, RollNo from Student Where ClassId = $class order by StudentId");
+		$sub = explode("_", $_POST["subject"]);
+		$subject = $sub[1];
+		$batch = $sub[0];
+
+		$res = query("SELECT Day(Date) as date, StudentId, PA from Record Where Month(Date) = $month and SubjectId = $subject and StudentId in (SELECT StudentId from LabStudent Where ClassId = $class and BatchId = $batch) order by StudentId, date");
+
+		$res2 = query("SELECT StudentId, Name, RollNo from Student Where ClassId = $class and StudentId in (SELECT StudentId from LabStudent Where ClassId = $class and BatchId = $batch) order by StudentId");
+
+		$dates = query("SELECT distinct Day(Date) as date from Record Where Month(Date) = $month and SubjectId = $subject and StudentId in (SELECT StudentId from LabStudent Where ClassId = $class and BatchId = $batch) order by date");
+		// print_r($res);
+	}
+	else
+	{
+		$subject = $_POST["subject"];
+
+		$res = query("SELECT Day(Date) as date, StudentId, PA from Record Where Month(Date) = $month and SubjectId = $subject order by StudentId, date");
+
+		$res2 = query("SELECT StudentId, Name, RollNo from Student Where ClassId = $class order by StudentId");
+
+		$dates = query("SELECT distinct Day(Date) as date from Record Where Month(Date) = $month and SubjectId = $subject order by date");
+	}
+	
 	// print_r($res);
 	$list = array();
 
@@ -25,11 +47,6 @@
 		$j++;
 	}
 
-	// print_r($list);
-
-	$dates = query("SELECT distinct Day(Date) as date from Record Where Month(Date) = $month and SubjectId = $subject order by date");
-
-	// print_r($dates);
 
 	foreach ($dates as $key => $date) {
 		$list[$j][$key] = $date["date"];

@@ -21,10 +21,18 @@
 	{
 		//name given
 		$rollnumbers = query("SELECT RollNo from Student Where ClassId='".$classid."' and Name like '%".$_POST["name"]."%'");
-		if (count($rollnumbers) == 1) {
+		
+		if (count($rollnumbers) == 0) 
+		{
+			echo json_encode("false");
+			return;
+		}
+		elseif (count($rollnumbers) == 1) 
+		{
 			echo json_encode(getResultTable($classid, $rollnumbers[0]["RollNo"]));
 		}
-		elseif(count($rollnumbers) > 5){
+		elseif(count($rollnumbers) > 5)
+		{
 			echo(json_encode("Too many records!"));
 			return;
 		}
@@ -67,7 +75,9 @@
 		$res = query("Call GetStudentReport(".$classid.", $roll)");
 		// print_r($res);
 		if(empty($res))
-			echo json_encode("false");
+		{
+			return "false";
+		}
 		else
 		{
 			$name = query("SELECT Name FROM Student Where ClassId='".$classid."' and RollNo='$roll'");
