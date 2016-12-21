@@ -1,7 +1,30 @@
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#enggbranches ul").find("a").click(function(event) {
+		var classid = $(event.target).parent().attr("id");
+		var branchid = $(event.target).parent().parent().attr("id");
+
+		var url="staff.php?branch="+branchid+"&class="+classid;
+		$(location).attr("href", url);
+	});
+
+	$("#custom_menu ul").find("a").click(function(event) {
+		var classid = $(event.target).parent().attr("class");
+		var branchid = $(event.target).parent().attr("data-branch");
+
+		var url="staff.php?branch="+branchid+"&class="+classid;
+		$(location).attr("href", url);
+	});
+
+	$("#menu ul li").first().toggleClass('active', true);
+
+});
+</script>
 
 <!-- <h4 class="col-sm-4">Admin Login</h4> -->
 <?php if ( !isset( $_COOKIE["admin"] ) ) : ?>
-	<form class = "form-horizontal" id="admin_login_form">
+	<form class = "form-horizontal" id="admin_login_form" method="POST" action="admin_login_check.php">
 
 		<label class="control-label col-sm-4" for="username">Admin Username : </label>
 		<div class="col-sm-5">
@@ -18,7 +41,7 @@
 		<button class = "btn btn-primary">Submit</button>
 	</form>
 
-	<script type="text/javascript">
+	<!--script type="text/javascript">
 	$(document).ready(function() {
 		$("#admin_login_form").submit(function(event) {
 			event.preventDefault();
@@ -39,7 +62,7 @@
 		});
 
 	});
-	</script>
+	</script-->
 
 <?php else : ?>
 
@@ -393,11 +416,11 @@
 
 </script>
 
-<div id = "greeting_div">
+<!-- <div id = "greeting_div">
 	<p id="greet">Welcome Admin</p>
 	<a href="logout.php"><button id="logout" class="btn btn-primary" style="float:right">Logout</button></a>
 	<br/>
-</div>
+</div> -->
 <!-- <h4>Add Data</h4> -->
 <label class="admin_label" for="create_dept">Create a Department</label>
 <form id="create_dept" class = "form-inline">

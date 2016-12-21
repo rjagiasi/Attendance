@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 04, 2016 at 11:28 PM
+-- Generation Time: Dec 21, 2016 at 01:20 PM
 -- Server version: 5.6.31-0ubuntu0.15.10.1
 -- PHP Version: 5.6.11-1ubuntu3.4
 
@@ -236,7 +236,8 @@ CREATE TABLE IF NOT EXISTS `Staff` (
   `Email` varchar(255) NOT NULL,
   `Username` varchar(20) NOT NULL,
   `Salt` varchar(255) NOT NULL,
-  `RegisterTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `RegisterTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Role` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

@@ -48,14 +48,10 @@
 					<?php if(!isset($_COOKIE["uid"])): ?>
 						<li><a class="menuheads" href="register_page.php">Register</a></li>
 					<?php else : ?>
-					<!-- <li><a class="menuheads">MCA</a></li>
-					<li><a class="menuheads">Diploma</a></li> -->
-					<!-- <li><a data-toggle="collapse" data-target="#enggbranches" class="menuheads collapsed">Engineering</a></li> -->
+					
 					<ul class="nav nav-pills nav-stacked" id="custom_menu">
 						<li data-toggle="collapse" data-target="#custom" id="customheader"><a class="menuheads">Teaching</a></li>
 						<ul id="custom" class="nav nav-pills nav-stacked collapse">
-							<!-- <li class="D10" data-branch="it"><a>D10</a></li>
-							<li class="D9B" data-branch="extc"><a>D9B</a></li> -->
 
 							<?php
 							$values = json_decode($_COOKIE["cust_menu"], true);
@@ -87,6 +83,11 @@
 						</ul>
 					</ul>
 					<?php endif ?>
+
+					<?php if(isset($_COOKIE["admin"])): ?>
+						<li><a class="menuheads" href="admin_login.php">Admin</a></li>
+					<?php endif ?>
+
 				</ul>
 
 				<div id="loadinggif">
