@@ -16,9 +16,9 @@ footer
 	width:100%;
 }
 #menu {
-	width:15%;
-	float: left;
-	margin: 1%;
+	/*width:15%;*/
+	/*float: left;*/
+	/*margin: 1%;*/
 }
 #enggbranches li{
 	padding: 1px 0;
@@ -46,9 +46,9 @@ footer
 	background-color: #f2f2f2;
 }*/
 #content{
-	width: 81%;
-	float: right;
-	margin: 1%;
+	/*width: 81%;*/
+	/*float: right;*/
+	/*margin: 1%;*/
 	/*overflow: auto;*/
 }
 #loadinggif{

@@ -670,7 +670,7 @@
 					<select class="form-control" name="classes" required disabled>
 						<option value="">Select Class</option>
 					</select>
-					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;"/>
+					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100"/>
 					<label>OR</label> <input id="name" name="name" type="text" class="form-control" placeholder="Name"/>
 					<button class="btn btn-primary" type="submit">Search</button>
 				</form>
@@ -714,9 +714,9 @@
 					<input type="date" class="form-control" id="enddate" name="enddate" required/>
 					<br/><br/>
 					<label for="from_percentage">From % </label>
-					<input id="from_percentage" name="from_percentage" type="number" class="form-control" min="0" max="100" style="width:100px;" value="0" required/>
+					<input id="from_percentage" name="from_percentage" type="number" class="form-control" min="0" max="100" value="0" required/>
 					<label for="to_percentage">To % </label>
-					<input id="to_percentage" name="to_percentage" type="number" class="form-control"  min="0" max="100" style="width:100px;" value="100" required/>
+					<input id="to_percentage" name="to_percentage" type="number" class="form-control"  min="0" max="100" value="100" required/>
 					<button class="btn btn-primary" type="submit">Generate Report</button>
 				</form>
 				<ul class="pagination" style="float:center;" >
@@ -780,7 +780,7 @@
 						<option value="">Select Subject</option>
 					</select>
 					<input type="date" class="form-control" name="date" required/>
-					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" style="width:100px;" required/>
+					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" required/>
 					<button class="btn btn-primary" type="submit">Fetch</button>
 				</form>
 				<br/>
