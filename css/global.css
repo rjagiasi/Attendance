@@ -3,7 +3,7 @@ html, body{
 }
 .wrapper{
 	min-height: 100%;
-	margin: 0 auto -30px;
+	margin: 0 auto 30px;
 }
 footer 
 {
@@ -55,6 +55,7 @@ footer
 	bottom: 100px;
     margin-left: 4%;
     position: fixed;
+    z-index: 1;
 }
 #report_form_div, #attendance_form_div, #modify_form_div, #lectcancel_form_div, #search_form_div, #list_form_div{
 	float: center;
@@ -90,7 +91,8 @@ footer
 	text-align: center;
 }
 #modal_anchor{
-	padding-left: 50%;
+	padding-right: 35%;
+	float: right;
 }
 #register_anchor, #admin_anchor{
 	display: block;
@@ -135,6 +137,7 @@ table[name^="days_table"]{
     width: 50%;
     top: 20px;
     margin: 0 20% 0 30%;
+    z-index: 1;
 }
 .panel a{
 	color: #337ab7;

@@ -1,0 +1,42 @@
+mysqldump started at 05-01-2017 13:32:05
+mysqldump finished at 05-01-2017 13:32:05
+file permission changed
+old files deleted
+operation finished at 05-01-2017 13:32:05
+*****************
+mysqldump started at 05-01-2017 13:32:49
+mysqldump finished at 05-01-2017 13:32:49
+file permission changed
+old files deleted
+operation finished at 05-01-2017 13:32:49
+*****************
+mysqldump started at 05-01-2017 13:36:43
+mysqldump finished at 05-01-2017 13:36:43
+file permission changed
+old files deleted
+operation finished at 05-01-2017 13:36:43
+*****************
+mysqldump started at 05-01-2017 13:51:07
+mysqldump finished at 05-01-2017 13:51:08
+file permission changed
+old files deleted
+operation finished at 05-01-2017 13:51:08
+*****************
+mysqldump started at 13-01-2017 13:55:33
+mysqldump finished at 13-01-2017 13:55:33
+file permission changed
+old files deleted
+operation finished at 13-01-2017 13:55:33
+*****************
+mysqldump started at 14-01-2017 13:56:01
+mysqldump finished at 14-01-2017 13:56:01
+file permission changed
+old files deleted
+operation finished at 14-01-2017 13:56:01
+*****************
+mysqldump started at 05-01-2017 14:49:29
+mysqldump finished at 05-01-2017 14:49:29
+file permission changed
+old files deleted
+operation finished at 05-01-2017 14:49:29
+*****************
