@@ -562,17 +562,21 @@
 			$("#"+id+"_form_div").show();
 		}
 		
-		$("#custom_menu ul").find("a").click(function(event) {
-			var classid = $(event.target).parent().attr("class");
-			var branchid = $(event.target).parent().attr("data-branch");
+		$("#custom_menu ul li").find("a").click(function(event) {
+			if(!$(this).parent().hasClass('active')){
+				var classid = $(event.target).parent().attr("class");
+				var branchid = $(event.target).parent().attr("data-branch");
 
-			setactiveclass(classid, branchid);
+				setactiveclass(classid, branchid);
+			}
 		});
 
-		$("#enggbranches ul").find("a").click(function(event) {
-			var classid = $(event.target).parent().attr("class");
-			var branchid = $(event.target).parent().parent().attr("id");
-			setactiveclass(classid, branchid);
+		$("#enggbranches ul").find("a").not("#enggbranches .active a").click(function(event) {
+			if(!$(this).parent().hasClass('active')){
+				var classid = $(event.target).parent().attr("class");
+				var branchid = $(event.target).parent().parent().attr("id");
+				setactiveclass(classid, branchid);
+			}
 		});
 		
 		// changedept();
