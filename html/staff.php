@@ -83,6 +83,7 @@
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
 			$(dropdownobj).parent().siblings("#download_buttons").hide();
+			$("#report_count").html("");
 			$("#download_buttons_list").hide();
 		});
 		
@@ -107,10 +108,10 @@
 				else
 				{
 					table = 
-					"<form id=\"attendance_list\" method = \"POST\" action = \"add_attendance.php\"><table class = \"table table-striped\"><thead><tr><th>Present</th><th>Absent</th><th>Roll No</th><th>Name</th></tr></thead><tbody>";
+					"<form id=\"attendance_list\" method = \"POST\" action = \"add_attendance.php\"><table class = \"table table-striped\"><thead><tr><th name=\"present_master\"><a>Present</a></th><th name=\"absent_master\"><a>Absent</a></th><th>Roll No</th><th>Name</th></tr></thead><tbody>";
 					for (var i = 0; i < data.length; i++) {
 						table += 
-						"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\" checked/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
+						"<tr><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"1\"/></td><td><input type = \"radio\" name=\"pa_" + data[i].StudentId + "\" value = \"0\"/></td><td>" + data[i].RollNo + "</td><td>" + data[i].Name + "</td></tr>";
 					};
 					table += "<tr><td><input class=\"btn btn-primary\" type=\"submit\"/></td><td/><td/><td/></tr></table></form>";
 					$("#attendance_form_div .content2").html(table);
@@ -124,12 +125,24 @@
 					};
 					$("#attendance_form_div .pagination").html(pagination_html);
 					$("#attendance_form_div .pagination a").first().trigger("click");
+					$("#attendance_form_div .content2").find("[name=present_master]").trigger("click");
 				}
 			});
 		});
+		
+		//master present button
+		$("#attendance_form_div .content2").on("click", "[name=present_master]", function (event) {
+			var fields = $("[name^=pa_]");
+        	fields.filter('[value=1]').prop('checked', true);
+		});
+
+		//master absent button
+		$("#attendance_form_div .content2").on("click", "[name=absent_master]", function (event) {
+			var fields = $("[name^=pa_]");
+        	fields.filter('[value=0]').prop('checked', true);
+		});
 
 		//manage attendance list pagination
-
 		$("#attendance_form_div .pagination").on("click", "a", function (event) {
 			$("#attendance_form_div .content2").show();
 			$("#attendance_form_div .pagination").show();
@@ -176,6 +189,11 @@
 			// alert($(this).find("select,textarea, input").serialize());
 			disabledfields.attr('disabled', 'disabled');
 
+			$("#report_form_div .content2").hide();
+			$("#report_form_div .pagination").hide();
+			$("#download_buttons").hide();
+			$("#report_count").html("");
+
 			ajaxcall("getreport.php", data, function (data) {
 				if(data == false)
 					failuremessage("No Data Found!");
@@ -215,7 +233,7 @@
 					$("#report_form_div .content2").html(table);
 					$("#report_form_div .pagination").html(pagination_html);
 					// $("#report_form_div .content2").show();
-					
+					$("#report_count").html("Count : " + data.length);
 					$("#report_form_div .pagination a").first().trigger("click");
 					// $(".tablesorter").tablesorter().bind("sortEnd", function () {
 					// 	$(this).parent().siblings(".pagination").find(".active a").trigger("click");
@@ -463,7 +481,7 @@
 
 
 				$('#list_form_div .content2').html(table);
-
+				
 				$("#list_form_div .pagination").html(pagination_html);
 				$("#list_form_div .pagination a").first().trigger("click");
 				
@@ -592,6 +610,7 @@
 			$(".pagination").hide();
 			$("#download_buttons").hide();
 			$("#download_buttons_list").hide();
+			$("#report_count").html("");
 			// $("#attendance a").first().trigger("click");
 		}
 
@@ -649,6 +668,7 @@
 					</select>
 					<button class="btn btn-primary" type="submit">Get List</button>
 				</form>
+
 				<ul class="pagination" style="float:center;">
 					
 				</ul>
@@ -723,6 +743,7 @@
 					<input id="to_percentage" name="to_percentage" type="number" class="form-control"  min="0" max="100" value="100" required/>
 					<button class="btn btn-primary" type="submit">Generate Report</button>
 				</form>
+				<p id="report_count"></p>
 				<ul class="pagination" style="float:center;" >
 
 				</ul>

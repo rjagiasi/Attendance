@@ -66,8 +66,13 @@
 				.done(function (data) {
 					if(data == false)
 						failuremessage("Username Taken or email already registered!");
-					else if(data == true)
+					else if(data == true){
 						successmessage("Registration Successful");
+						
+						setTimeout(function(){
+							$(location).attr("href", "./index.php");
+						}, 1000);
+					}
 					$("#loadinggif").hide();
 				});
 			}

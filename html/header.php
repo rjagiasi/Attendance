@@ -82,8 +82,9 @@
 								<ul id="it" class="nav nav-pills nav-stacked collapse">
 									<li id="D10" class="D10"><a>D10</a></li>
 									<li id="D15" class="D15"><a>D15</a></li>
+									<li id="D20" class="D20"><a>D20</a></li>
 								</ul>
-								<li data-toggle="collapse" data-target="#cmpn" id="cmpnheader"><a class="menuheads">CMPN</a></li>
+								<!-- <li data-toggle="collapse" data-target="#cmpn" id="cmpnheader"><a class="menuheads">CMPN</a></li>
 								<ul id="cmpn" class="nav nav-pills nav-stacked collapse">
 									<li id="D7A" class="D7A"><a>D7A</a></li>
 									<li id="D7B" class="D7B"><a>D7B</a></li>
@@ -92,7 +93,7 @@
 								<ul id="extc" class="nav nav-pills nav-stacked collapse">
 									<li id="D9A" class="D9A"><a>D9A</a></li>
 									<li id="D9B" class="D9B"><a>D9B</a></li>
-								</ul>
+								</ul> -->
 							</ul>
 						<?php endif ?>
 

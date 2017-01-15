@@ -48,7 +48,7 @@
 	// return;
 	query($insert_stmt);
 
-	$mailing_list = query("Select Email, Name from Staff where StaffId in (Select StaffId from Notifs group by StaffId having count(*) > 20)");
+	$mailing_list = query("Select Email, Name from Staff where StaffId in (Select StaffId from Notifs group by StaffId having count(*) > 8)");
 
 	foreach ($mailing_list as $key => $value) {
 		sendmail("Data Remaining", "A lot of attendance data has not yet been added from your side. Please log into the system and add the data immediately.", $value["Email"], $value["Name"]);
