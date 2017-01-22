@@ -15,6 +15,7 @@
 	for ($i=0, $n=sizeof($res); $i < $n; $i++) { 
 		$ts = $res[$i]["DateMissed"];
 		$res[$i]["DateMissed"] = date("D - M jS", strtotime($ts));
+		// $res[$i]["dataDate"] = date("Y-m-d", strtotime($ts));
 	}
 	
 	echo json_encode($res);

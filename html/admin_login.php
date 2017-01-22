@@ -164,9 +164,9 @@ $(document).ready(function() {
 		    	var i=0;
 		    	$("#modify_subjects").find('[name=days_table] input').each(function() {
 		    		if(bin[i] == "1")
-		    			$(this).attr('checked', true);
+		    			$(this).prop('checked', true);
 		    		else
-		    			$(this).attr('checked', false);
+		    			$(this).prop('checked', false);
 		    		i++;
 		    	});
 			});

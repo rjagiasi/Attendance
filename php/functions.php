@@ -126,13 +126,13 @@ function insert_stud($filename, $classid)
 	$querystring = "INSERT INTO Student (Name, ClassId, RollNo) VALUES ";
 	$values = "";
 	$file = fopen($filename, "r");
-	$line = split(",", fgets($file));
+	$line = explode(",", fgets($file));
 	$line[1] = str_replace("\r\n", "", $line[1]);
 	$values = $values . "('$line[1]', '$classid', $line[0])";
 
 	while(!feof($file))
 	{
-		$line = split(",", fgets($file));
+		$line = explode(",", fgets($file));
 		$roll = $line[0];
 		$name = $line[1];
 		$name = str_replace("\r\n", "", $name);

@@ -58,3 +58,21 @@ file permission changed
 old files deleted
 operation finished at 13-01-2017 20:00:01
 *****************
+mysqldump started at 16-01-2017 20:09:38
+mysqldump finished at 16-01-2017 20:09:38
+file permission changed
+old files deleted
+operation finished at 16-01-2017 20:09:38
+*****************
+mysqldump started at 17-01-2017 20:00:01
+mysqldump finished at 17-01-2017 20:00:02
+file permission changed
+old files deleted
+operation finished at 17-01-2017 20:00:02
+*****************
+mysqldump started at 19-01-2017 20:00:01
+mysqldump finished at 19-01-2017 20:00:01
+file permission changed
+old files deleted
+operation finished at 19-01-2017 20:00:01
+*****************

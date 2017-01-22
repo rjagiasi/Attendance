@@ -43,7 +43,7 @@
 				return;
 			}
 		}
-		include 'cron_job.php';
+		exec('php cron_job.php');
 		
 		if(gettype($res) == "array")
 			echo json_encode(true);
