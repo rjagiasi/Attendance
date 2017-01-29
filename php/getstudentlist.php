@@ -3,6 +3,7 @@
 	$class = $_POST["classes"];
 	$date = $_POST["date"];
 	$subjectid = $_POST["subject"];
+	$lec_no = $_POST["lec_no"];
 	$islab = 0;
 
 	if(strpos($subjectid, "_") == true)
@@ -12,10 +13,10 @@
 		$batchid = $pieces[0];
 		$subjectid = $pieces[1];
 		$islab = 1;
-		$checkdate = "SELECT NOT EXISTS (SELECT * FROM Record WHERE Date = '$date' AND SubjectId = '$subjectid' AND StudentId in (Select StudentId from LabStudent where BatchId='$batchid' and ClassId='$class'))";
+		$checkdate = "SELECT NOT EXISTS (SELECT * FROM Record WHERE Date = '$date' AND SubjectId = '$subjectid' AND Lec_no = '$lec_no' AND StudentId in (Select StudentId from LabStudent where BatchId='$batchid' and ClassId='$class'))";
 	}
 	else
-		$checkdate = "SELECT NOT EXISTS (SELECT * FROM Record WHERE Date = '$date' AND SubjectId = '$subjectid')";
+		$checkdate = "SELECT NOT EXISTS (SELECT * FROM Record WHERE Date = '$date' AND SubjectId = '$subjectid' AND Lec_no = '$lec_no')";
 
 	$res = query($checkdate);
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.13.1deb1
+-- version 4.5.4.1deb2ubuntu2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 21, 2016 at 01:20 PM
--- Server version: 5.6.31-0ubuntu0.15.10.1
--- PHP Version: 5.6.11-1ubuntu3.4
+-- Generation Time: Jan 23, 2017 at 07:51 PM
+-- Server version: 5.7.17-0ubuntu0.16.04.1
+-- PHP Version: 7.0.13-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -24,8 +24,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClasses`(IN `sid` INT)
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClasses` (IN `sid` INT)  NO SQL
 SELECT classes.Name as c, dept.Name as d from
 					(SELECT Name, DeptId from Class Where ClassId in
 						(SELECT distinct ClassId From Subjects Where SubjectId in
@@ -37,8 +36,7 @@ SELECT classes.Name as c, dept.Name as d from
 					) as classes, Department as dept
 					WHERE classes.DeptId = dept.DeptId$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClassReport`(IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT(10))
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClassReport` (IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT(10))  NO SQL
 (select 
  `Student`.`RollNo` AS `RollNo`,
  `Record`.`SubjectId` AS `SubjectId`,
@@ -56,46 +54,43 @@ COUNT(CASE WHEN Record.PA = 0x00 then 1 ELSE NULL END) as "Abs"
  group by `Record`.`SubjectId`,`Record`.`StudentId`)
  ORDER BY RollNo, SubjectId ASC$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetStudentReport`(IN `class` INT, IN `rollno` INT)
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetStudentReport` (IN `class` INT, IN `rollno` INT)  NO SQL
 (select 
- `Attendance`.`Record`.`SubjectId` AS `SubjectId`,
+ `Record`.`SubjectId` AS `SubjectId`,
  
 COUNT(CASE WHEN Record.PA = 0x01 then 1 ELSE NULL END) as "Pres",
 COUNT(CASE WHEN Record.PA = 0x00 then 1 ELSE NULL END) as "Abs"
  
- from (`Attendance`.`Student` 
-       join `Attendance`.`Record` 
+ from (`Student` 
+       join `Record` 
        on(((
-           `Attendance`.`Student`.`StudentId` = `Attendance`.`Record`.`StudentId`
+           `Student`.`StudentId` = `Record`.`StudentId`
        ) 
            AND Student.ClassId = class 
            AND Student.RollNo = rollno
           ))) 
- group by `Attendance`.`Record`.`SubjectId`)
+ group by `Record`.`SubjectId`)
  ORDER BY SubjectId ASC$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSubjectReport`(IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT, IN `subjectId` INT)
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSubjectReport` (IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT, IN `subjectId` INT)  NO SQL
 (select 
- `Attendance`.`Student`.`RollNo` AS `RollNo`,
+ `Student`.`RollNo` AS `RollNo`,
  
 COUNT(CASE WHEN Record.PA = 0x01 then 1 ELSE NULL END) as "Pres",
 COUNT(CASE WHEN Record.PA = 0x00 then 1 ELSE NULL END) as "Abs"
  
- from (`Attendance`.`Student` 
-       join `Attendance`.`Record` 
+ from (`Student` 
+       join `Record` 
        on(((
-           `Attendance`.`Student`.`StudentId` = `Attendance`.`Record`.`StudentId`
+           `Student`.`StudentId` = `Record`.`StudentId`
        ) 
            AND Student.ClassId = classId 
            AND Record.SubjectId = subjectId
            AND Record.Date BETWEEN startDate AND endDate))) 
- group by `Attendance`.`Record`.`SubjectId`,`Attendance`.`Record`.`StudentId`)
+ group by `Record`.`SubjectId`,`Record`.`StudentId`)
  ORDER BY RollNo ASC$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSubjects`(IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT)
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSubjects` (IN `startDate` DATE, IN `endDate` DATE, IN `classId` INT)  NO SQL
 SELECT s.Name, s.SubjectId 
 FROM Subjects as s
 Where 
@@ -106,8 +101,7 @@ AND s.ClassId = classId)
 
 ORDER BY SubjectId$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertSub`(IN `class` INT(10), IN `name` VARCHAR(20), IN `ll` BIT(1), IN `id` INT(10), IN `days` BIT(6))
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertSub` (IN `class` INT(10), IN `name` VARCHAR(20), IN `ll` BIT(1), IN `id` INT(10), IN `days` BIT(6))  NO SQL
 Select * from Class$$
 
 DELIMITER ;
@@ -118,7 +112,7 @@ DELIMITER ;
 -- Table structure for table `Cancelled`
 --
 
-CREATE TABLE IF NOT EXISTS `Cancelled` (
+CREATE TABLE `Cancelled` (
   `StaffId` int(10) NOT NULL,
   `SubjectId` int(10) NOT NULL,
   `Date` date NOT NULL,
@@ -131,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `Cancelled` (
 -- Table structure for table `Class`
 --
 
-CREATE TABLE IF NOT EXISTS `Class` (
+CREATE TABLE `Class` (
   `ClassId` int(10) NOT NULL,
   `Name` varchar(10) NOT NULL,
   `DeptId` int(10) NOT NULL
@@ -143,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `Class` (
 -- Table structure for table `Department`
 --
 
-CREATE TABLE IF NOT EXISTS `Department` (
+CREATE TABLE `Department` (
   `DeptId` int(10) NOT NULL,
   `Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -154,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `Department` (
 -- Table structure for table `Labs`
 --
 
-CREATE TABLE IF NOT EXISTS `Labs` (
+CREATE TABLE `Labs` (
   `LabId` int(10) NOT NULL,
   `SubjectId` int(10) NOT NULL,
   `BatchId` int(1) NOT NULL,
@@ -168,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `Labs` (
 -- Table structure for table `LabStudent`
 --
 
-CREATE TABLE IF NOT EXISTS `LabStudent` (
+CREATE TABLE `LabStudent` (
   `ClassId` int(10) NOT NULL,
   `BatchId` int(1) NOT NULL,
   `StudentId` int(10) NOT NULL
@@ -180,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `LabStudent` (
 -- Table structure for table `Lectures`
 --
 
-CREATE TABLE IF NOT EXISTS `Lectures` (
+CREATE TABLE `Lectures` (
   `SubjectId` int(10) NOT NULL,
   `StaffId` int(10) NOT NULL,
   `Days` bit(6) NOT NULL DEFAULT b'0'
@@ -191,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `Lectures` (
 --
 -- Stand-in structure for view `NOL`
 --
-CREATE TABLE IF NOT EXISTS `NOL` (
+CREATE TABLE `NOL` (
 `Name` varchar(20)
 ,`ClassId` int(10)
 ,`SubjectId` int(10)
@@ -204,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `NOL` (
 -- Table structure for table `Notifs`
 --
 
-CREATE TABLE IF NOT EXISTS `Notifs` (
+CREATE TABLE `Notifs` (
   `SubjectId` int(10) NOT NULL,
   `DateMissed` date NOT NULL,
   `StaffId` int(10) NOT NULL
@@ -216,10 +210,11 @@ CREATE TABLE IF NOT EXISTS `Notifs` (
 -- Table structure for table `Record`
 --
 
-CREATE TABLE IF NOT EXISTS `Record` (
+CREATE TABLE `Record` (
   `Date` date NOT NULL,
   `StudentId` int(10) NOT NULL,
   `SubjectId` int(10) NOT NULL,
+  `Lec_no` int(1) NOT NULL DEFAULT '1',
   `PA` bit(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -229,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `Record` (
 -- Table structure for table `Staff`
 --
 
-CREATE TABLE IF NOT EXISTS `Staff` (
+CREATE TABLE `Staff` (
   `StaffId` int(10) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Gender` bit(1) NOT NULL,
@@ -246,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `Staff` (
 -- Table structure for table `Student`
 --
 
-CREATE TABLE IF NOT EXISTS `Student` (
+CREATE TABLE `Student` (
   `StudentId` int(10) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `ClassId` int(10) NOT NULL,
@@ -259,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `Student` (
 -- Table structure for table `Subjects`
 --
 
-CREATE TABLE IF NOT EXISTS `Subjects` (
+CREATE TABLE `Subjects` (
   `SubjectId` int(10) NOT NULL,
   `Name` varchar(20) NOT NULL,
   `ClassId` int(10) NOT NULL,
@@ -273,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `Subjects` (
 --
 DROP TABLE IF EXISTS `NOL`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `NOL` AS (select `Subjects`.`Name` AS `Name`,`Subjects`.`ClassId` AS `ClassId`,`Subjects`.`SubjectId` AS `SubjectId`,count(distinct `Record`.`Date`) AS `nooflect` from (`Subjects` join `Record` on((`Subjects`.`SubjectId` = `Record`.`SubjectId`))) group by `Record`.`SubjectId`);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `NOL`  AS  (select `Subjects`.`Name` AS `Name`,`Subjects`.`ClassId` AS `ClassId`,`Subjects`.`SubjectId` AS `SubjectId`,count(distinct `Record`.`Date`) AS `nooflect` from (`Subjects` join `Record` on((`Subjects`.`SubjectId` = `Record`.`SubjectId`))) group by `Record`.`SubjectId`) ;
 
 --
 -- Indexes for dumped tables
@@ -335,7 +330,7 @@ ALTER TABLE `Notifs`
 -- Indexes for table `Record`
 --
 ALTER TABLE `Record`
-  ADD PRIMARY KEY (`Date`,`StudentId`,`SubjectId`),
+  ADD PRIMARY KEY (`Date`,`StudentId`,`SubjectId`,`Lec_no`) USING BTREE,
   ADD KEY `StudentId` (`StudentId`,`SubjectId`),
   ADD KEY `Record_ibfk_2` (`SubjectId`);
 
@@ -370,32 +365,32 @@ ALTER TABLE `Subjects`
 -- AUTO_INCREMENT for table `Class`
 --
 ALTER TABLE `Class`
-  MODIFY `ClassId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ClassId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `Department`
 --
 ALTER TABLE `Department`
-  MODIFY `DeptId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `DeptId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `Labs`
 --
 ALTER TABLE `Labs`
-  MODIFY `LabId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `LabId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `Staff`
 --
 ALTER TABLE `Staff`
-  MODIFY `StaffId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `StaffId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 --
 -- AUTO_INCREMENT for table `Student`
 --
 ALTER TABLE `Student`
-  MODIFY `StudentId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `StudentId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=547;
 --
 -- AUTO_INCREMENT for table `Subjects`
 --
 ALTER TABLE `Subjects`
-  MODIFY `SubjectId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `SubjectId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- Constraints for dumped tables
 --

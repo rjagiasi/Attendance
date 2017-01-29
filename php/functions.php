@@ -57,7 +57,7 @@ function query()
 	{
 		date_default_timezone_set('Etc/UTC');
 
-		require 'PHPMailerAutoload.php';
+		require_once('PHPMailerAutoload.php');
 	//Create a new PHPMailer instance
 		$mail = new PHPMailer;
 	//Tell PHPMailer to use SMTP

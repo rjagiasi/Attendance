@@ -13,7 +13,7 @@
 		$subid = explode("_", $subid)[1];
 
 	$studid = query("SELECT StudentId FROM Student WHERE ClassId = '$class' AND RollNo = '$roll'");
-	$querystring = "UPDATE Record Set PA = b'$newbit' where Date = '".$_POST["date"]."' and StudentId = '".$studid[0]["StudentId"]."' AND SubjectId = '".$subid."'";
+	$querystring = "UPDATE Record Set PA = b'$newbit' where Date = '".$_POST["date"]."' and StudentId = '".$studid[0]["StudentId"]."' AND SubjectId = '".$subid."' and Lec_no = '".$_POST["lec_no"]."'";
 	$res=query($querystring);
 	// echo $res;
 	if(gettype($res) == "array")

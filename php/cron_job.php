@@ -52,7 +52,7 @@
 	$insert_stmt .= trim($values, ",");
 	$insert_stmt .= " on duplicate key update StaffId = values (StaffId)";
 	// var_dump($values);
-	// var_dump($insert_stmt);
+	var_dump($insert_stmt);
 	// return;
 	query($insert_stmt);
 

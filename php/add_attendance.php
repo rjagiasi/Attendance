@@ -1,5 +1,6 @@
 <?php
 	require_once 'functions.php';
+	$lec_no = array_pop($_POST);
 	$date = array_pop($_POST);
 	$subjectid = array_pop($_POST);
 	$islab = 0;
@@ -11,11 +12,11 @@
 	}
 		
 
-	$querystring = "INSERT INTO Record (Date, StudentId, SubjectId, PA) VALUES ";
+	$querystring = "INSERT INTO Record (Date, StudentId, SubjectId, PA, Lec_no) VALUES ";
 
 	foreach ($_POST as $key => $value) {
 		$studentid = explode("_", $key)[1];
-		$querystring .= "('$date', '$studentid', '$subjectid', b'$value'),";
+		$querystring .= "('$date', '$studentid', '$subjectid', b'$value', '$lec_no'),";
 	}
 	$querystring = rtrim($querystring, ",");
 	// print($querystring);
@@ -29,7 +30,7 @@
 		$days[$day-1] = "1";
 		// echo($day);
 		
-		$labresult = query("Select l.SubjectId, s.ClassId, l.BatchId from Labs as l, Subjects as s where (l.Days & $days) > 0 and l.SubjectId = s.SubjectId and l.SubjectId = '$subjectid' and l.StaffId = '".$_COOKIE["uid"]."'");
+		$labresult = query("Select l.SubjectId, s.ClassId, l.BatchId from Labs as l, Subjects as s where (l.Days & b'$days') > 0 and l.SubjectId = s.SubjectId and l.SubjectId = '$subjectid' and l.StaffId = '".$_COOKIE["uid"]."'");
 
 		if (sizeof($labresult) > 1) {
 			foreach ($labresult as $key => $value) 

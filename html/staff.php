@@ -83,6 +83,12 @@
 			$(dropdownobj).parent().siblings(".content2").hide();
 			$(dropdownobj).parent().siblings(".pagination").hide();
 			$(dropdownobj).parent().siblings("#download_buttons").hide();
+
+			if($(dropdownobj).val().indexOf("_") != -1)
+				$(dropdownobj).siblings('[name=lec_no]').val("1").attr('disabled', 'disabled');
+			else
+				$(dropdownobj).siblings('[name=lec_no]').removeAttr('disabled');
+
 			$("#report_count").html("");
 			$("#download_buttons_list").hide();
 		});
@@ -163,10 +169,17 @@
 			event.preventDefault();
 			
 			var formobj = this;
-			// alert($(this).parent().siblings("form").html());
+			
+			var disabledfields = $(formobj).parent().siblings('form').find('[name=lec_no]');
+			var isDisabled = disabledfields.prop('disabled');
+
+			disabledfields.removeAttr('disabled');
+			var data = $(formobj).parent().siblings('form').serialize();
+			if(isDisabled)
+				disabledfields.attr('disabled', 'disabled');
 
 			ajaxcall("add_attendance.php",
-				$(formobj).serialize() + "&" + $(formobj).parent().siblings("form").serialize(),
+				$(formobj).serialize() + "&" + data,
 				function (data) {
 				if(data == false)
 					failuremessage("Some Error Occured");
@@ -414,10 +427,10 @@
 
 			ajaxcall("getmonthlylist.php", data, function(data) {
 				
-				var table = "<div class = \"table-responsive\"><table class = \"table table-striped\" id=\"generated_list\"><thead><tr><th>Roll No</th><th>Name</th>";
+				var table = "<div class = \"table-responsive\"><table class = \"table table-striped\" id=\"generated_list\"><thead><tr>";
 
 				headers = data.pop();
-
+				
 				if(headers[0] === undefined)
 				{
 					failuremessage("No data found!");
@@ -435,38 +448,16 @@
 					var j=0;
 					var att = "", roll = "", name = "";
 
-					$.each(data[i], function(index, el) {
-
-						if(index == headers[j])
-						{
-							att += "<td>"+el+"</td>";
-							j++;
-						}
-						else if(index == "RollNo")
-							roll = "<td>"+el+"</td>";
-						else if(index == "Name")
-							name = "<td>"+el+"</td>";
+					//under each heading
+					$.each(headers, function(index, element) {
+						
+						if(data[i][element] != undefined)
+							att += "<td>"+data[i][element]+"</td>";
 						else
-						{
-							while(index != headers[j])
-							{
-								att += "<td>-</td>";
-								j++;
-							}
-							att += "<td>"+el+"</td>";
-							j++;
-						}
-
-
+							att += "<td>-</td>";
 					});
 
-					while(j != headers.length)
-					{
-						att += "<td>-</td>";
-						j++;
-					}
-
-					table += "<tr>" + roll + name + att + "</tr>";
+					table += "<tr>" + att + "</tr>";
 				};
 
 				table += "</tbody></table></div>";
@@ -777,6 +768,8 @@
 						<option value="">Select Subject</option>
 					</select>
 					<input type="date" class="form-control" name="date" required/>
+					<label for="lec_no">Lec No: </label>
+					<input type="number" name="lec_no" class="form-control" value="1" min="1" max="5">
 					<button class="btn btn-primary" id="attendance_button" type="submit">Get List</button>
 				</form>
 				<br/>
@@ -805,6 +798,8 @@
 						<option value="">Select Subject</option>
 					</select>
 					<input type="date" class="form-control" name="date" required/>
+					<label for="lec_no">Lec No: </label>
+					<input type="number" name="lec_no" class="form-control" value="1" min="1" max="5">
 					<input id="roll" name="roll" type="number" class="form-control" placeholder="Roll No" min="1" max="100" required/>
 					<button class="btn btn-primary" type="submit">Fetch</button>
 				</form>
