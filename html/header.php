@@ -122,4 +122,5 @@
 				<a href="logout.php"><button id="logout" class="btn btn-primary" style="float:right">Logout</button></a>
 				<br/>
 			</div>
+			
 		<?php endif ?>
