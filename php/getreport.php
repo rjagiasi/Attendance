@@ -8,8 +8,10 @@
 	$enddate = $_POST["enddate"];
 	$from = $_POST["from_percentage"];
 	$to = $_POST["to_percentage"];
-
+	$is_lab = false;
+	
 	if(strpos($sub, "_") == true){
+		$is_lab = true;
 		$temp = explode("_", $sub);
 		$sub = $temp[1];
 		$batchid = $temp[0];
@@ -34,6 +36,7 @@
 	else
 	{
 		$res = query("Call GetSubjectReport('$startdate', '$enddate', '$class', '$sub')");
+
 		$subjectnames = query("SELECT Name, SubjectId FROM Subjects Where SubjectId = $sub");
 	}
 	
@@ -47,7 +50,7 @@
 
 	$report = array();
 
-	for ($i=0, $n = count($studentnames),$m = count($subjectnames), $j = 0; $i < $n; $i++) { 
+	for ($i=0, $n = count($studentnames),$m = count($subjectnames), $j = $studentnames[0]["RollNo"]-1; $i < $n; $i++) { 
 		$t = 0;
 		$p = 0;
 		$temp = array();
