@@ -4,7 +4,8 @@ A website for maintaing college attendance
 
 Built on LAMP. Uses PHP7
 
-Database Schema in Structure.sql and diagram in Schema.pdf
+Database Schema in Structure.sql and diagram in Schema.pdf 
+
 Fake test db in Entire_db.sql
 
 **php/constants.php** 	- consists of database values & email id used by the app
@@ -27,11 +28,11 @@ Fake test db in Entire_db.sql
 
 ### Setup
 
-⋅⋅* Install LAMP or XAMPP Server
-⋅⋅* Copy entire folder to apache root directory
-⋅⋅* Create db in phpmyadmin and import Structure.sql
-⋅⋅* Set database and email(gmail only) fields in php/constants.php (Enable less secure apps in Gmail)
-⋅⋅* Setup cron jobs for **php/cron_job.php** and **backups.sh**
-⋅⋅* Register through webpage
-⋅⋅* To access admin page, change Role field in Staff table to 1
-⋅⋅* Done!
+1. Install LAMP or XAMPP Server
+2. Copy entire folder to apache root directory
+3. Create db in phpmyadmin and import Structure.sql
+4. Set database and email(gmail only) fields in php/constants.php (Enable less secure apps in Gmail)
+5. Setup cron jobs for **php/cron_job.php** and **backups.sh** (Change folder name in backups.sh)
+6. Register through webpage
+7. To access admin page, change Role field in Staff table to 1
+8. Done!
