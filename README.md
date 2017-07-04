@@ -4,9 +4,11 @@ A website for maintaing college attendance
 
 Built on LAMP. Uses PHP7
 
-Database Schema in Structure.sql and diagram in Schema.pdf 
+**Docs in Documentation.md**
 
-Fake test db in Entire_db.sql
+Database Schema in **Structure.sql** and diagram in **Schema.pdf**
+
+Fake test db in **Entire_db.sql**
 
 **php/constants.php** 	- consists of database values & email id used by the app
 
