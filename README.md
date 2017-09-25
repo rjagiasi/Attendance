@@ -41,4 +41,14 @@ Fake test db in **Entire_db.sql**
 
 ## Screenshots
 
-![ScreenShot](https://raw.github.com/rjagiasi/Attendance/blob/master/Screenshots/Screenshot%20from%202017-09-25%2023-12-23.png)
+![ScreenShot](https://raw.githubusercontent.com/rjagiasi/Attendance/master/Screenshots/Screenshot%20from%202017-09-25%2023-12-23.png)
+
+![ScreenShot](https://raw.githubusercontent.com/rjagiasi/Attendance/master/Screenshots/Screenshot%20from%202017-09-25%2023-12-36.png)
+
+![ScreenShot](https://raw.githubusercontent.com/rjagiasi/Attendance/master/Screenshots/Screenshot%20from%202017-09-25%2023-17-34.png)
+
+![ScreenShot](https://raw.githubusercontent.com/rjagiasi/Attendance/master/Screenshots/Screenshot%20from%202017-09-25%2023-13-19.png)
+
+![ScreenShot](https://raw.githubusercontent.com/rjagiasi/Attendance/master/Screenshots/Screenshot%20from%202017-09-25%2023-13-46.png)
+
+![ScreenShot](https://raw.githubusercontent.com/rjagiasi/Attendance/master/Screenshots/Screenshot%20from%202017-09-25%2023-20-47.png)
