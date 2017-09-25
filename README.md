@@ -38,3 +38,7 @@ Fake test db in **Entire_db.sql**
 6. Register through webpage
 7. To access admin page, change Role field in Staff table to 1
 8. Done!
+
+## Screenshots
+
+![ScreenShot](https://raw.github.com/rjagiasi/Attendance/blob/master/Screenshots/Screenshot%20from%202017-09-25%2023-12-23.png)
