@@ -1,5 +1,5 @@
 <?php
-	define("DATABASE", "Attendance");
+	define("DATABASE", "Attendance2");
 
 	define("SERVER", "localhost");
 
